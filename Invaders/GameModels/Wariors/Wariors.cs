@@ -1,59 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Colonizators
+﻿namespace Invaders
 {
-    abstract class Wariors
+    public abstract class Wariors
     {
-        Hexagone place;
-        int attack;
-        int hp;
-        Player owner;
-        int distance;
-        bool at;
-        int adist;
         public int[] Cost;
 
-        public int Distance
-        {
-            set { distance = value; }
-            get { return distance; }
-        }
-        public int AttackDistance
-        {
-            set { adist = value; }
-            get { return adist; }
-        }
-        public bool Attacking
-        {
-            set { at = value; }
-            get { return at; }
-        }
-        public int HP
-        {
-            set { hp = value; }
-            get { return hp; }
-        }
-        public int AttackRate
-        {
-            set { attack = value; }
-            get { return attack; }
-        }
-        public Hexagone Place
-        {
-            set { place = value; }
-            get { return place; }
-        }
-        public Player Owner
-        {
-            set { owner = value; }
-            get { return owner; }
-        }
+        public int Distance { set; get; }
+        public int AttackDistance { set; get; }
+        public bool Attacking { set; get; }
+        public int HP { set; get; }
+        public int AttackRate { set; get; }
+        public Hexagone Place { set; get; }
+        public Player Owner { set; get; }
 
-        
+
         public void Damaging(Wariors attacked)
         {
             if (attacked.Owner != this.Owner && !Attacking)
@@ -69,12 +28,12 @@ namespace Colonizators
         }
         public void Move(Hexagone NewPlace)
         {
-            if (NewPlace.Warior == null && this.distance != 0)
+            if (NewPlace.Warior == null && this.Distance != 0)
             {
                 Place.Warior = null;
                 this.Place = NewPlace;
                 NewPlace.Warior = this;
-                distance--;
+                Distance--;
             }
         }
 
@@ -82,6 +41,7 @@ namespace Colonizators
         {
  
         }
+
         public abstract void NewTurn();
 
 

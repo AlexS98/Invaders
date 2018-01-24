@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Windows;
 
-namespace Colonizators
+namespace Invaders
 {
-    class Hexagone
+    enum HexType
+    {
+
+    }
+    public class Hexagone
     {
         public Point Center;
         public int Type;

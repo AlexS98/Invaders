@@ -1,30 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Colonizators
+﻿namespace Invaders
 {
     class Infantry : Wariors
     {
-           protected Infantry(Hexagone place, Player owner)
-            : base (place, owner)
+        protected Infantry(Hexagone place, Player owner) : base(place, owner)
         {
 
         }
 
-           public void Protector()
-           {
-               if (this.Place.Build != null && this.HP < 5)
-               {
-                   this.HP += 1;
-               }
-           }
-           public override void NewTurn() 
-           {
-               this.Distance = 1;
-               this.Protector();
-           }  
+        public void Protector()
+        {
+            if (Place.Build != null && HP < 5)
+            {
+                HP += 1;
+            }
+        }
+
+        public override void NewTurn()
+        {
+            Distance = 1;
+            Protector();
+        }
     }
 }

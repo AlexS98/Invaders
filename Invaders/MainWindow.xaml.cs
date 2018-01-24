@@ -7,7 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Colonizators
+namespace Invaders
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

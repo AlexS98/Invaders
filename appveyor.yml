@@ -1,0 +1,17 @@
+configuration: Release
+  
+before_build:
+  - nuget restore
+  
+build:
+  project: Invaders.sln
+  verbosity: minimal
+  publish_wap: true
+
+test:
+  assemblies:
+    Tests.dll
+
+test_script:
+ - .\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user -target:"%xunit20%\xunit.console.x86.exe" -targetargs:".\Tests\bin\Release\Tests.dll -noshadow" -filter:"+[Invaders*]* -[Tests*]*" -output:".\coverage.xml"
+ - .\packages\Codecov.1.0.3\tools\codecov.exe -f "coverage.xml"

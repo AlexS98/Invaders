@@ -1,50 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace Colonizators
+namespace Invaders
 {
-    class Player
+    public class Player
     {
-        bool color;
-        int wariorsLimit = 0;
-        int gold;
-        int wood;
-        int wheat;
         List<Wariors> Army;
         List<Building> Buildings;
-
-        public bool Color
-        {
-            get { return color; }
-        }
-        public int WLimit
-        {
-            get { return wariorsLimit; }
-        }
-        public int Gold
-        {
-            set { gold = value; }
-            get { return gold; }
-        }
-        public int Wood
-        {
-            set { wood = value; }
-            get { return wood; }
-        }
-        public int Wheat
-        {
-            set { wheat = value; }
-            get { return wheat; }
-        }
+        public bool Color { private set; get; }
+        public int WariorsLimit{ private set; get; }
+        public int Gold { set; get; }
+        public int Wood { set; get; }
+        public int Wheat { set; get; }
         public int ArmyNow { get { return Army.Count; } }
         public int BuildNow { get { return Buildings.Count; } }
+
         public Player(bool col)
         {
-            color = col;
-            wariorsLimit = 5;
+            Color = col;
+            WariorsLimit = 5;
             Gold = 100;
             Wood = 70;
             Wheat = 100;
@@ -53,8 +26,8 @@ namespace Colonizators
         }
         public Player(bool col, int limit, int gold, int wood, int wheat)
         {
-            color = col;
-            wariorsLimit = limit;
+            Color = col;
+            WariorsLimit = limit;
             Gold = gold;
             Wood = wood;
             Wheat = wheat;
@@ -64,7 +37,7 @@ namespace Colonizators
         public bool HireWarior(Wariors warior)
         {
             bool success = false;
-            if ((wariorsLimit - (Army.Count)) > 0 && EnoughResources(warior.Cost)) 
+            if ((WariorsLimit - (Army.Count)) > 0 && EnoughResources(warior.Cost)) 
             {
                 Army.Add(warior);
                 this.Wheat -= warior.Cost[0];
@@ -114,7 +87,7 @@ namespace Colonizators
         }
         public string InfoArmy()
         {
-            string l = "Army size: " + (Army.Count).ToString() + "/" + WLimit;
+            string l = "Army size: " + (Army.Count).ToString() + "/" + WariorsLimit;
             return l;
         }
 
@@ -128,9 +101,9 @@ namespace Colonizators
         }
         private void Pay(int[] cost)
         {
-            gold -= cost[1];
-            wood -= cost[2];
-            wheat -= cost[0];
+            Gold -= cost[1];
+            Wood -= cost[2];
+            Wheat -= cost[0];
         }
     }
 }

@@ -1,28 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Colonizators
+﻿namespace Invaders
 {
-    abstract class Building
+    public abstract class Building
     {
-        Hexagone place;
-        Player owner;
         public int[] BringResourses;
         protected int[] price;
 
-        public Hexagone Place
-        {
-            set { place = value; }
-            get { return place; }
-        }
-        public Player Owner
-        {
-            set { owner = value; }
-            get { return owner; }
-        }
+        public Hexagone Place { set; get; }
+        public Player Owner { set; get; }
         public int[] Price
         {
             set { for (int i = 0; i < 3; i++) price[i] = value[i]; }

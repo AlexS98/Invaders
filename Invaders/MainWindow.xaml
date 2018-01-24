@@ -1,7 +1,7 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Colonizators.MainWindow"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Invaders.MainWindow"
         Title="Colonizators" Width="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" Height="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="D:\\Projects\Old\Lab_5\Lab_5\images\crown.ico">
 
     <Window.Resources>
