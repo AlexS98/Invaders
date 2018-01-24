@@ -1,0 +1,63 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Colonizators.MainWindow"
+        Title="Colonizators" Width="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" Height="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="D:\\Projects\Old\Lab_5\Lab_5\images\crown.ico">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="FontFamily" Value="Blackadder ITC" />
+                <Setter Property="Background" Value="Brown" />
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="Margin" Value="10" />
+                <Setter Property="FontSize" Value="45" />
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontSize" Value="48" />
+                    <Setter Property="Background" Value="Brown" />
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+    </Window.Resources>
+    <Grid ShowGridLines="False" >
+        <Grid.Background>
+            <ImageBrush ImageSource="D:\\Projects\Old\Lab_5\Lab_5\images\Background.jpg" Stretch="UniformToFill"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="1.5*" />
+            <ColumnDefinition Width="1.5*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <Canvas Grid.Column="1" Grid.ColumnSpan="3"  Name="Canvas" MouseDown="Canvas_MouseDown"/>
+
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="WHITE" FontFamily="Blackadder ITC" Foreground="Gold" FontSize="48" Margin="0,0,258,643" Width="378" Grid.ColumnSpan="2" />
+        <Label Grid.Column="4" Grid.Row="0" HorizontalContentAlignment="Center" Content="BLACK" FontFamily="Blackadder ITC" Foreground="Gold" FontSize="48" Margin="1.2,0,-16,643" Width="378" />
+
+        <Button Grid.Column="0" Grid.Row="1" x:Name="btnEnd1"  Click="btnEnd1_Click" Content="End Turn!" />
+        <Button Grid.Column="2" Grid.Row="1" x:Name="btnMarket" Click="btnMarket_Click" Content="Market" ToolTip="Here you can sell/buy resources" Cursor="Hand"/>
+        <Button Grid.Column="3" Grid.Row="1" x:Name="btnHire"  Click="btnHire_Click" Content="Hire" />
+        <Button Grid.Column="1" Grid.Row="1" x:Name="btnBuild"  Click="btnBuild_Click" Content="Build" />
+        <Button Grid.Column="4" Grid.Row="1" x:Name="btnEnd2" Click="btnEnd2_Click" Content="End Turn!" />
+        <Label Grid.Column="4" Grid.Row="0" HorizontalContentAlignment="Center" Content="Army size: 0/0" FontFamily="Blackadder ITC" Name="InfoB" Foreground="Red" FontSize="48" Margin="0.2,70,-15,566" Width="378" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Army size: 0/0" FontFamily="Blackadder ITC" Name="InfoA" Foreground="Red" FontSize="48" Margin="-5,70,263,566" Width="378" Grid.ColumnSpan="2" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wheat: 0" FontFamily="Blackadder ITC" Name="InfoA_wheat" Foreground="GreenYellow" FontSize="48" Margin="0,147,258,496" Width="378" Grid.ColumnSpan="2" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wood: 0" FontFamily="Blackadder ITC" Name="InfoA_gold" Foreground="GreenYellow" FontSize="48" Margin="0,287,258,359" Width="378" Grid.ColumnSpan="2" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Gold: 0" FontFamily="Blackadder ITC" Name="InfoA_wood" Foreground="GreenYellow" FontSize="48" Margin="0,217,258,426" Width="378" Grid.ColumnSpan="2" />
+        <Label Grid.Column="4" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wheat: 0" FontFamily="Blackadder ITC" Name="InfoB_wheat" Foreground="GreenYellow" FontSize="48" Margin="0.2,147,-15,496" Width="378" />
+        <Label Grid.Column="4" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wood: 0" FontFamily="Blackadder ITC" Name="InfoB_gold" Foreground="GreenYellow" FontSize="48" Margin="0.2,287,-15,359" Width="378" />
+        <Label Grid.Column="4" Grid.Row="0" HorizontalContentAlignment="Center" Content="Gold: 0" FontFamily="Blackadder ITC" Name="InfoB_wood" Foreground="GreenYellow" FontSize="48" Margin="0.2,217,-15,426" Width="378" />
+    </Grid>
+</Window>
