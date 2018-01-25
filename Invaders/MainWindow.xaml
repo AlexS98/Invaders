@@ -30,11 +30,11 @@
             <ImageBrush ImageSource="D:\\Projects\Old\Lab_5\Lab_5\images\Background.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="269*" />
-            <ColumnDefinition Width="336*"/>
-            <ColumnDefinition Width="336*" />
-            <ColumnDefinition Width="336*" />
-            <ColumnDefinition Width="269*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1.25*"/>
+            <ColumnDefinition Width="1.25*" />
+            <ColumnDefinition Width="1.25*" />
+            <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="7*" />

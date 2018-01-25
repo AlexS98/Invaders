@@ -24,22 +24,15 @@ namespace Invaders
             Warior = null;
             Build = null;
         }
-        public bool MouseHit(Point hit)
-        {
-            bool here = false;
-            if (Math.Sqrt(Math.Pow(Center.X - hit.X, 2) + Math.Pow(Center.Y - hit.Y, 2)) < 60) here = true;
-            return here;
-        }
+
+        public bool MouseHit(Point hit) => 
+            Math.Sqrt(Math.Pow(Center.X - hit.X, 2) + Math.Pow(Center.Y - hit.Y, 2)) < 60;
+
         public void AddWarior(Wariors soldier) => Warior = soldier;
 
         public void AddBuilding(Building building) => Build = building;
 
-        public bool IsNeighbor(Hexagone neighbor, int distan = 1)
-        {
-            bool Is = false;
-            int limit = distan * 150;
-            if (Math.Sqrt(Math.Pow(this.Center.X - neighbor.Center.X, 2) + Math.Pow(this.Center.Y - neighbor.Center.Y, 2)) < limit) Is = true;
-            return Is;
-        }
+        public bool IsNeighbor(Hexagone neighbor, int distan = 1) =>
+            Math.Sqrt(Math.Pow(Center.X - neighbor.Center.X, 2) + Math.Pow(Center.Y - neighbor.Center.Y, 2)) < distan * 150;
     }
 }

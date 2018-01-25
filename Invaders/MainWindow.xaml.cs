@@ -115,6 +115,7 @@ namespace Invaders
                 }
             }
         }
+
         private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
             if (Data.Hire != 0)

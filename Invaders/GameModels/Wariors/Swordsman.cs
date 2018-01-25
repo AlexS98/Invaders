@@ -16,7 +16,6 @@ namespace Invaders
         public override void NewTurn()
         {
             Protector?.Invoke(5);
-            //this.Distance = 1;
             base.NewTurn();
             Attacking = false;
         }
