@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Invaders.GameModels.Additional;
+using Invaders.GameModels.Exceptions;
+using System.Collections.Generic;
 
 namespace Invaders
 {
@@ -8,9 +10,7 @@ namespace Invaders
         List<Building> Buildings;
         public bool Color { private set; get; }
         public int WariorsLimit{ private set; get; }
-        public int Gold { set; get; }
-        public int Wood { set; get; }
-        public int Wheat { set; get; }
+        public Price Resources { set; get; }
         public int ArmyNow { get { return Army.Count; } }
         public int BuildNow { get { return Buildings.Count; } }
 
@@ -18,41 +18,35 @@ namespace Invaders
         {
             Color = col;
             WariorsLimit = 5;
-            Gold = 100;
-            Wood = 70;
-            Wheat = 100;
+            Resources = new Price(100, 70, 100);
             Army = new List<Wariors>();
             Buildings = new List<Building>();
         }
-        public Player(bool col, int limit, int gold, int wood, int wheat)
+        public Player(bool col, int limit, Price price)
         {
             Color = col;
             WariorsLimit = limit;
-            Gold = gold;
-            Wood = wood;
-            Wheat = wheat;
+            Resources = price;
             Army = new List<Wariors>();
             Buildings = new List<Building>();
         }
         public bool HireWarior(Wariors warior)
         {
-            bool success = false;
-            if ((WariorsLimit - (Army.Count)) > 0 && EnoughResources(warior.Cost)) 
+            if ((WariorsLimit - (Army.Count)) > 0)
             {
-                Army.Add(warior);
-                this.Wheat -= warior.Cost[0];
-                this.Gold -= warior.Cost[1];
-                this.Wood -= warior.Cost[2];
-                success = true;
+                try {
+                    Resources -= warior.Cost;
+                    Army.Add(warior);
+                    return true;
+                }
+                catch (GameException)
+                {
+                    return false;
+                }
             }
-            return success;
+            return false;
         }
-
-        public bool EnoughResources(int[] price)
-        {
-            if (price[0] > this.Wheat || price[1] > this.Gold || price[2] > this.Wood) return false;
-            else return true;
-        }
+        
         public void KillWarior(Wariors warior)
         {
             Army.Remove(warior);            
@@ -70,14 +64,12 @@ namespace Invaders
         {
             foreach (Building item in Buildings)
             {
-                Wheat += item.BringResourses[0];
-                Gold += item.BringResourses[1];
-                Wood += item.BringResourses[2];
+                Resources += item.BringResourses;
             }
         }
         public bool CreateBuilding(Building build)
         {
-            if (EnoughResources(build.Price))
+            if (Price.EnoughResources(Resources, build.Price))
             {
                 Pay(build.Price);
                 Buildings.Add(build);
@@ -99,11 +91,9 @@ namespace Invaders
             }
             this.CollectResources();
         }
-        private void Pay(int[] cost)
+        private void Pay(Price cost)
         {
-            Gold -= cost[1];
-            Wood -= cost[2];
-            Wheat -= cost[0];
+            Resources -= cost;
         }
     }
 }

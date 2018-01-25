@@ -30,15 +30,9 @@ namespace Invaders
             if (Math.Sqrt(Math.Pow(Center.X - hit.X, 2) + Math.Pow(Center.Y - hit.Y, 2)) < 60) here = true;
             return here;
         }
-        public void AddWarior(Wariors soldier)
-        {
-            Warior = soldier;
-        }
+        public void AddWarior(Wariors soldier) => Warior = soldier;
 
-        public void AddBuilding(Building building)
-        {
-            Build = building;
-        }
+        public void AddBuilding(Building building) => Build = building;
 
         public bool IsNeighbor(Hexagone neighbor, int distan = 1)
         {

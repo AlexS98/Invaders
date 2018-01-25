@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Invaders.GameModels.Additional;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -93,7 +94,7 @@ namespace Invaders
 
         private void GiveRes(Building build)
         {
-            build.BringResourses = new int[3];
+            build.BringResourses = new Price();
             foreach (Hexagone item in Field)
             {
                 if (build.Place.IsNeighbor(item))
@@ -179,7 +180,7 @@ namespace Invaders
             Selected = null;
             black.NewTurn();
             RefreshField();
-            if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.Wood < 50)
+            if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.Resources.Wood < 50)
             {
                 MessageBox.Show("BLACK PLAYER IS WINNER!");
             }
@@ -193,7 +194,7 @@ namespace Invaders
             Selected = null;
             white.NewTurn();
             RefreshField();
-            if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.Wood < 50)
+            if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.Resources.Wood < 50)
             {
                 MessageBox.Show("WHITE PLAYER IS WINNER!");
             }
@@ -250,12 +251,12 @@ namespace Invaders
         {
             InfoA.Content = white.InfoArmy();
             InfoB.Content = black.InfoArmy();
-            InfoA_gold.Content = "Gold: " + white.Gold;
-            InfoA_wood.Content = "Wood: " + white.Wood;
-            InfoA_wheat.Content = "Wheat: " + white.Wheat;
-            InfoB_gold.Content = "Gold: " + black.Gold;
-            InfoB_wood.Content = "Wood: " + black.Wood;
-            InfoB_wheat.Content = "Wheat: " + black.Wheat;
+            InfoA_gold.Content = "Gold: " +   white.Resources.Gold;
+            InfoA_wood.Content = "Wood: " +   white.Resources.Wood;
+            InfoA_wheat.Content = "Wheat: " + white.Resources.Wheat;
+            InfoB_gold.Content = "Gold: " +   black.Resources.Gold;
+            InfoB_wood.Content = "Wood: " +   black.Resources.Wood;
+            InfoB_wheat.Content = "Wheat: " + black.Resources.Wheat;
             foreach (Hexagone item in Field) DrawHex(item);
         }
 

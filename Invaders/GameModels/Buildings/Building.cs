@@ -1,17 +1,13 @@
-﻿namespace Invaders
+﻿using Invaders.GameModels.Additional;
+
+namespace Invaders
 {
     public abstract class Building
     {
-        public int[] BringResourses;
-        protected int[] price;
-
+        public Price BringResourses { get; set; }
+        public Price Price { get; set; }
         public Hexagone Place { set; get; }
         public Player Owner { set; get; }
-        public int[] Price
-        {
-            set { for (int i = 0; i < 3; i++) price[i] = value[i]; }
-            get { return price; }
-        }
 
         public void Capture(Player player)
         {
@@ -21,10 +17,7 @@
         }
         protected Building(Hexagone pl, Player ow )
         {
-            price = new int[3];
-            price[0] = 0;
-            price[1] = 20;
-            price[2] = 50;
+            Price = new Price(wood: 50, gold: 20);
             this.Place = pl;
             this.Owner = ow;
         }

@@ -1,9 +1,11 @@
-﻿namespace Invaders
+﻿using Invaders.GameModels.Additional;
+
+namespace Invaders
 {
+    public delegate void Protection(int hp);
     public abstract class Wariors
     {
-        public int[] Cost;
-
+        public Price Cost;
         public int Distance { set; get; }
         public int AttackDistance { set; get; }
         public bool Attacking { set; get; }
@@ -11,7 +13,7 @@
         public int AttackRate { set; get; }
         public Hexagone Place { set; get; }
         public Player Owner { set; get; }
-
+        public Protection Protector;
 
         public void Damaging(Wariors attacked)
         {
@@ -37,10 +39,7 @@
             }
         }
 
-        public void Attack()
-        {
- 
-        }
+        public abstract void Attack();
 
         public abstract void NewTurn();
 
@@ -49,12 +48,8 @@
         {
             Place = place;
             Owner = owner;
-            Attacking = false;            
-            int[] Cost = new int[3];
-            for (int i = 0; i < 3; i++)
-            {
-                Cost[i] = 0;
-            }
+            Attacking = false;
+            Cost = new Price();
         }
     }
 }

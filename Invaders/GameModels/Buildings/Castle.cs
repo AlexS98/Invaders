@@ -1,22 +1,22 @@
-﻿namespace Invaders
+﻿using Invaders.GameModels.Additional;
+
+namespace Invaders
 {
     class Castle : Building
     {
-        public Castle(Hexagone hex, Player owner)
-            : base(hex, owner)
+        public Castle(Hexagone hex, Player owner) : base(hex, owner)
         {
-            price = new int[3];
-            price[0] = 0;
-            price[1] = 20;
-            price[2] = 50;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+            Price = new Price(wood: 50, gold: 20);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
         }
 
-        public void SetCollection(int wheat, int gold, int wood)
+        public void SetCollection(int wheat, int wood, int gold)
         {
-            BringResourses = new int[3];
-            this.BringResourses[0] = wheat;
-            this.BringResourses[1] = gold;
-            this.BringResourses[2] = wood;
+            BringResourses = new Price(wheat, wood, gold);
+        }
+
+        public void SetCollection(Price cost)
+        {
+            BringResourses = cost;
         }
     }
 }

@@ -55,6 +55,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="GameModels\Additional\Price.cs" />
+    <Compile Include="GameModels\Exceptions\GameException.cs" />
     <Compile Include="GameModels\Wariors\Bowman.cs" />
     <Compile Include="GameModels\Buildings\Building.cs" />
     <Compile Include="GameModels\Buildings\City.cs" />

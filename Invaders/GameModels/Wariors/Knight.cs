@@ -1,4 +1,6 @@
-﻿namespace Invaders
+﻿using Invaders.GameModels.Additional;
+
+namespace Invaders
 {
     class Knight : Wariors
     {
@@ -8,10 +10,12 @@
             HP = 6;
             AttackRate = 4;
             AttackDistance = 1;
-            Cost = new int[3];
-            Cost[0] = 15;
-            Cost[1] = 20;
-            Cost[2] = 0;
+            Cost = new Price(wheat: 20, gold: 15);
+        }
+
+        public override void Attack()
+        {
+            throw new System.NotImplementedException();
         }
 
         public override void NewTurn()

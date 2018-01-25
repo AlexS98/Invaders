@@ -1,24 +1,23 @@
 ﻿namespace Invaders
 {
-    class Infantry : Wariors
+    public class Infantry : Wariors
     {
         protected Infantry(Hexagone place, Player owner) : base(place, owner)
         {
-
+            Protector = delegate (int a) {
+                if (Place.Build != null && HP < a)
+                    HP += 1;
+            };
         }
 
-        public void Protector()
+        public override void Attack()
         {
-            if (Place.Build != null && HP < 5)
-            {
-                HP += 1;
-            }
+            throw new System.NotImplementedException();
         }
 
         public override void NewTurn()
         {
             Distance = 1;
-            Protector();
         }
     }
 }

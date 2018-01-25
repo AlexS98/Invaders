@@ -1,4 +1,6 @@
-﻿namespace Invaders
+﻿using Invaders.GameModels.Additional;
+
+namespace Invaders
 {
     class Bowman : Infantry
     {
@@ -8,16 +10,13 @@
             HP = 3;
             AttackRate = 3;
             AttackDistance = 2;
-            Cost = new int[3];
-            Cost[0] = 7;
-            Cost[1] = 15;
-            Cost[2] = 0;
+            Cost = new Price(wheat: 15, wood: 7, gold: 4);
         }
 
         public override void NewTurn()
         {
-            //this.Distance = 1;
             base.NewTurn();
+            Protector?.Invoke(3);
             Attacking = false;
         }
     }

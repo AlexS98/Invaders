@@ -1,4 +1,6 @@
-﻿namespace Invaders
+﻿using Invaders.GameModels.Additional;
+
+namespace Invaders
 {
     class Swordsman : Infantry 
     {
@@ -8,14 +10,12 @@
             HP = 4;
             AttackRate = 2;
             AttackDistance = 1;
-            Cost = new int[3];
-            Cost[0] = 10;
-            Cost[1] = 10;
-            Cost[2] = 0;
+            Cost = new Price(wheat: 10, wood: 10, gold: 2);
         }
 
         public override void NewTurn()
         {
+            Protector?.Invoke(5);
             //this.Distance = 1;
             base.NewTurn();
             Attacking = false;
