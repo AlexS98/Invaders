@@ -2,10 +2,7 @@
 {
     class City : Building
     {
-        public City(Hexagone hex, Player owner)
-            : base(hex, owner)
-        {
-
-        }
+        public City(Hexagone hex, Player owner) : base(hex, owner)
+        { }
     }
 }
