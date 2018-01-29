@@ -1,30 +1,26 @@
 ﻿using Invaders.GameModels.Additional;
+using Invaders.UIHandlers;
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace Invaders
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
-        List<Hexagone> Field;
+        List<Hexagone> Field { get; set; }
         Hexagone Selected;
         Player PlayingNow;
         Player Light { get; set; }
-        Player black;
+        Player Black { get; set; }
+        FieldDrawing FieldDrawing { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             btnEnd2.IsEnabled = false;
+            FieldDrawing = new FieldDrawing(Canvas);
             Field = new List<Hexagone>();
 
             Field.Add(new Hexagone(new Point(420, 125), 1, 1));
@@ -66,7 +62,7 @@ namespace Invaders
             Field.Add(new Hexagone(new Point(735, 545), 1, 1));
 
             Light = new Player(true);
-            black = new Player(false);
+            Black = new Player(false);
 
             PlayingNow = Light;
 
@@ -179,7 +175,7 @@ namespace Invaders
             btnEnd1.IsEnabled = true;
             btnEnd2.IsEnabled = false;
             Selected = null;
-            black.NewTurn();
+            Black.NewTurn();
             RefreshField();
             if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.PlayerResources.Wood < 50)
             {
@@ -189,7 +185,7 @@ namespace Invaders
 
         private void btnEnd1_Click(object sender, RoutedEventArgs e)
         {
-            PlayingNow = black;
+            PlayingNow = Black;
             btnEnd2.IsEnabled = true;
             btnEnd1.IsEnabled = false;
             Selected = null;
@@ -215,137 +211,42 @@ namespace Invaders
                         {
                             item.Build.Capture(PlayingNow);
                         }
-                        DrawHex(Selected);
+                        FieldDrawing.DrawHex(Selected);
                         Selected = null;
-                        DrawHex(item);
+                        FieldDrawing.DrawHex(item);
                     }
                     else if (Selected != null && Selected != item && Selected.Warior != null && item.Warior != null && item.Warior.Owner != Selected.Warior.Owner && Selected.IsNeighbor(item, Selected.Warior.AttackDistance) && Selected.Warior.Owner == PlayingNow)
                     {
                         Selected.Warior.Damaging(item.Warior);
-                        DrawHex(Selected);
+                        FieldDrawing.DrawHex(Selected);
                         Selected = null;
-                        DrawHex(item);
+                        FieldDrawing.DrawHex(item);
                     }
                     else
                     {
                         Selected = item;
-                        DrawHex(item, true);
+                        FieldDrawing.DrawHex(item, true);
                     }
                     break; 
                 }
             }
             
         }
-        private void DrawLine(Point Start, Point End, Color Color)
-        {
-            Line l = new Line();
-            l.X1 = Start.X;
-            l.X2 = End.X;
-            l.Y1 = Start.Y;
-            l.Y2 = End.Y;
-            l.Stroke = new SolidColorBrush(Color);
-            l.StrokeThickness = 3;
-            Canvas.Children.Add(l); 
-        }
+        
 
         public void RefreshField()
         {
             InfoA.Content = Light.InfoArmy();
-            InfoB.Content = black.InfoArmy();
+            InfoB.Content = Black.InfoArmy();
             InfoA_gold.Content = "Gold: " +   Light.PlayerResources.Gold;
             InfoA_wood.Content = "Wood: " +   Light.PlayerResources.Wood;
             InfoA_wheat.Content = "Wheat: " + Light.PlayerResources.Wheat;
-            InfoB_gold.Content = "Gold: " +   black.PlayerResources.Gold;
-            InfoB_wood.Content = "Wood: " +   black.PlayerResources.Wood;
-            InfoB_wheat.Content = "Wheat: " + black.PlayerResources.Wheat;
-            foreach (Hexagone item in Field) DrawHex(item);
+            InfoB_gold.Content = "Gold: " +   Black.PlayerResources.Gold;
+            InfoB_wood.Content = "Wood: " +   Black.PlayerResources.Wood;
+            InfoB_wheat.Content = "Wheat: " + Black.PlayerResources.Wheat;
+            foreach (Hexagone item in Field) FieldDrawing.DrawHex(item);
         }
 
-        private void DrawWarior(Wariors warior, Point point = new Point())
-        {
-            Point position = (point.X == 0 && point.Y == 0) ? warior.Place.Center : point;
-            Image image1 = new Image();
-            TextBlock textBlock = new TextBlock();
-            if (warior is Knight)
-            {
-                if (warior.Owner.Side) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_horse.png"));
-                else image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\black_horse.png"));
-            }
-            else if (warior is Swordsman)
-            {
-                if (warior.Owner.Side) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_swords.png"));
-                else image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\black_swords.png"));
-            }
-            else if (warior is Bowman)
-            {
-                if (warior.Owner.Side) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_bow.png"));
-                else image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\black_bow.png"));
-            }
-            Canvas.SetTop(image1, position.Y - 40);
-            Canvas.SetLeft(image1, position.X - 40);
-            Canvas.Children.Add(image1);
-
-            textBlock.Text = " HP:" + warior.HP + "; D:" + warior.Distance + "; A?:" + ((warior.Attacking)? "+":"-");
-            textBlock.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-            Canvas.SetLeft(textBlock, position.X - 40);
-            Canvas.SetTop(textBlock, position.Y + 37);
-            Canvas.Children.Add(textBlock);
-        }
-
-        private void DrawCastle(Building build)
-        {
-            Point position = build.Place.Center;
-            Image image1 = new Image();
-            if (build.Owner.Side) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_castle.png"));
-            else image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\black_castle.png"));
-            Canvas.SetTop(image1, position.Y - 45);
-            Canvas.SetLeft(image1, position.X - 40);
-            Canvas.Children.Add(image1);
-            if (build.Place.Warior == null)
-            {
-                TextBlock textBlock = new TextBlock();
-                textBlock.Text = "wh:" + build.BringResourses[0] + ";g:" + build.BringResourses[1] + ";w:" + build.BringResourses[2];
-                textBlock.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-                Canvas.SetLeft(textBlock, position.X - 40);
-                Canvas.SetTop(textBlock, position.Y + 37);
-                Canvas.Children.Add(textBlock);
-            }
-         }
-
-        private void DrawHex(Hexagone Hexag, bool select = false)
-        {
-            double X = Hexag.Center.X;
-            double Y = Hexag.Center.Y;
-            Polygon p = new Polygon();
-            PointCollection Hex = new PointCollection();
-            byte r, g, b;
-            r = g = b = 255;
-
-            if (Hexag.Type == 1) r = b = 0;
-            else if (Hexag.Type == 3) { r = 255; b = 63; g = 133; }
-            else if (Hexag.Type == 2) { r = 255; b = 0; g = 215; }
-            else r = g = b = 0;
-
-            Hex.Add(new Point(-70 + X, 0 + Y));
-            Hex.Add(new Point(-35 + X, 60 + Y));
-            Hex.Add(new Point(35 + X, 60 + Y));
-            Hex.Add(new Point(70 + X, 0 + Y));
-            Hex.Add(new Point(35 + X, -60 + Y));
-            Hex.Add(new Point(-35 + X, -60 + Y));
-            p.Points = Hex;
-            p.Fill = new SolidColorBrush(Color.FromRgb(r, g, b));
-            Canvas.Children.Add(p);
-
-            r = g = b = 0;
-            if (select) r = 255; 
-            for (int i = 0; i < 6; i++)
-            {
-                if (i != 5) DrawLine(Hex[i], Hex[i + 1], Color.FromRgb(r, 0, 0));
-                else DrawLine(Hex[i], Hex[0], Color.FromRgb(r, 0, 0));
-            }
-            if (Hexag.Build != null) DrawCastle(Hexag.Build);
-            if (Hexag.Warior != null) DrawWarior(Hexag.Warior);
-            
-        }
+        
     }
 }
