@@ -18,7 +18,7 @@ namespace Invaders
         List<Hexagone> Field;
         Hexagone Selected;
         Player PlayingNow;
-        Player white;
+        Player Light { get; set; }
         Player black;
 
         public MainWindow()
@@ -65,10 +65,10 @@ namespace Invaders
             Field.Add(new Hexagone(new Point(735, 425), 1, 1));
             Field.Add(new Hexagone(new Point(735, 545), 1, 1));
 
-            white = new Player(true);
+            Light = new Player(true);
             black = new Player(false);
 
-            PlayingNow = white;
+            PlayingNow = Light;
 
             System.Timers.Timer GameTimer = new System.Timers.Timer();
             GameTimer.Interval = 100;
@@ -175,13 +175,13 @@ namespace Invaders
 
         private void btnEnd2_Click(object sender, RoutedEventArgs e)
         {
-            PlayingNow = white;
+            PlayingNow = Light;
             btnEnd1.IsEnabled = true;
             btnEnd2.IsEnabled = false;
             Selected = null;
             black.NewTurn();
             RefreshField();
-            if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.Resources.Wood < 50)
+            if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.PlayerResources.Wood < 50)
             {
                 MessageBox.Show("BLACK PLAYER IS WINNER!");
             }
@@ -193,9 +193,9 @@ namespace Invaders
             btnEnd2.IsEnabled = true;
             btnEnd1.IsEnabled = false;
             Selected = null;
-            white.NewTurn();
+            Light.NewTurn();
             RefreshField();
-            if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.Resources.Wood < 50)
+            if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.PlayerResources.Wood < 50)
             {
                 MessageBox.Show("WHITE PLAYER IS WINNER!");
             }
@@ -250,44 +250,42 @@ namespace Invaders
 
         public void RefreshField()
         {
-            InfoA.Content = white.InfoArmy();
+            InfoA.Content = Light.InfoArmy();
             InfoB.Content = black.InfoArmy();
-            InfoA_gold.Content = "Gold: " +   white.Resources.Gold;
-            InfoA_wood.Content = "Wood: " +   white.Resources.Wood;
-            InfoA_wheat.Content = "Wheat: " + white.Resources.Wheat;
-            InfoB_gold.Content = "Gold: " +   black.Resources.Gold;
-            InfoB_wood.Content = "Wood: " +   black.Resources.Wood;
-            InfoB_wheat.Content = "Wheat: " + black.Resources.Wheat;
+            InfoA_gold.Content = "Gold: " +   Light.PlayerResources.Gold;
+            InfoA_wood.Content = "Wood: " +   Light.PlayerResources.Wood;
+            InfoA_wheat.Content = "Wheat: " + Light.PlayerResources.Wheat;
+            InfoB_gold.Content = "Gold: " +   black.PlayerResources.Gold;
+            InfoB_wood.Content = "Wood: " +   black.PlayerResources.Wood;
+            InfoB_wheat.Content = "Wheat: " + black.PlayerResources.Wheat;
             foreach (Hexagone item in Field) DrawHex(item);
         }
 
-        private void DrawWarior(Wariors warior)
+        private void DrawWarior(Wariors warior, Point point = new Point())
         {
-            Point position = warior.Place.Center;
+            Point position = (point.X == 0 && point.Y == 0) ? warior.Place.Center : point;
             Image image1 = new Image();
             TextBlock textBlock = new TextBlock();
             if (warior is Knight)
             {
-                if (warior.Owner.Color) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_horse.png"));
+                if (warior.Owner.Side) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_horse.png"));
                 else image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\black_horse.png"));
             }
             else if (warior is Swordsman)
             {
-                if (warior.Owner.Color) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_swords.png"));
+                if (warior.Owner.Side) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_swords.png"));
                 else image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\black_swords.png"));
             }
             else if (warior is Bowman)
             {
-                if (warior.Owner.Color) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_bow.png"));
+                if (warior.Owner.Side) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_bow.png"));
                 else image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\black_bow.png"));
             }
             Canvas.SetTop(image1, position.Y - 40);
             Canvas.SetLeft(image1, position.X - 40);
             Canvas.Children.Add(image1);
 
-            textBlock.Text = " HP:" + warior.HP + "; D:" + warior.Distance + "; A?:";
-            if (warior.Attacking) textBlock.Text += "+";
-            else textBlock.Text += "-";
+            textBlock.Text = " HP:" + warior.HP + "; D:" + warior.Distance + "; A?:" + ((warior.Attacking)? "+":"-");
             textBlock.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
             Canvas.SetLeft(textBlock, position.X - 40);
             Canvas.SetTop(textBlock, position.Y + 37);
@@ -298,7 +296,7 @@ namespace Invaders
         {
             Point position = build.Place.Center;
             Image image1 = new Image();
-            if (build.Owner.Color) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_castle.png"));
+            if (build.Owner.Side) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_castle.png"));
             else image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\black_castle.png"));
             Canvas.SetTop(image1, position.Y - 45);
             Canvas.SetLeft(image1, position.X - 40);

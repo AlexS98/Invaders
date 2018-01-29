@@ -10,9 +10,9 @@ namespace Tests
         public void PlayerTest()
         {
             Player p = new Player(true, 5, new Price(10, 10, 10));
-            Assert.Equal(10, p.Resources.Gold);
-            Assert.Equal(10, p.Resources.Wheat);
-            Assert.Equal(10, p.Resources.Wood);
+            Assert.Equal(10, p.PlayerResources.Gold);
+            Assert.Equal(10, p.PlayerResources.Wheat);
+            Assert.Equal(10, p.PlayerResources.Wood);
         }
     }
 }

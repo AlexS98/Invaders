@@ -17,9 +17,9 @@ namespace Invaders
 
         public void Damaging(Wariors attacked)
         {
-            if (attacked.Owner != this.Owner && !Attacking)
+            if (attacked.Owner != Owner && !Attacking)
             {
-                attacked.HP -= this.AttackRate;
+                attacked.HP -= AttackRate;
                 Attacking = true;
                 if (attacked.HP <= 0)
                 {
@@ -30,10 +30,10 @@ namespace Invaders
         }
         public void Move(Hexagone NewPlace)
         {
-            if (NewPlace.Warior == null && this.Distance != 0)
+            if (NewPlace.Warior == null && Distance != 0)
             {
                 Place.Warior = null;
-                this.Place = NewPlace;
+                Place = NewPlace;
                 NewPlace.Warior = this;
                 Distance--;
             }
