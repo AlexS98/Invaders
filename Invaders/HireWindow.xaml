@@ -10,17 +10,17 @@
         </Grid.ColumnDefinitions>
         <Button Name="HireKnight" Click="HireKnight_Click">
             <Button.Background>
-                <ImageBrush ImageSource="D:\\Projects\Old\Lab_5\Lab_5\images\white_horse.png" />
+                <ImageBrush ImageSource="images\white_horse.png" />
             </Button.Background>
         </Button>
         <Button Name="HireSwordsman" Grid.Column="1" Click="HireSwordsman_Click">
             <Button.Background>
-                <ImageBrush ImageSource="D:\\Projects\Old\Lab_5\Lab_5\images\black_swords.png" />
+                <ImageBrush ImageSource="images\black_swords.png" />
             </Button.Background>
         </Button>
         <Button Name="HireBowman" Grid.Column="2" Click="HireBowman_Click">
             <Button.Background>
-                <ImageBrush ImageSource="D:\\Projects\Old\Lab_5\Lab_5\images\white_bow.png" />
+                <ImageBrush ImageSource="images\white_bow.png" />
             </Button.Background>
         </Button>
     </Grid>

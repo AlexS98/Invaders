@@ -1,5 +1,4 @@
-﻿using Invaders.Properties;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -24,18 +23,15 @@ namespace Invaders.UIHandlers
             TextBlock textBlock = new TextBlock();
             if (warior is Knight)
             {
-                image1.Source = new BitmapImage(new Uri("images/white_horse.png", UriKind.Relative)) { CreateOptions = BitmapCreateOptions.IgnoreImageCache };
-                // (warior.Owner.Side) ? new Bitmap(Resources.white_horse) : new Bitmap(Resources.black_horse);
+                image1.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_horse.png" : "images/black_horse.png"), UriKind.Relative));
             }
             else if (warior is Swordsman)
             {
-                if (warior.Owner.Side) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_swords.png"));
-                else image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\black_swords.png"));
+                image1.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_swords.png" : "images/black_swords.png"), UriKind.Relative));
             }
             else if (warior is Bowman)
             {
-                if (warior.Owner.Side) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_bow.png"));
-                else image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\black_bow.png"));
+                image1.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_bow.png" : "images/black_bow.png"), UriKind.Relative));
             }
             Canvas.SetTop(image1, position.Y - 40);
             Canvas.SetLeft(image1, position.X - 40);
@@ -52,8 +48,7 @@ namespace Invaders.UIHandlers
         {
             Point position = build.Place.Center;
             Image image1 = new Image();
-            if (build.Owner.Side) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_castle.png"));
-            else image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\black_castle.png"));
+            image1.Source = new BitmapImage(new Uri(((build.Owner.Side) ? "images/white_castle.png" : "images/black_castle.png"), UriKind.Relative));
             Canvas.SetTop(image1, position.Y - 45);
             Canvas.SetLeft(image1, position.X - 40);
             Canvas.Children.Add(image1);

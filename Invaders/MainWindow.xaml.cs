@@ -13,7 +13,7 @@ namespace Invaders
         Hexagone Selected;
         Player PlayingNow;
         Player Light { get; set; }
-        Player Black { get; set; }
+        Player Dark { get; set; }
         FieldDrawing FieldDrawing { get; set; }
 
         public MainWindow()
@@ -62,7 +62,7 @@ namespace Invaders
             Field.Add(new Hexagone(new Point(735, 545), 1, 1));
 
             Light = new Player(true);
-            Black = new Player(false);
+            Dark = new Player(false);
 
             PlayingNow = Light;
 
@@ -175,7 +175,7 @@ namespace Invaders
             btnEnd1.IsEnabled = true;
             btnEnd2.IsEnabled = false;
             Selected = null;
-            Black.NewTurn();
+            Dark.NewTurn();
             RefreshField();
             if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.PlayerResources.Wood < 50)
             {
@@ -185,7 +185,7 @@ namespace Invaders
 
         private void btnEnd1_Click(object sender, RoutedEventArgs e)
         {
-            PlayingNow = Black;
+            PlayingNow = Dark;
             btnEnd2.IsEnabled = true;
             btnEnd1.IsEnabled = false;
             Selected = null;
@@ -237,13 +237,13 @@ namespace Invaders
         public void RefreshField()
         {
             InfoA.Content = Light.InfoArmy();
-            InfoB.Content = Black.InfoArmy();
+            InfoB.Content = Dark.InfoArmy();
             InfoA_gold.Content = "Gold: " +   Light.PlayerResources.Gold;
             InfoA_wood.Content = "Wood: " +   Light.PlayerResources.Wood;
             InfoA_wheat.Content = "Wheat: " + Light.PlayerResources.Wheat;
-            InfoB_gold.Content = "Gold: " +   Black.PlayerResources.Gold;
-            InfoB_wood.Content = "Wood: " +   Black.PlayerResources.Wood;
-            InfoB_wheat.Content = "Wheat: " + Black.PlayerResources.Wheat;
+            InfoB_gold.Content = "Gold: " +   Dark.PlayerResources.Gold;
+            InfoB_wood.Content = "Wood: " +   Dark.PlayerResources.Wood;
+            InfoB_wheat.Content = "Wheat: " + Dark.PlayerResources.Wheat;
             foreach (Hexagone item in Field) FieldDrawing.DrawHex(item);
         }
 
