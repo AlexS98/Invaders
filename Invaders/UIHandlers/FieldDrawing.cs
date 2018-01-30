@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Invaders.Properties;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -23,8 +24,8 @@ namespace Invaders.UIHandlers
             TextBlock textBlock = new TextBlock();
             if (warior is Knight)
             {
-                if (warior.Owner.Side) image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\white_horse.png"));
-                else image1.Source = new BitmapImage(new Uri(@"D:\\Projects\Old\Lab_5\Lab_5\images\black_horse.png"));
+                image1.Source = new BitmapImage(new Uri("images/white_horse.png", UriKind.Relative)) { CreateOptions = BitmapCreateOptions.IgnoreImageCache };
+                // (warior.Owner.Side) ? new Bitmap(Resources.white_horse) : new Bitmap(Resources.black_horse);
             }
             else if (warior is Swordsman)
             {
