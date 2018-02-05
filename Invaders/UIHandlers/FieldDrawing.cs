@@ -9,7 +9,7 @@ namespace Invaders.UIHandlers
 {
     class FieldDrawing
     {
-        public Canvas Canvas { get; set; }
+        private Canvas Canvas { get; set; }
 
         public FieldDrawing(Canvas canvas)
         {
@@ -20,7 +20,6 @@ namespace Invaders.UIHandlers
         {
             Point position = (point.X == 0 && point.Y == 0) ? warior.Place.Center : point;
             Image image1 = new Image();
-            TextBlock textBlock = new TextBlock();
             if (warior is Knight)
             {
                 image1.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_horse.png" : "images/black_horse.png"), UriKind.Relative));
@@ -37,8 +36,11 @@ namespace Invaders.UIHandlers
             Canvas.SetLeft(image1, position.X - 40);
             Canvas.Children.Add(image1);
 
-            textBlock.Text = " HP:" + warior.HP + "; D:" + warior.Distance + "; A?:" + ((warior.Attacking) ? "+" : "-");
-            textBlock.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+            TextBlock textBlock = new TextBlock
+            {
+                Text = $" HP:{warior.HP}; D:{warior.Distance}; A?:" + ((warior.Attacking) ? "+" : "-"),
+                Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0))
+            };
             Canvas.SetLeft(textBlock, position.X - 40);
             Canvas.SetTop(textBlock, position.Y + 37);
             Canvas.Children.Add(textBlock);
@@ -47,66 +49,101 @@ namespace Invaders.UIHandlers
         public void DrawCastle(Building build)
         {
             Point position = build.Place.Center;
-            Image image1 = new Image();
-            image1.Source = new BitmapImage(new Uri(((build.Owner.Side) ? "images/white_castle.png" : "images/black_castle.png"), UriKind.Relative));
+            Image image1 = new Image
+            {
+                Source = new BitmapImage(new Uri(((build.Owner.Side) ? "images/white_castle.png" : "images/black_castle.png"), UriKind.Relative))
+            };
             Canvas.SetTop(image1, position.Y - 45);
             Canvas.SetLeft(image1, position.X - 40);
             Canvas.Children.Add(image1);
             if (build.Place.Warior == null)
             {
-                TextBlock textBlock = new TextBlock();
-                textBlock.Text = "wh:" + build.BringResourses[0] + ";g:" + build.BringResourses[1] + ";w:" + build.BringResourses[2];
-                textBlock.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                TextBlock textBlock = new TextBlock
+                {
+                    Text = $"wh:{build.BringResourses[0]};w:{build.BringResourses[1]};g:{build.BringResourses[2]}",
+                    Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0))
+                };
                 Canvas.SetLeft(textBlock, position.X - 40);
                 Canvas.SetTop(textBlock, position.Y + 37);
                 Canvas.Children.Add(textBlock);
             }
         }
 
-        public void DrawHex(Hexagone Hexag, bool select = false)
+        public void DrawHex(Hexagone hexagone)
         {
-            double X = Hexag.Center.X;
-            double Y = Hexag.Center.Y;
             Polygon polygon = new Polygon();
-            PointCollection Hex = new PointCollection();
-            byte r, g, b;
-            r = g = b = 255;
+            PointCollection hex = hexagone.PointCollection();
+            polygon.Points = hex;
 
-            if (Hexag.Type == 1) r = b = 0;
-            else if (Hexag.Type == 3) { r = 255; b = 63; g = 133; }
-            else if (Hexag.Type == 2) { r = 255; b = 0; g = 215; }
+            byte r, g, b;
+            if (hexagone.Type == 1) { r = b = 0; g = 255; }
+            else if (hexagone.Type == 2) { r = 255; b = 0; g = 215; }
+            else if (hexagone.Type == 3) { r = 255; b = 63; g = 133; }
             else r = g = b = 0;
 
-            Hex.Add(new Point(-70 + X, 0 + Y));
-            Hex.Add(new Point(-35 + X, 60 + Y));
-            Hex.Add(new Point(35 + X, 60 + Y));
-            Hex.Add(new Point(70 + X, 0 + Y));
-            Hex.Add(new Point(35 + X, -60 + Y));
-            Hex.Add(new Point(-35 + X, -60 + Y));
-            polygon.Points = Hex;
             polygon.Fill = new SolidColorBrush(Color.FromRgb(r, g, b));
             Canvas.Children.Add(polygon);
 
-            r = g = b = 0;
-            if (select) r = 255;
+            if (hexagone.Build != null)
+            {
+                DrawCastle(hexagone.Build);
+            }
+
+            if (hexagone.Warior != null)
+            {
+                DrawWarior(hexagone.Warior);
+            }
+
+            DrawBorder(hexagone, 0);
+        }
+
+        public void DrawBorder(Hexagone hexagone, byte red = 0, byte green = 0, byte blue = 0)
+        {
+            PointCollection hex = hexagone.PointCollection();
+            byte r = red;
+            byte g = green;
+            byte b = blue;
             for (int i = 0; i < 6; i++)
             {
-                if (i != 5) DrawLine(Hex[i], Hex[i + 1], Color.FromRgb(r, 0, 0));
-                else DrawLine(Hex[i], Hex[0], Color.FromRgb(r, 0, 0));
+                if (i != 5)
+                {
+                    DrawLine(hex[i], hex[i + 1], Color.FromRgb(r, g, b));
+                }
+                else
+                {
+                    DrawLine(hex[i], hex[0], Color.FromRgb(r, g, b));
+                }
             }
-            if (Hexag.Build != null) DrawCastle(Hexag.Build);
-            if (Hexag.Warior != null) DrawWarior(Hexag.Warior);
+        }
+
+        public void DrawEllipse(Hexagone hexagone, byte red = 0, byte green = 0, byte blue = 0)
+        {
+            byte r = red;
+            byte g = green;
+            byte b = blue;
+            Ellipse ellipse = new Ellipse
+            {
+                Width = 110,
+                Height = 110,
+                Stroke = new SolidColorBrush(Color.FromRgb(r,g,b)),
+                StrokeThickness = 2
+            };
+            Canvas.SetLeft(ellipse, hexagone.Center.X - 55);
+            Canvas.SetTop(ellipse, hexagone.Center.Y - 55);
+            Canvas.Children.Add(ellipse);
         }
 
         public void DrawLine(Point Start, Point End, Color Color)
         {
-            Line line = new Line();
-            line.X1 = Start.X;
-            line.X2 = End.X;
-            line.Y1 = Start.Y;
-            line.Y2 = End.Y;
-            line.Stroke = new SolidColorBrush(Color);
-            line.StrokeThickness = 3;
+            Line line = new Line
+            {
+                X1 = Start.X,
+                X2 = End.X,
+                Y1 = Start.Y,
+                Y2 = End.Y,
+                Stroke = new SolidColorBrush(Color),
+                StrokeThickness = 3
+            };
             Canvas.Children.Add(line);
         }
     }

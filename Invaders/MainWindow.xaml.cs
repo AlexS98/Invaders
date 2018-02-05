@@ -10,8 +10,8 @@ namespace Invaders
     public partial class MainWindow : Window
     {
         List<Hexagone> Field { get; set; }
-        Hexagone Selected;
-        Player PlayingNow;
+        Hexagone Selected { get; set; }
+        Player PlayingNow { get; set; }
         Player Light { get; set; }
         Player Dark { get; set; }
         FieldDrawing FieldDrawing { get; set; }
@@ -21,71 +21,68 @@ namespace Invaders
             InitializeComponent();
             btnEnd2.IsEnabled = false;
             FieldDrawing = new FieldDrawing(Canvas);
-            Field = new List<Hexagone>();
+            Field = new List<Hexagone>
+            {
+                new Hexagone(new Point(420, 125), 1, 1),
+                new Hexagone(new Point(420, 245), 2, 1),
+                new Hexagone(new Point(420, 365), 2, 1),
+                new Hexagone(new Point(420, 485), 1, 1),
+                new Hexagone(new Point(420, 605), 1, 1),
 
-            Field.Add(new Hexagone(new Point(420, 125), 1, 1));
-            Field.Add(new Hexagone(new Point(420, 245), 2, 1));
-            Field.Add(new Hexagone(new Point(420, 365), 2, 1));
-            Field.Add(new Hexagone(new Point(420, 485), 1, 1));
-            Field.Add(new Hexagone(new Point(420, 605), 1, 1));
+                new Hexagone(new Point(525, 185), 1, 1),
+                new Hexagone(new Point(525, 305), 1, 1),
+                new Hexagone(new Point(525, 425), 3, 1),
+                new Hexagone(new Point(525, 545), 1, 1),
 
-            Field.Add(new Hexagone(new Point(525, 185), 1, 1));
-            Field.Add(new Hexagone(new Point(525, 305), 1, 1));
-            Field.Add(new Hexagone(new Point(525, 425), 3, 1));
-            Field.Add(new Hexagone(new Point(525, 545), 1, 1));
+                new Hexagone(new Point(315, 185), 1, 1),
+                new Hexagone(new Point(315, 305), 1, 1),
+                new Hexagone(new Point(315, 425), 1, 1),
+                new Hexagone(new Point(315, 545), 1, 1),
 
-            Field.Add(new Hexagone(new Point(315, 185), 1, 1));
-            Field.Add(new Hexagone(new Point(315, 305), 1, 1));
-            Field.Add(new Hexagone(new Point(315, 425), 1, 1));
-            Field.Add(new Hexagone(new Point(315, 545), 1, 1));
+                new Hexagone(new Point(630, 125), 1, 1),
+                new Hexagone(new Point(630, 245), 3, 1),
+                new Hexagone(new Point(630, 365), 1, 1),
+                new Hexagone(new Point(630, 485), 3, 1),
+                new Hexagone(new Point(630, 605), 1, 1),
 
-            Field.Add(new Hexagone(new Point(630, 125), 1, 1));
-            Field.Add(new Hexagone(new Point(630, 245), 3, 1));
-            Field.Add(new Hexagone(new Point(630, 365), 1, 1));
-            Field.Add(new Hexagone(new Point(630, 485), 3, 1));
-            Field.Add(new Hexagone(new Point(630, 605), 1, 1));
+                new Hexagone(new Point(210, 125), 1, 1),
+                new Hexagone(new Point(210, 245), 3, 1),
+                new Hexagone(new Point(210, 365), 1, 1),
+                new Hexagone(new Point(210, 485), 1, 1),
+                new Hexagone(new Point(210, 605), 2, 1),
 
-            Field.Add(new Hexagone(new Point(210, 125), 1, 1));
-            Field.Add(new Hexagone(new Point(210, 245), 3, 1));
-            Field.Add(new Hexagone(new Point(210, 365), 1, 1));
-            Field.Add(new Hexagone(new Point(210, 485), 1, 1));
-            Field.Add(new Hexagone(new Point(210, 605), 2, 1));
+                new Hexagone(new Point(105, 185), 1, 1),
+                new Hexagone(new Point(105, 305), 1, 1),
+                new Hexagone(new Point(105, 425), 2, 1),
+                new Hexagone(new Point(105, 545), 3, 1),
 
-            Field.Add(new Hexagone(new Point(105, 185), 1, 1));
-            Field.Add(new Hexagone(new Point(105, 305), 1, 1));
-            Field.Add(new Hexagone(new Point(105, 425), 2, 1));
-            Field.Add(new Hexagone(new Point(105, 545), 3, 1));
-
-            Field.Add(new Hexagone(new Point(735, 185), 2, 1));
-            Field.Add(new Hexagone(new Point(735, 305), 1, 1));
-            Field.Add(new Hexagone(new Point(735, 425), 1, 1));
-            Field.Add(new Hexagone(new Point(735, 545), 1, 1));
+                new Hexagone(new Point(735, 185), 2, 1),
+                new Hexagone(new Point(735, 305), 1, 1),
+                new Hexagone(new Point(735, 425), 1, 1),
+                new Hexagone(new Point(735, 545), 1, 1)
+            };
 
             Light = new Player(true);
             Dark = new Player(false);
 
             PlayingNow = Light;
 
-            System.Timers.Timer GameTimer = new System.Timers.Timer();
-            GameTimer.Interval = 100;
+            System.Timers.Timer GameTimer = new System.Timers.Timer(100);
             GameTimer.Elapsed += OnTimedEvent;
             GameTimer.Start();
-
             RefreshField();
         }
 
         private bool NearCastle(Hexagone place)
         {
-            bool b = false;
             foreach (Hexagone item in Field)
             {
                 if (place.IsNeighbor(item) && item.Build != null && item.Build.Owner == PlayingNow)
                 {
-                    b = true;
-                    break;
+                    return true;
                 }
             }
-            return b;
+            return false;
         }
 
         private void GiveRes(Building build)
@@ -114,49 +111,48 @@ namespace Invaders
 
         private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
-            if (Data.Hire != 0)
-            {                
-                if (Selected != null && Selected.Build == null && NearCastle(Selected))
+            if (Data.Hire != 0 && Selected != null && Selected.Build == null && NearCastle(Selected))
+            {
+                Wariors warior;
+                switch (Data.Hire)
                 {
-                    Wariors warior;
-                    switch (Data.Hire)
-                    {
-                        case 1:
-                            warior = new Knight(Selected, PlayingNow);
-                            break;
-                        case 2:
-                            warior = new Swordsman(Selected, PlayingNow);
-                            break;
-                        case 3:
-                            warior = new Bowman(Selected, PlayingNow);
-                            break;
-                        default:
-                            warior = null;
-                            break;
-                    }
-                    if (warior != null && PlayingNow.HireWarior(warior))
-                    {
-                        Selected.AddWarior(warior);
-                        Selected = null;
-                    }
+                    case 1:
+                        warior = new Knight(Selected, PlayingNow);
+                        break;
+                    case 2:
+                        warior = new Swordsman(Selected, PlayingNow);
+                        break;
+                    case 3:
+                        warior = new Bowman(Selected, PlayingNow);
+                        break;
+                    default:
+                        warior = null;
+                        break;
                 }
-                Data.Hire = 0;
+                if (warior != null && PlayingNow.HireWarior(warior))
+                {
+                    Selected.AddWarior(warior);
+                    RefreshField();
+                }
             }
+            Data.Hire = 0;
         }
         
-        private void btnHire_Click(object sender, RoutedEventArgs e)
+        private void BtnHire_Click(object sender, RoutedEventArgs e)
         {
-            HireWindow hireWindow = new HireWindow();
-            hireWindow.Owner = this;
+            HireWindow hireWindow = new HireWindow
+            {
+                Owner = this
+            };
             hireWindow.Show();
         }
 
-        private void btnMarket_Click(object sender, RoutedEventArgs e)
+        private void BtnMarket_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Wait in next updates!)");
         }
 
-        private void btnBuild_Click(object sender, RoutedEventArgs e)
+        private void BtnBuild_Click(object sender, RoutedEventArgs e)
         {
             if (Selected != null)
             {
@@ -165,11 +161,12 @@ namespace Invaders
                 {
                     Selected.AddBuilding(b);
                     GiveRes(b);
+                    RefreshField();
                 }
             }           
         }
 
-        private void btnEnd2_Click(object sender, RoutedEventArgs e)
+        private void BtnEnd2_Click(object sender, RoutedEventArgs e)
         {
             PlayingNow = Light;
             btnEnd1.IsEnabled = true;
@@ -183,7 +180,7 @@ namespace Invaders
             }
         }
 
-        private void btnEnd1_Click(object sender, RoutedEventArgs e)
+        private void BtnEnd1_Click(object sender, RoutedEventArgs e)
         {
             PlayingNow = Dark;
             btnEnd2.IsEnabled = true;
@@ -199,7 +196,6 @@ namespace Invaders
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            RefreshField();
             foreach (Hexagone item in Field)
             {
                 if (item.MouseHit(e.GetPosition(Canvas))) 
@@ -211,28 +207,56 @@ namespace Invaders
                         {
                             item.Build.Capture(PlayingNow);
                         }
-                        FieldDrawing.DrawHex(Selected);
-                        Selected = null;
-                        FieldDrawing.DrawHex(item);
+                        Selected = item;
+                        RefreshField();
+                        TransitionAbilities(item);
+                        AttackAbilities(item);
                     }
                     else if (Selected != null && Selected != item && Selected.Warior != null && item.Warior != null && item.Warior.Owner != Selected.Warior.Owner && Selected.IsNeighbor(item, Selected.Warior.AttackDistance) && Selected.Warior.Owner == PlayingNow)
                     {
                         Selected.Warior.Damaging(item.Warior);
-                        FieldDrawing.DrawHex(Selected);
                         Selected = null;
-                        FieldDrawing.DrawHex(item);
+                        RefreshField();
                     }
                     else
                     {
                         Selected = item;
-                        FieldDrawing.DrawHex(item, true);
+                        RefreshField();
+                        TransitionAbilities(item);
+                        AttackAbilities(item);
                     }
-                    break; 
+                    break;
                 }
             }
-            
         }
-        
+
+        public void TransitionAbilities(Hexagone item)
+        {
+            if (item.Warior != null)
+            {
+                foreach (Hexagone i in Field)
+                {
+                    if (i.IsNeighbor(item, item.Warior.Distance) && i.Warior == null)
+                    {
+                        FieldDrawing.DrawEllipse(i, blue: 255);
+                    }
+                }
+            }
+        }
+
+        public void AttackAbilities(Hexagone item)
+        {
+            if (item.Warior != null && !item.Warior.Attacking)
+            {
+                foreach (Hexagone i in Field)
+                {
+                    if (i.IsNeighbor(item, item.Warior.AttackDistance) && i.Warior != null && i.Warior.Owner.Side != item.Warior.Owner.Side)
+                    {
+                        FieldDrawing.DrawEllipse(i, red: 255);
+                    }
+                }
+            }
+        }
 
         public void RefreshField()
         {
@@ -244,9 +268,11 @@ namespace Invaders
             InfoB_gold.Content = "Gold: " +   Dark.PlayerResources.Gold;
             InfoB_wood.Content = "Wood: " +   Dark.PlayerResources.Wood;
             InfoB_wheat.Content = "Wheat: " + Dark.PlayerResources.Wheat;
-            foreach (Hexagone item in Field) FieldDrawing.DrawHex(item);
-        }
-
-        
+            foreach (Hexagone item in Field)
+            {
+                FieldDrawing.DrawHex(item);
+            }
+            if(Selected != null) FieldDrawing.DrawBorder(Selected, red: 255);
+        }        
     }
 }

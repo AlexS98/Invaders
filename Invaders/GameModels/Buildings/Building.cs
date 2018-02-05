@@ -11,15 +11,15 @@ namespace Invaders
 
         public void Capture(Player player)
         {
-            this.Owner.LostBuild(this);
-            this.Owner = player;
+            Owner.LostBuild(this);
+            Owner = player;
             player.CaptureBuild(this);
         }
         protected Building(Hexagone pl, Player ow )
         {
             Price = new Price(wood: 50, gold: 20);
-            this.Place = pl;
-            this.Owner = ow;
+            Place = pl;
+            Owner = ow;
         }
     }
 }

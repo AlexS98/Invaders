@@ -46,11 +46,11 @@
         <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="LIGHT" FontFamily="Blackadder ITC" Foreground="Gold" FontSize="48" Margin="0,0,8.8,643" />
         <Label Grid.Column="3" Grid.Row="0" HorizontalContentAlignment="Center" Content="DARK" FontFamily="Blackadder ITC" Foreground="Gold" FontSize="48" Margin="0,10,0,633" Width="269" HorizontalAlignment="Right" Grid.ColumnSpan="2" />
 
-        <Button Grid.Column="0" Grid.Row="1" x:Name="btnEnd1"  Click="btnEnd1_Click" Content="End Turn!" Margin="10,10,12.8,9.8" />
-        <Button Grid.Column="2" Grid.Row="1" x:Name="btnMarket" Click="btnMarket_Click" Content="Market" ToolTip="Here you can sell/buy resources" Cursor="Hand" Margin="10.2,10,10.2,9.8"/>
-        <Button Grid.Column="3" Grid.Row="1" x:Name="btnHire"  Click="btnHire_Click" Content="Hire" Margin="9.8,10,10.2,9.8" />
-        <Button Grid.Column="1" Grid.Row="1" x:Name="btnBuild"  Click="btnBuild_Click" Content="Build" Margin="7.2,10,9.8,9.8" />
-        <Button Grid.Column="4" Grid.Row="1" x:Name="btnEnd2" Click="btnEnd2_Click" Content="End Turn!" Margin="9.8,10,10,9.8" />
+        <Button Grid.Column="0" Grid.Row="1" x:Name="btnEnd1"  Click="BtnEnd1_Click" Content="End Turn!" Margin="10,10,12.8,9.8" />
+        <Button Grid.Column="2" Grid.Row="1" x:Name="btnMarket" Click="BtnMarket_Click" Content="Market" ToolTip="Here you can sell/buy resources" Cursor="Hand" Margin="10.2,10,10.2,9.8"/>
+        <Button Grid.Column="3" Grid.Row="1" x:Name="btnHire"  Click="BtnHire_Click" Content="Hire" Margin="9.8,10,10.2,9.8" />
+        <Button Grid.Column="1" Grid.Row="1" x:Name="btnBuild"  Click="BtnBuild_Click" Content="Build" Margin="7.2,10,9.8,9.8" />
+        <Button Grid.Column="4" Grid.Row="1" x:Name="btnEnd2" Click="BtnEnd2_Click" Content="End Turn!" Margin="9.8,10,10,9.8" />
         <Label Grid.Column="3" Grid.Row="0" HorizontalContentAlignment="Center" Content="Army size: 0/0" FontFamily="Blackadder ITC" Name="InfoB" Foreground="Red" FontSize="48" Margin="335.8,70,0,566" Grid.ColumnSpan="2" />
         <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Army size: 0/0" FontFamily="Blackadder ITC" Name="InfoA" Foreground="Red" FontSize="48" Margin="-5,70,8.8,566" />
         <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wheat: 0" FontFamily="Blackadder ITC" Name="InfoA_wheat" Foreground="GreenYellow" FontSize="48" Margin="0,147,8.8,496" />

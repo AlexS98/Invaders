@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Invaders
 {
@@ -15,7 +16,6 @@ namespace Invaders
         public Wariors Warior;
         public Building Build;
 
-
         public Hexagone(Point center, int type, int number)
         {
             Center = center;
@@ -23,6 +23,20 @@ namespace Invaders
             Type = type;
             Warior = null;
             Build = null;
+        }
+
+        public PointCollection PointCollection()
+        {
+            PointCollection hexagone = new PointCollection
+            {
+                new Point(-70 + Center.X, 0 + Center.Y),
+                new Point(-35 + Center.X, 60 + Center.Y),
+                new Point(35 + Center.X, 60 + Center.Y),
+                new Point(70 + Center.X, 0 + Center.Y),
+                new Point(35 + Center.X, -60 + Center.Y),
+                new Point(-35 + Center.X, -60 + Center.Y)
+            };
+            return hexagone;
         }
 
         public bool MouseHit(Point hit) => 
