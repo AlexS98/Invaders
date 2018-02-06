@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Invaders.GameModels.Exceptions;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -7,7 +8,7 @@ using System.Windows.Shapes;
 
 namespace Invaders.UIHandlers
 {
-    class FieldDrawing
+    internal sealed class FieldDrawing
     {
         private Canvas Canvas { get; set; }
 
@@ -16,37 +17,50 @@ namespace Invaders.UIHandlers
             Canvas = canvas;
         }
 
-        public void DrawWarior(Wariors warior, Point point = new Point())
+        public void DrawWarior(Wariors warior, Point point = new Point(), bool description = true)
         {
             Point position = (point.X == 0 && point.Y == 0) ? warior.Place.Center : point;
-            Image image1 = new Image();
+            Image image = WariorPicture(warior);
+            Canvas.SetTop(image, position.Y - 40);
+            Canvas.SetLeft(image, position.X - 40);
+            Canvas.Children.Add(image);
+
+            if (description)
+            {
+                TextBlock textBlock = new TextBlock
+                {
+                    Text = $" HP:{warior.HP}; D:{warior.Distance}; A?:" + ((warior.Attacking) ? "+" : "-"),
+                    Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0))
+                };
+                Canvas.SetLeft(textBlock, position.X - 40);
+                Canvas.SetTop(textBlock, position.Y + 37);
+                Canvas.Children.Add(textBlock);
+            }
+        }
+
+        private Image WariorPicture(Wariors warior)
+        {
+            Image image = new Image();
             if (warior is Knight)
             {
-                image1.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_horse.png" : "images/black_horse.png"), UriKind.Relative));
+                image.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_horse.png" : "images/black_horse.png"), UriKind.Relative));
             }
             else if (warior is Swordsman)
             {
-                image1.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_swords.png" : "images/black_swords.png"), UriKind.Relative));
+                image.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_swords.png" : "images/black_swords.png"), UriKind.Relative));
             }
             else if (warior is Bowman)
             {
-                image1.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_bow.png" : "images/black_bow.png"), UriKind.Relative));
+                image.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_bow.png" : "images/black_bow.png"), UriKind.Relative));
             }
-            Canvas.SetTop(image1, position.Y - 40);
-            Canvas.SetLeft(image1, position.X - 40);
-            Canvas.Children.Add(image1);
-
-            TextBlock textBlock = new TextBlock
+            else
             {
-                Text = $" HP:{warior.HP}; D:{warior.Distance}; A?:" + ((warior.Attacking) ? "+" : "-"),
-                Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0))
-            };
-            Canvas.SetLeft(textBlock, position.X - 40);
-            Canvas.SetTop(textBlock, position.Y + 37);
-            Canvas.Children.Add(textBlock);
+                throw new GameException("Unknown warior type");
+            }
+            return image;
         }
 
-        public void DrawCastle(Building build)
+        public void DrawCastle(Building build, bool description = true)
         {
             Point position = build.Place.Center;
             Image image1 = new Image
@@ -56,7 +70,8 @@ namespace Invaders.UIHandlers
             Canvas.SetTop(image1, position.Y - 45);
             Canvas.SetLeft(image1, position.X - 40);
             Canvas.Children.Add(image1);
-            if (build.Place.Warior == null)
+
+            if (build.Place.Warior == null && description)
             {
                 TextBlock textBlock = new TextBlock
                 {
@@ -145,6 +160,11 @@ namespace Invaders.UIHandlers
                 StrokeThickness = 3
             };
             Canvas.Children.Add(line);
+        }
+
+        public void MoveAnimation(Hexagone start, Hexagone end)
+        {
+
         }
     }
 }

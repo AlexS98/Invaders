@@ -1,6 +1,6 @@
 ﻿namespace Invaders
 {
-    static class Data
+    internal static class Data
     {
         public static int Hire = 0;
     }

@@ -2,20 +2,20 @@
 
 namespace Invaders.GameModels.Additional
 {
-    public class Price
+    public class Resources
     {
         public int Wheat { get; set; }
         public int Wood { get; set; }
         public int Gold { get; set; }
 
-        public Price(int wheat = 0, int wood = 0, int gold = 0)
+        public Resources(int wheat = 0, int wood = 0, int gold = 0)
         {
             Wheat = wheat;
             Wood = wood;
             Gold = gold;
         }
 
-        public Price(int[] price)
+        public Resources(int[] price)
         {
             Wheat = price[0];
             Wood = price[1];
@@ -34,7 +34,7 @@ namespace Invaders.GameModels.Additional
                     case 2:
                         return Gold;
                     default:
-                        return 0;
+                        throw new GameException("Invalid index");
                 }
             }
             set {
@@ -55,20 +55,18 @@ namespace Invaders.GameModels.Additional
             }
         }
 
-        public static Price operator +(Price p1, Price p2)
-        {
-            return new Price(p1.Wheat + p2.Wheat, p1.Wood + p2.Wood, p1.Gold + p2.Gold);
-        }
+        public static Resources operator +(Resources p1, Resources p2) => 
+            new Resources(p1.Wheat + p2.Wheat, p1.Wood + p2.Wood, p1.Gold + p2.Gold);
 
-        public static Price operator -(Price p1, Price p2)
+        public static Resources operator -(Resources p1, Resources p2)
         {
             if (EnoughResources(p1, p2))
-                return new Price(p1.Wheat - p2.Wheat, p1.Wood - p2.Wood, p1.Gold - p2.Gold);
+                return new Resources(p1.Wheat - p2.Wheat, p1.Wood - p2.Wood, p1.Gold - p2.Gold);
             else
                 throw new GameException("Not enough resources");
         }
 
-        public static bool EnoughResources(Price p1, Price p2) => 
+        public static bool EnoughResources(Resources p1, Resources p2) => 
             p1.Wheat > p2.Wheat & p1.Wood > p2.Wood & p1.Gold > p2.Gold;
     }
 }

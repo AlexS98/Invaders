@@ -49,6 +49,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NAudio, Version=1.8.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.8.4\lib\net35\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -69,14 +72,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GameModels\Additional\Price.cs" />
+    <Compile Include="GameProcess\Events\EventStack.cs" />
+    <Compile Include="GameProcess\Events\GameEvent.cs" />
+    <Compile Include="GameModels\Additional\Resources.cs" />
     <Compile Include="GameModels\Exceptions\GameException.cs" />
     <Compile Include="GameModels\Map\MapCreator.cs" />
     <Compile Include="GameModels\Wariors\Bowman.cs" />
     <Compile Include="GameModels\Buildings\Building.cs" />
     <Compile Include="GameModels\Buildings\City.cs" />
-    <Compile Include="GameModels\Data.cs" />
+    <Compile Include="GameProcess\Data.cs" />
     <Compile Include="GameModels\Map\Hexagone.cs" />
+    <Compile Include="GameProcess\Game.cs" />
     <Compile Include="HireWindow.xaml.cs">
       <DependentUpon>HireWindow.xaml</DependentUpon>
     </Compile>
@@ -106,7 +112,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameModels\Player.cs" />
+    <Compile Include="GameProcess\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -170,6 +176,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="audio\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

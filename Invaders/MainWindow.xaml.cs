@@ -87,7 +87,7 @@ namespace Invaders
 
         private void GiveRes(Building build)
         {
-            build.BringResourses = new Price();
+            build.BringResourses = new Resources();
             foreach (Hexagone item in Field)
             {
                 if (build.Place.IsNeighbor(item))
@@ -111,7 +111,7 @@ namespace Invaders
 
         private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
-            if (Data.Hire != 0 && Selected != null && Selected.Build == null && NearCastle(Selected))
+            if (Data.Hire != 0 && Selected != null && NearCastle(Selected))
             {
                 Wariors warior;
                 switch (Data.Hire)
@@ -196,36 +196,44 @@ namespace Invaders
 
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            foreach (Hexagone item in Field)
+            if (e.RightButton == MouseButtonState.Pressed)
             {
-                if (item.MouseHit(e.GetPosition(Canvas))) 
+                Selected = null;
+                RefreshField();
+            }
+            else
+            {
+                foreach (Hexagone item in Field)
                 {
-                    if (Selected != null && Selected != item && Selected.Warior != null && item.Warior == null && Selected.IsNeighbor(item) && Selected.Warior.Owner == PlayingNow)
+                    if (item.MouseHit(e.GetPosition(Canvas)))
                     {
-                        Selected.Warior.Move(item);
-                        if (item.Build != null && item.Build.Owner != PlayingNow)
+                        if (Selected != null && Selected != item && Selected.Warior != null && item.Warior == null && Selected.IsNeighbor(item) && Selected.Warior.Owner == PlayingNow)
                         {
-                            item.Build.Capture(PlayingNow);
+                            Selected.Warior.Move(item);
+                            if (item.Build != null && item.Build.Owner != PlayingNow)
+                            {
+                                item.Build.Capture(PlayingNow);
+                            }
+                            Selected = item;
+                            RefreshField();
+                            TransitionAbilities(item);
+                            AttackAbilities(item);
                         }
-                        Selected = item;
-                        RefreshField();
-                        TransitionAbilities(item);
-                        AttackAbilities(item);
+                        else if (Selected != null && Selected != item && Selected.Warior != null && item.Warior != null && item.Warior.Owner != Selected.Warior.Owner && Selected.IsNeighbor(item, Selected.Warior.AttackDistance) && Selected.Warior.Owner == PlayingNow)
+                        {
+                            Selected.Warior.Damaging(item.Warior);
+                            Selected = null;
+                            RefreshField();
+                        }
+                        else
+                        {
+                            Selected = item;
+                            RefreshField();
+                            TransitionAbilities(item);
+                            AttackAbilities(item);
+                        }
+                        break;
                     }
-                    else if (Selected != null && Selected != item && Selected.Warior != null && item.Warior != null && item.Warior.Owner != Selected.Warior.Owner && Selected.IsNeighbor(item, Selected.Warior.AttackDistance) && Selected.Warior.Owner == PlayingNow)
-                    {
-                        Selected.Warior.Damaging(item.Warior);
-                        Selected = null;
-                        RefreshField();
-                    }
-                    else
-                    {
-                        Selected = item;
-                        RefreshField();
-                        TransitionAbilities(item);
-                        AttackAbilities(item);
-                    }
-                    break;
                 }
             }
         }
@@ -260,6 +268,7 @@ namespace Invaders
 
         public void RefreshField()
         {
+            Canvas.Children.Clear();
             InfoA.Content = Light.InfoArmy();
             InfoB.Content = Dark.InfoArmy();
             InfoA_gold.Content = "Gold: " +   Light.PlayerResources.Gold;

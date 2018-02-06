@@ -5,7 +5,7 @@ namespace Invaders
     public delegate void Protection(int hp);
     public abstract class Wariors
     {
-        public Price Cost;
+        public Resources Cost;
         public int Distance { set; get; }
         public int AttackDistance { set; get; }
         public bool Attacking { set; get; }
@@ -49,7 +49,7 @@ namespace Invaders
             Place = place;
             Owner = owner;
             Attacking = false;
-            Cost = new Price();
+            Cost = new Resources();
         }
     }
 }

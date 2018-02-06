@@ -10,7 +10,7 @@ namespace Invaders
             HP = 3;
             AttackRate = 3;
             AttackDistance = 2;
-            Cost = new Price(wheat: 15, wood: 7, gold: 4);
+            Cost = new Resources(wheat: 15, wood: 7, gold: 4);
         }
 
         public override void NewTurn()
