@@ -150,7 +150,7 @@ namespace Invaders.UIHandlers
             if (aim)
             {
                 double Kx, Ky, k, c, Tx, Ty, D, X;
-                double L = 35;
+                double L = 31;
                 double Cy = hexagon.Center.Y;
                 double Cx = hexagon.Center.X;
                 foreach (Point item in hexagon.PointCollection())
@@ -162,13 +162,9 @@ namespace Invaders.UIHandlers
                     X = Ky - c;
                     D = 4 * Math.Pow(X * k + Kx, 2) - 4 * (k * k + 1) * (Kx * Kx + X * X - L * L);
                     if (D < 0) throw new GameException("Error in aim!");
-                    Tx = (2*(k * X + Kx) + Math.Sqrt(D)) / (2 * (k * k + 1));
+                    Tx = (Kx > Cx) ? (2 * (k * X + Kx) - Math.Sqrt(D)) : (2 * (k * X + Kx) + Math.Sqrt(D));
+                    Tx /= (2 * (k * k + 1));
                     Ty = k * Tx + c;
-                    if(!(Math.Sqrt(Math.Pow(Cx - Tx, 2) + Math.Pow(Cy - Ty, 2)) < 75))
-                    {
-                        Tx = (2*(k * X + Kx) - Math.Sqrt(D)) / (2 * (k * k + 1));
-                        Ty = k * Tx + c;
-                    }
                     DrawLine(item, new Point(Tx, Ty), Color.FromRgb(r, g, b));
                 }
             }
