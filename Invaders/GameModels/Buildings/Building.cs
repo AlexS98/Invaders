@@ -3,11 +3,11 @@ using System.Windows;
 
 namespace Invaders
 {
-    public abstract class Building
+    internal abstract class Building
     {
         public Resources BringResourses { get; set; }
         public Resources Price { get; set; }
-        public Hexagone Place { set; get; }
+        public Hexagon Place { set; get; }
         public Player Owner { set; get; }
 
         public void Capture(Player player)
@@ -17,7 +17,7 @@ namespace Invaders
             player.CaptureBuild(this);
             MessageBox.Show("Building is captured!");
         }
-        protected Building(Hexagone pl, Player ow )
+        protected Building(Hexagon pl, Player ow )
         {
             Price = new Resources(wood: 50, gold: 20);
             Place = pl;

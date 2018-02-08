@@ -4,19 +4,17 @@ using System.Windows.Media;
 
 namespace Invaders
 {
-    enum HexType
-    {
+    enum HexType { }
 
-    }
-    public class Hexagone
+    internal sealed class Hexagon
     {
-        public Point Center;
-        public int Type;
-        public int Number;
-        public Wariors Warior;
-        public Building Build;
+        public Point Center { get; set; }
+        public int Type { get; set; }
+        public int Number { get; set; }
+        public Wariors Warior { get; set; }
+        public Building Build { get; set; }
 
-        public Hexagone(Point center, int type, int number)
+        public Hexagon(Point center, int type, int number)
         {
             Center = center;
             Number = number;
@@ -27,7 +25,7 @@ namespace Invaders
 
         public PointCollection PointCollection()
         {
-            PointCollection hexagone = new PointCollection
+            return new PointCollection
             {
                 new Point(-70 + Center.X, 0 + Center.Y),
                 new Point(-35 + Center.X, 60 + Center.Y),
@@ -36,7 +34,6 @@ namespace Invaders
                 new Point(35 + Center.X, -60 + Center.Y),
                 new Point(-35 + Center.X, -60 + Center.Y)
             };
-            return hexagone;
         }
 
         public bool MouseHit(Point hit) => 
@@ -46,7 +43,7 @@ namespace Invaders
 
         public void AddBuilding(Building building) => Build = building;
 
-        public bool IsNeighbor(Hexagone neighbor, int distan = 1) =>
+        public bool IsNeighbor(Hexagon neighbor, int distan = 1) =>
             Math.Sqrt(Math.Pow(Center.X - neighbor.Center.X, 2) + Math.Pow(Center.Y - neighbor.Center.Y, 2)) < distan * 150;
     }
 }

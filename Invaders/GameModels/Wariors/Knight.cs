@@ -2,9 +2,9 @@
 
 namespace Invaders
 {
-    class Knight : Wariors
+    internal sealed class Knight : Wariors
     {
-        public Knight(Hexagone place, Player owner) : base (place, owner)
+        public Knight(Hexagon place, Player owner) : base (place, owner)
         {
             Distance = 2;
             HP = 6;

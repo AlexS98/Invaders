@@ -2,7 +2,7 @@
 {
     class Road : Building
     {
-        public Road(Hexagone hex, Player owner) : base(hex, owner)
+        public Road(Hexagon hex, Player owner) : base(hex, owner)
         { }
     }
 }

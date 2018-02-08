@@ -1,11 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using Invaders.GameModels.Map;
+using System.Collections.Generic;
 
 namespace Invaders.GameProcess
 {
-    internal class Game
+    internal sealed class Game
     {
         public Player Player1 { private set; get; }
         public Player Player2 { private set; get; }
-        public List<Hexagone> Map { private set; get; }
+        public List<Hexagon> Map { private set; get; }
+        private Player PlayNow { get; set; }
+
+        public Game(bool playNow = true)
+        {
+            Player1 = new Player(true);
+            Player2 = new Player(false);
+            Map = new MapCreator().GetMap();
+            PlayNow = (playNow) ? Player1 : Player2;
+        }
     }
 }

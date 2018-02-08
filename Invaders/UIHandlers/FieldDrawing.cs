@@ -75,7 +75,7 @@ namespace Invaders.UIHandlers
             {
                 TextBlock textBlock = new TextBlock
                 {
-                    Text = $"wh:{build.BringResourses[0]};w:{build.BringResourses[1]};g:{build.BringResourses[2]}",
+                    Text = build.BringResourses.ToString(),
                     Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0))
                 };
                 Canvas.SetLeft(textBlock, position.X - 40);
@@ -84,7 +84,7 @@ namespace Invaders.UIHandlers
             }
         }
 
-        public void DrawHex(Hexagone hexagone)
+        public void DrawHex(Hexagon hexagone)
         {
             Polygon polygon = new Polygon();
             PointCollection hex = hexagone.PointCollection();
@@ -112,7 +112,7 @@ namespace Invaders.UIHandlers
             DrawBorder(hexagone, 0);
         }
 
-        public void DrawBorder(Hexagone hexagone, byte red = 0, byte green = 0, byte blue = 0)
+        public void DrawBorder(Hexagon hexagone, byte red = 0, byte green = 0, byte blue = 0)
         {
             PointCollection hex = hexagone.PointCollection();
             byte r = red;
@@ -131,7 +131,7 @@ namespace Invaders.UIHandlers
             }
         }
 
-        public void DrawEllipse(Hexagone hexagone, byte red = 0, byte green = 0, byte blue = 0)
+        public void DrawEllipse(Hexagon hexagon, byte red = 0, byte green = 0, byte blue = 0, byte strokeThickness = 2, bool aim = false)
         {
             byte r = red;
             byte g = green;
@@ -141,14 +141,40 @@ namespace Invaders.UIHandlers
                 Width = 110,
                 Height = 110,
                 Stroke = new SolidColorBrush(Color.FromRgb(r,g,b)),
-                StrokeThickness = 2
+                StrokeThickness = strokeThickness
             };
-            Canvas.SetLeft(ellipse, hexagone.Center.X - 55);
-            Canvas.SetTop(ellipse, hexagone.Center.Y - 55);
+            Canvas.SetLeft(ellipse, hexagon.Center.X - 55);
+            Canvas.SetTop(ellipse, hexagon.Center.Y - 55);
             Canvas.Children.Add(ellipse);
+
+            if (aim)
+            {
+                double Kx, Ky, k, c, Tx, Ty, D, X;
+                double L = 35;
+                double Cy = hexagon.Center.Y;
+                double Cx = hexagon.Center.X;
+                foreach (Point item in hexagon.PointCollection())
+                {
+                    Ky = item.Y;
+                    Kx = item.X;
+                    k = (Cy - Ky) / (Cx - Kx);
+                    c = Cy - k * Cx;
+                    X = Ky - c;
+                    D = 4 * Math.Pow(X * k + Kx, 2) - 4 * (k * k + 1) * (Kx * Kx + X * X - L * L);
+                    if (D < 0) throw new GameException("Error in aim!");
+                    Tx = (2*(k * X + Kx) + Math.Sqrt(D)) / (2 * (k * k + 1));
+                    Ty = k * Tx + c;
+                    if(!(Math.Sqrt(Math.Pow(Cx - Tx, 2) + Math.Pow(Cy - Ty, 2)) < 75))
+                    {
+                        Tx = (2*(k * X + Kx) - Math.Sqrt(D)) / (2 * (k * k + 1));
+                        Ty = k * Tx + c;
+                    }
+                    DrawLine(item, new Point(Tx, Ty), Color.FromRgb(r, g, b));
+                }
+            }
         }
 
-        public void DrawLine(Point Start, Point End, Color Color)
+        public void DrawLine(Point Start, Point End, Color Color, byte strokeThickness = 3)
         {
             Line line = new Line
             {
@@ -157,12 +183,12 @@ namespace Invaders.UIHandlers
                 Y1 = Start.Y,
                 Y2 = End.Y,
                 Stroke = new SolidColorBrush(Color),
-                StrokeThickness = 3
+                StrokeThickness = strokeThickness
             };
             Canvas.Children.Add(line);
         }
 
-        public void MoveAnimation(Hexagone start, Hexagone end)
+        public void MoveAnimation(Hexagon start, Hexagon end)
         {
 
         }

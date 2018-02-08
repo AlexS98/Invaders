@@ -2,7 +2,7 @@
 
 namespace Invaders.GameModels.Additional
 {
-    public class Resources
+    internal sealed class Resources
     {
         public int Wheat { get; set; }
         public int Wood { get; set; }
@@ -68,5 +68,32 @@ namespace Invaders.GameModels.Additional
 
         public static bool EnoughResources(Resources p1, Resources p2) => 
             p1.Wheat > p2.Wheat & p1.Wood > p2.Wood & p1.Gold > p2.Gold;
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            if (GetType() != obj.GetType()) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            Resources r = (Resources)obj;
+            for (int i = 0; i < 3; i++)
+            {
+                if (this[i].Equals(r[i])) return false;
+            }
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1947974804;
+            hashCode = hashCode * -1521134295 + Wheat.GetHashCode();
+            hashCode = hashCode * -1521134295 + Wood.GetHashCode();
+            hashCode = hashCode * -1521134295 + Gold.GetHashCode();
+            return hashCode;
+        }
+
+        public override string ToString()
+        {
+            return $"wh:{this[0]};w:{this[1]};g:{this[2]}";
+        }
     }
 }

@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Invaders.GameModels.Exceptions
 {
-    class GameException : Exception
+    internal class GameException : Exception
     {
         public GameException() { }
         public GameException(string message) : base(message) { }

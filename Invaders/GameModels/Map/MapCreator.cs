@@ -1,6 +1,12 @@
-﻿namespace Invaders.GameModels.Map
+﻿using System.Collections.Generic;
+
+namespace Invaders.GameModels.Map
 {
-    class MapCreator
+    internal sealed class MapCreator
     {
+        public List<Hexagon> GetMap()
+        {
+            return new List<Hexagon>();
+        }
     }
 }

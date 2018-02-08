@@ -2,16 +2,17 @@
 
 namespace Invaders
 {
-    public delegate void Protection(int hp);
-    public abstract class Wariors
+    internal delegate void Protection(int hp);
+
+    internal abstract class Wariors
     {
         public Resources Cost;
         public int Distance { set; get; }
-        public int AttackDistance { set; get; }
+        public int AttackDistance { protected set; get; }
         public bool Attacking { set; get; }
         public int HP { set; get; }
-        public int AttackRate { set; get; }
-        public Hexagone Place { set; get; }
+        public int AttackRate { protected set; get; }
+        public Hexagon Place { set; get; }
         public Player Owner { set; get; }
         public Protection Protector;
 
@@ -28,7 +29,7 @@ namespace Invaders
                 }
             }
         }
-        public void Move(Hexagone NewPlace)
+        public void Move(Hexagon NewPlace)
         {
             if (NewPlace.Warior == null && Distance != 0)
             {
@@ -44,7 +45,7 @@ namespace Invaders
         public abstract void NewTurn();
 
 
-        protected Wariors(Hexagone place, Player owner)             
+        protected Wariors(Hexagon place, Player owner)             
         {
             Place = place;
             Owner = owner;

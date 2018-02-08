@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Invaders
 {
-    public class Player
+    internal sealed class Player
     {
         List<Wariors> army;
         List<Building> buildings;

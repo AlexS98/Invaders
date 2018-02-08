@@ -2,9 +2,9 @@
 
 namespace Invaders
 {
-    class Swordsman : Infantry 
+    internal sealed class Swordsman : Infantry 
     {
-        public Swordsman(Hexagone place, Player owner) : base(place, owner)
+        public Swordsman(Hexagon place, Player owner) : base(place, owner)
         {
             Distance = 1;
             HP = 4;
@@ -15,8 +15,8 @@ namespace Invaders
 
         public override void NewTurn()
         {
-            Protector?.Invoke(5);
             base.NewTurn();
+            Protector?.Invoke(5);
             Attacking = false;
         }
     }

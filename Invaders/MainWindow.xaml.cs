@@ -9,8 +9,8 @@ namespace Invaders
 {
     public partial class MainWindow : Window
     {
-        List<Hexagone> Field { get; set; }
-        Hexagone Selected { get; set; }
+        List<Hexagon> Map { get; set; }
+        Hexagon Selected { get; set; }
         Player PlayingNow { get; set; }
         Player Light { get; set; }
         Player Dark { get; set; }
@@ -21,45 +21,45 @@ namespace Invaders
             InitializeComponent();
             btnEnd2.IsEnabled = false;
             FieldDrawing = new FieldDrawing(Canvas);
-            Field = new List<Hexagone>
+            Map = new List<Hexagon>
             {
-                new Hexagone(new Point(420, 125), 1, 1),
-                new Hexagone(new Point(420, 245), 2, 1),
-                new Hexagone(new Point(420, 365), 2, 1),
-                new Hexagone(new Point(420, 485), 1, 1),
-                new Hexagone(new Point(420, 605), 1, 1),
+                new Hexagon(new Point(420, 125), 1, 1),
+                new Hexagon(new Point(420, 245), 2, 1),
+                new Hexagon(new Point(420, 365), 2, 1),
+                new Hexagon(new Point(420, 485), 1, 1),
+                new Hexagon(new Point(420, 605), 1, 1),
 
-                new Hexagone(new Point(525, 185), 1, 1),
-                new Hexagone(new Point(525, 305), 1, 1),
-                new Hexagone(new Point(525, 425), 3, 1),
-                new Hexagone(new Point(525, 545), 1, 1),
+                new Hexagon(new Point(525, 185), 1, 1),
+                new Hexagon(new Point(525, 305), 1, 1),
+                new Hexagon(new Point(525, 425), 3, 1),
+                new Hexagon(new Point(525, 545), 1, 1),
 
-                new Hexagone(new Point(315, 185), 1, 1),
-                new Hexagone(new Point(315, 305), 1, 1),
-                new Hexagone(new Point(315, 425), 1, 1),
-                new Hexagone(new Point(315, 545), 1, 1),
+                new Hexagon(new Point(315, 185), 1, 1),
+                new Hexagon(new Point(315, 305), 1, 1),
+                new Hexagon(new Point(315, 425), 1, 1),
+                new Hexagon(new Point(315, 545), 1, 1),
 
-                new Hexagone(new Point(630, 125), 1, 1),
-                new Hexagone(new Point(630, 245), 3, 1),
-                new Hexagone(new Point(630, 365), 1, 1),
-                new Hexagone(new Point(630, 485), 3, 1),
-                new Hexagone(new Point(630, 605), 1, 1),
+                new Hexagon(new Point(630, 125), 1, 1),
+                new Hexagon(new Point(630, 245), 3, 1),
+                new Hexagon(new Point(630, 365), 1, 1),
+                new Hexagon(new Point(630, 485), 3, 1),
+                new Hexagon(new Point(630, 605), 1, 1),
 
-                new Hexagone(new Point(210, 125), 1, 1),
-                new Hexagone(new Point(210, 245), 3, 1),
-                new Hexagone(new Point(210, 365), 1, 1),
-                new Hexagone(new Point(210, 485), 1, 1),
-                new Hexagone(new Point(210, 605), 2, 1),
+                new Hexagon(new Point(210, 125), 1, 1),
+                new Hexagon(new Point(210, 245), 3, 1),
+                new Hexagon(new Point(210, 365), 1, 1),
+                new Hexagon(new Point(210, 485), 1, 1),
+                new Hexagon(new Point(210, 605), 2, 1),
 
-                new Hexagone(new Point(105, 185), 1, 1),
-                new Hexagone(new Point(105, 305), 1, 1),
-                new Hexagone(new Point(105, 425), 2, 1),
-                new Hexagone(new Point(105, 545), 3, 1),
+                new Hexagon(new Point(105, 185), 1, 1),
+                new Hexagon(new Point(105, 305), 1, 1),
+                new Hexagon(new Point(105, 425), 2, 1),
+                new Hexagon(new Point(105, 545), 3, 1),
 
-                new Hexagone(new Point(735, 185), 2, 1),
-                new Hexagone(new Point(735, 305), 1, 1),
-                new Hexagone(new Point(735, 425), 1, 1),
-                new Hexagone(new Point(735, 545), 1, 1)
+                new Hexagon(new Point(735, 185), 2, 1),
+                new Hexagon(new Point(735, 305), 1, 1),
+                new Hexagon(new Point(735, 425), 1, 1),
+                new Hexagon(new Point(735, 545), 1, 1)
             };
 
             Light = new Player(true);
@@ -73,9 +73,9 @@ namespace Invaders
             RefreshField();
         }
 
-        private bool NearCastle(Hexagone place)
+        private bool NearCastle(Hexagon place)
         {
-            foreach (Hexagone item in Field)
+            foreach (Hexagon item in Map)
             {
                 if (place.IsNeighbor(item) && item.Build != null && item.Build.Owner == PlayingNow)
                 {
@@ -88,24 +88,10 @@ namespace Invaders
         private void GiveRes(Building build)
         {
             build.BringResourses = new Resources();
-            foreach (Hexagone item in Field)
+            foreach (Hexagon item in Map)
             {
                 if (build.Place.IsNeighbor(item))
-                {
-                    switch (item.Type)
-                    {
-                        case 1:
-                            build.BringResourses[0] += 10;
-                            break;
-                        case 2:
-                            build.BringResourses[1] += 10;
-                            break;
-                        case 3:
-                            build.BringResourses[2] += 10;
-                            break;
-
-                    }
-                }
+                    build.BringResourses[item.Type - 1] += 10;
             }
         }
 
@@ -132,7 +118,6 @@ namespace Invaders
                 if (warior != null && PlayingNow.HireWarior(warior))
                 {
                     Selected.AddWarior(warior);
-                    RefreshField();
                 }
             }
             Data.Hire = 0;
@@ -162,6 +147,10 @@ namespace Invaders
                     Selected.AddBuilding(b);
                     GiveRes(b);
                     RefreshField();
+                }
+                else
+                {
+                    MessageBox.Show("It's not enough resorces or near other building!");
                 }
             }           
         }
@@ -203,7 +192,7 @@ namespace Invaders
             }
             else
             {
-                foreach (Hexagone item in Field)
+                foreach (Hexagon item in Map)
                 {
                     if (item.MouseHit(e.GetPosition(Canvas)))
                     {
@@ -238,11 +227,11 @@ namespace Invaders
             }
         }
 
-        public void TransitionAbilities(Hexagone item)
+        internal void TransitionAbilities(Hexagon item)
         {
             if (item.Warior != null)
             {
-                foreach (Hexagone i in Field)
+                foreach (Hexagon i in Map)
                 {
                     if (i.IsNeighbor(item, item.Warior.Distance) && i.Warior == null)
                     {
@@ -252,15 +241,15 @@ namespace Invaders
             }
         }
 
-        public void AttackAbilities(Hexagone item)
+        internal void AttackAbilities(Hexagon item)
         {
             if (item.Warior != null && !item.Warior.Attacking)
             {
-                foreach (Hexagone i in Field)
+                foreach (Hexagon i in Map)
                 {
                     if (i.IsNeighbor(item, item.Warior.AttackDistance) && i.Warior != null && i.Warior.Owner.Side != item.Warior.Owner.Side)
                     {
-                        FieldDrawing.DrawEllipse(i, red: 255);
+                        FieldDrawing.DrawEllipse(i, red: 255, strokeThickness: 3, aim: true);
                     }
                 }
             }
@@ -277,7 +266,7 @@ namespace Invaders
             InfoB_gold.Content = "Gold: " +   Dark.PlayerResources.Gold;
             InfoB_wood.Content = "Wood: " +   Dark.PlayerResources.Wood;
             InfoB_wheat.Content = "Wheat: " + Dark.PlayerResources.Wheat;
-            foreach (Hexagone item in Field)
+            foreach (Hexagon item in Map)
             {
                 FieldDrawing.DrawHex(item);
             }

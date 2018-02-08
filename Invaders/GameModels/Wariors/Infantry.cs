@@ -1,12 +1,11 @@
 ﻿namespace Invaders
 {
-    public class Infantry : Wariors
+    internal class Infantry : Wariors
     {
-        protected Infantry(Hexagone place, Player owner) : base(place, owner)
+        protected Infantry(Hexagon place, Player owner) : base(place, owner)
         {
             Protector = delegate (int a) {
-                if (Place.Build != null && HP < a)
-                    HP += 1;
+                if (Place.Build != null && HP < a) HP += 1;
             };
         }
 

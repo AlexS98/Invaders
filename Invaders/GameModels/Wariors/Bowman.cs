@@ -2,9 +2,9 @@
 
 namespace Invaders
 {
-    class Bowman : Infantry
+    internal sealed class Bowman : Infantry
     {
-        public Bowman(Hexagone place, Player owner) : base (place, owner)
+        public Bowman(Hexagon place, Player owner) : base (place, owner)
         {
             Distance = 1;
             HP = 3;
