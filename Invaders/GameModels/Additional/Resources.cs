@@ -10,7 +10,10 @@ namespace Invaders.GameModels.Additional
 
         public int Wheat
         {
-            get => _wheat;
+            get
+            {
+                return _wheat;
+            }
             set
             {
                 if (value < 0)
@@ -25,7 +28,10 @@ namespace Invaders.GameModels.Additional
         }
         public int Wood
         {
-            get => _wood;
+            get
+            {
+                return _wood;
+            }
             set
             {
                 if (value < 0)
@@ -40,7 +46,10 @@ namespace Invaders.GameModels.Additional
         }
         public int Gold
         {
-            get => _gold;
+            get
+            {
+                return _gold;
+            }
             set
             {
                 if (value < 0)
