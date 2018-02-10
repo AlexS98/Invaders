@@ -11,17 +11,47 @@ namespace Invaders.GameModels.Additional
         public int Wheat
         {
             get => _wheat;
-            set => _wheat = value < 0 ? throw new GameException("Invalid resource value") : value;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new GameException("Invalid resource value");
+                }
+                else
+                {
+                    _wheat = value;
+                }
+            }
         }
         public int Wood
         {
             get => _wood;
-            set => _wood = value < 0 ? throw new GameException("Invalid resource value") : value;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new GameException("Invalid resource value");
+                }
+                else
+                {
+                    _wood = value;
+                }
+            }
         }
         public int Gold
         {
             get => _gold;
-            set => _gold = value < 0? throw new GameException("Invalid resource value") : value;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new GameException("Invalid resource value");
+                }
+                else
+                {
+                    _gold = value;
+                }
+            }
         }
 
         public Resources(int wheat = 0, int wood = 0, int gold = 0)
