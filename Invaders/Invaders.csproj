@@ -72,6 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GameModels\Additional\BasicTypesExtensions.cs" />
     <Compile Include="GameProcess\Events\EventStack.cs" />
     <Compile Include="GameProcess\Events\GameEvent.cs" />
     <Compile Include="GameModels\Additional\Resources.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="GameModels\Wariors\Swordsman.cs" />
     <Compile Include="GameModels\Buildings\Castle.cs" />
     <Compile Include="GameModels\Wariors\Wariors.cs" />
+    <Compile Include="UIHelpers\UIModel.cs" />
     <Page Include="HireWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -104,8 +106,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UIHandlers\ActionHandlers.cs" />
-    <Compile Include="UIHandlers\FieldDrawing.cs" />
+    <Compile Include="UIHelpers\ActionHandlers.cs" />
+    <Compile Include="UIHelpers\DrawingHandler.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

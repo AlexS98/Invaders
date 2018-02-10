@@ -1,5 +1,6 @@
 ﻿using Invaders.GameModels.Additional;
-using Invaders.UIHandlers;
+using Invaders.GameModels.Map;
+using Invaders.UIHelpers;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -9,58 +10,19 @@ namespace Invaders
 {
     public partial class MainWindow : Window
     {
-        List<Hexagon> Map { get; set; }
+        IList<Hexagon> Map { get; set; }
         Hexagon Selected { get; set; }
         Player PlayingNow { get; set; }
         Player Light { get; set; }
         Player Dark { get; set; }
-        FieldDrawing FieldDrawing { get; set; }
+        DrawingHandler FieldDrawing { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             btnEnd2.IsEnabled = false;
-            FieldDrawing = new FieldDrawing(Canvas);
-            Map = new List<Hexagon>
-            {
-                new Hexagon(new Point(420, 125), 1, 1),
-                new Hexagon(new Point(420, 245), 2, 1),
-                new Hexagon(new Point(420, 365), 2, 1),
-                new Hexagon(new Point(420, 485), 1, 1),
-                new Hexagon(new Point(420, 605), 1, 1),
-
-                new Hexagon(new Point(525, 185), 1, 1),
-                new Hexagon(new Point(525, 305), 1, 1),
-                new Hexagon(new Point(525, 425), 3, 1),
-                new Hexagon(new Point(525, 545), 1, 1),
-
-                new Hexagon(new Point(315, 185), 1, 1),
-                new Hexagon(new Point(315, 305), 1, 1),
-                new Hexagon(new Point(315, 425), 1, 1),
-                new Hexagon(new Point(315, 545), 1, 1),
-
-                new Hexagon(new Point(630, 125), 1, 1),
-                new Hexagon(new Point(630, 245), 3, 1),
-                new Hexagon(new Point(630, 365), 1, 1),
-                new Hexagon(new Point(630, 485), 3, 1),
-                new Hexagon(new Point(630, 605), 1, 1),
-
-                new Hexagon(new Point(210, 125), 1, 1),
-                new Hexagon(new Point(210, 245), 3, 1),
-                new Hexagon(new Point(210, 365), 1, 1),
-                new Hexagon(new Point(210, 485), 1, 1),
-                new Hexagon(new Point(210, 605), 2, 1),
-
-                new Hexagon(new Point(105, 185), 1, 1),
-                new Hexagon(new Point(105, 305), 1, 1),
-                new Hexagon(new Point(105, 425), 2, 1),
-                new Hexagon(new Point(105, 545), 3, 1),
-
-                new Hexagon(new Point(735, 185), 2, 1),
-                new Hexagon(new Point(735, 305), 1, 1),
-                new Hexagon(new Point(735, 425), 1, 1),
-                new Hexagon(new Point(735, 545), 1, 1)
-            };
+            FieldDrawing = new DrawingHandler(Canvas);
+            Map = MapCreator.GetMap();
 
             Light = new Player(true);
             Dark = new Player(false);
@@ -72,6 +34,8 @@ namespace Invaders
             GameTimer.Start();
             RefreshField();
         }
+
+        private Point GetCanvasSize => new Point(Canvas.ActualHeight, Canvas.ActualWidth);
 
         private bool NearCastle(Hexagon place)
         {
@@ -91,7 +55,7 @@ namespace Invaders
             foreach (Hexagon item in Map)
             {
                 if (build.Place.IsNeighbor(item))
-                    build.BringResourses[item.Type - 1] += 10;
+                    build.BringResourses[(int)item.Type - 1] += 10;
             }
         }
 
@@ -134,7 +98,7 @@ namespace Invaders
 
         private void BtnMarket_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Wait in next updates!)");
+            MessageBox.Show("Wait in next updates");
         }
 
         private void BtnBuild_Click(object sender, RoutedEventArgs e)

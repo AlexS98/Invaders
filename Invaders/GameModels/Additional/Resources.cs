@@ -4,9 +4,25 @@ namespace Invaders.GameModels.Additional
 {
     internal sealed class Resources
     {
-        public int Wheat { get; set; }
-        public int Wood { get; set; }
-        public int Gold { get; set; }
+        private int _wheat;
+        private int _wood;
+        private int _gold;
+
+        public int Wheat
+        {
+            get => _wheat;
+            set => _wheat = value < 0 ? throw new GameException("Invalid resource value") : value;
+        }
+        public int Wood
+        {
+            get => _wood;
+            set => _wood = value < 0 ? throw new GameException("Invalid resource value") : value;
+        }
+        public int Gold
+        {
+            get => _gold;
+            set => _gold = value < 0? throw new GameException("Invalid resource value") : value;
+        }
 
         public Resources(int wheat = 0, int wood = 0, int gold = 0)
         {
@@ -22,10 +38,11 @@ namespace Invaders.GameModels.Additional
             Gold = price[2];
         }
 
-        public int this [int n]
+        public int this[int n]
         {
-            get {
-                switch(n)
+            get
+            {
+                switch (n)
                 {
                     case 0:
                         return Wheat;
@@ -37,7 +54,9 @@ namespace Invaders.GameModels.Additional
                         throw new GameException("Invalid index");
                 }
             }
-            set {
+            set
+            {
+                if (value < 0) throw new GameException("Invalid resource value");
                 switch (n)
                 {
                     case 0:
@@ -55,7 +74,7 @@ namespace Invaders.GameModels.Additional
             }
         }
 
-        public static Resources operator +(Resources p1, Resources p2) => 
+        public static Resources operator +(Resources p1, Resources p2) =>
             new Resources(p1.Wheat + p2.Wheat, p1.Wood + p2.Wood, p1.Gold + p2.Gold);
 
         public static Resources operator -(Resources p1, Resources p2)
@@ -66,7 +85,7 @@ namespace Invaders.GameModels.Additional
                 throw new GameException("Not enough resources");
         }
 
-        public static bool EnoughResources(Resources p1, Resources p2) => 
+        public static bool EnoughResources(Resources p1, Resources p2) =>
             p1.Wheat > p2.Wheat & p1.Wood > p2.Wood & p1.Gold > p2.Gold;
 
         public override bool Equals(object obj)

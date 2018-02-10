@@ -1,4 +1,4 @@
-﻿namespace Invaders.UIHandlers
+﻿namespace Invaders.UIHelpers
 {
     class ActionHandlers
     {

@@ -6,13 +6,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Invaders.UIHandlers
+namespace Invaders.UIHelpers
 {
-    internal sealed class FieldDrawing
+    internal sealed class DrawingHandler
     {
         private Canvas Canvas { get; set; }
 
-        public FieldDrawing(Canvas canvas)
+        public DrawingHandler(Canvas canvas)
         {
             Canvas = canvas;
         }
@@ -91,9 +91,9 @@ namespace Invaders.UIHandlers
             polygon.Points = hex;
 
             byte r, g, b;
-            if (hexagone.Type == 1) { r = b = 0; g = 255; }
-            else if (hexagone.Type == 2) { r = 255; b = 0; g = 215; }
-            else if (hexagone.Type == 3) { r = 255; b = 63; g = 133; }
+            if ((int)hexagone.Type == 1) { r = b = 0; g = 255; }
+            else if ((int)hexagone.Type == 2) { r = 255; b = 0; g = 215; }
+            else if ((int)hexagone.Type == 3) { r = 255; b = 63; g = 133; }
             else r = g = b = 0;
 
             polygon.Fill = new SolidColorBrush(Color.FromRgb(r, g, b));
@@ -149,8 +149,7 @@ namespace Invaders.UIHandlers
 
             if (aim)
             {
-                double Kx, Ky, k, c, Tx, Ty, D, X;
-                double L = 31;
+                double Kx, Ky, k, c, Tx, Ty, D, X, L = 31;
                 double Cy = hexagon.Center.Y;
                 double Cx = hexagon.Center.X;
                 foreach (Point item in hexagon.PointCollection())

@@ -4,17 +4,22 @@ using System.Windows.Media;
 
 namespace Invaders
 {
-    enum HexType { }
+    enum HexType
+    {
+        Field = 1,
+        Forest = 2,
+        Mountain = 3
+    }
 
     internal sealed class Hexagon
     {
         public Point Center { get; set; }
-        public int Type { get; set; }
+        public HexType Type { get; set; }
         public int Number { get; set; }
         public Wariors Warior { get; set; }
         public Building Build { get; set; }
 
-        public Hexagon(Point center, int type, int number)
+        public Hexagon(Point center, HexType type, int number)
         {
             Center = center;
             Number = number;
