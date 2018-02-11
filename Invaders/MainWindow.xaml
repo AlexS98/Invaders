@@ -31,9 +31,7 @@
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1.25*"/>
-            <ColumnDefinition Width="1.25*" />
-            <ColumnDefinition Width="1.25*" />
+            <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -41,23 +39,17 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
-        <Canvas Grid.ColumnSpan="3"  Name="Canvas" MouseDown="Canvas_MouseDown" Margin="10.2,10" Grid.Column="1" />
+        <Canvas Name="Canvas" MouseDown="Canvas_MouseDown" Grid.Column="1" Grid.RowSpan="2" />
 
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="LIGHT" FontFamily="Blackadder ITC" Foreground="Gold" FontSize="48" Margin="0,0,8.8,643" />
-        <Label Grid.Column="3" Grid.Row="0" HorizontalContentAlignment="Center" Content="DARK" FontFamily="Blackadder ITC" Foreground="Gold" FontSize="48" Margin="0,10,0,633" Width="269" HorizontalAlignment="Right" Grid.ColumnSpan="2" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="LIGHT" Name="lbName" FontFamily="Blackadder ITC" Foreground="Gold" FontSize="48" Margin="0,0,0,630"/>
 
         <Button Grid.Column="0" Grid.Row="1" x:Name="btnEnd1"  Click="BtnEnd1_Click" Content="End Turn!" Margin="10,10,12.8,9.8" />
-        <Button Grid.Column="2" Grid.Row="1" x:Name="btnMarket" Click="BtnMarket_Click" Content="Market" ToolTip="Here you can sell/buy resources" Cursor="Hand" Margin="10.2,10,10.2,9.8"/>
-        <Button Grid.Column="3" Grid.Row="1" x:Name="btnHire"  Click="BtnHire_Click" Content="Hire" Margin="9.8,10,10.2,9.8" />
-        <Button Grid.Column="1" Grid.Row="1" x:Name="btnBuild"  Click="BtnBuild_Click" Content="Build" Margin="7.2,10,9.8,9.8" />
-        <Button Grid.Column="4" Grid.Row="1" x:Name="btnEnd2" Click="BtnEnd2_Click" Content="End Turn!" Margin="9.8,10,10,9.8" />
-        <Label Grid.Column="3" Grid.Row="0" HorizontalContentAlignment="Center" Content="Army size: 0/0" FontFamily="Blackadder ITC" Name="InfoB" Foreground="Red" FontSize="48" Margin="335.8,70,0,566" Grid.ColumnSpan="2" />
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Army size: 0/0" FontFamily="Blackadder ITC" Name="InfoA" Foreground="Red" FontSize="48" Margin="-5,70,8.8,566" />
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wheat: 0" FontFamily="Blackadder ITC" Name="InfoA_wheat" Foreground="GreenYellow" FontSize="48" Margin="0,147,8.8,496" />
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wood: 0" FontFamily="Blackadder ITC" Name="InfoA_gold" Foreground="GreenYellow" FontSize="48" Margin="0,217,8.8,429" />
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Gold: 0" FontFamily="Blackadder ITC" Name="InfoA_wood" Foreground="GreenYellow" FontSize="48" Margin="0,287,8.8,356" />
-        <Label Grid.Column="3" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wheat: 0" FontFamily="Blackadder ITC" Name="InfoB_wheat" Foreground="GreenYellow" FontSize="48" Margin="335.8,147,0,496" Grid.ColumnSpan="2" />
-        <Label Grid.Column="3" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wood: 0" FontFamily="Blackadder ITC" Name="InfoB_gold" Foreground="GreenYellow" FontSize="48" Margin="335.8,217,0,429" Grid.ColumnSpan="2" />
-        <Label Grid.Column="3" Grid.Row="0" HorizontalContentAlignment="Center" Content="Gold: 0" FontFamily="Blackadder ITC" Name="InfoB_wood" Foreground="GreenYellow" FontSize="48" Margin="335.8,287,0,356" Grid.ColumnSpan="2" />
+        <Button x:Name="btnMarket" Click="BtnMarket_Click" Content="Market" ToolTip="Here you can sell/buy resources" Cursor="Hand" Margin="10,445,12.8,182"/>
+        <Button x:Name="btnHire"  Click="BtnHire_Click" Content="Hire" Cursor="Hand" Margin="10,531,12.8,96" />
+        <Button x:Name="btnBuild"  Click="BtnBuild_Click" Content="Build" Cursor="Hand" Margin="10,617,12.8,10" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Army: 0/0" FontFamily="Blackadder ITC" Name="lbArmy" Foreground="Red" FontSize="46" Margin="0,100,0,530" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wheat: 0" FontFamily="Blackadder ITC" Name="lbWheat" Foreground="GreenYellow" FontSize="48" Margin="0,180,0,455" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wood: 0" FontFamily="Blackadder ITC" Name="lbWood" Foreground="GreenYellow" FontSize="48" Margin="0,260,0,385" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Gold: 0" FontFamily="Blackadder ITC" Name="lbGold" Foreground="GreenYellow" FontSize="48" Margin="0,340,0,300" />
     </Grid>
 </Window>

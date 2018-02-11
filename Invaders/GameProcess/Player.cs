@@ -1,4 +1,5 @@
 ﻿using Invaders.GameModels.Additional;
+using Invaders.UIHelpers;
 using System.Collections.Generic;
 
 namespace Invaders
@@ -7,6 +8,7 @@ namespace Invaders
     {
         List<Wariors> army;
         List<Building> buildings;
+        public string Name { get; set; }
         public bool Side { private set; get; }
         public int WariorsLimit{ private set; get; }
         public Resources PlayerResources { set; get; }
@@ -14,8 +16,9 @@ namespace Invaders
         public int BuildNow { get { return buildings.Count; } }
         public Player Enemy { get; set; }
 
-        public Player(bool side)
+        public Player(bool side, string name)
         {
+            Name = name;
             Side = side;
             WariorsLimit = 5;
             PlayerResources = new Resources(100, 70, 100);
@@ -23,8 +26,9 @@ namespace Invaders
             buildings = new List<Building>();
         }
 
-        public Player(bool side, int limit, Resources resources)
+        public Player(bool side, int limit, Resources resources, string name)
         {
+            Name = name;
             Side = side;
             WariorsLimit = limit;
             PlayerResources = resources;
@@ -81,6 +85,18 @@ namespace Invaders
                 item.NewTurn();
             }
             CollectResources();
+        }
+
+        public UIModel ToUIModel()
+        {
+            return new UIModel()
+            {
+                Name = Name,
+                Wheat = PlayerResources[0].ToString(),
+                Wood = PlayerResources[1].ToString(),
+                Gold = PlayerResources[2].ToString(),
+                Army = $"{ArmyNow}/{WariorsLimit}"
+            };
         }
     }
 }

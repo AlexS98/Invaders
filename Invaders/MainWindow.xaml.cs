@@ -16,19 +16,22 @@ namespace Invaders
         Player Light { get; set; }
         Player Dark { get; set; }
         DrawingHandler FieldDrawing { get; set; }
-
+        UIModel Model { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            btnEnd2.IsEnabled = false;
             FieldDrawing = new DrawingHandler(Canvas);
             MapCreator mapCreator = new MapCreator();
             mapCreator.CreateMap(ref map, MapSize.Big, new Point());
             int i = map.Count;
-            Light = new Player(true);
-            Dark = new Player(false);
+            Light = new Player(true, "Light");
+            Dark = new Player(false, "Dark");
+
+            Light.Enemy = Dark;
+            Dark.Enemy = Light;
 
             PlayingNow = Light;
+            Model = PlayingNow.ToUIModel();
 
             System.Timers.Timer GameTimer = new System.Timers.Timer(100);
             GameTimer.Elapsed += OnTimedEvent;
@@ -120,31 +123,16 @@ namespace Invaders
             }           
         }
 
-        private void BtnEnd2_Click(object sender, RoutedEventArgs e)
-        {
-            PlayingNow = Light;
-            btnEnd1.IsEnabled = true;
-            btnEnd2.IsEnabled = false;
-            Selected = null;
-            Dark.NewTurn();
-            RefreshField();
-            if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.PlayerResources.Wood < 50)
-            {
-                MessageBox.Show("BLACK PLAYER IS WINNER!");
-            }
-        }
-
         private void BtnEnd1_Click(object sender, RoutedEventArgs e)
         {
-            PlayingNow = Dark;
-            btnEnd2.IsEnabled = true;
-            btnEnd1.IsEnabled = false;
+            PlayingNow = PlayingNow.Enemy;
             Selected = null;
-            Light.NewTurn();
+            PlayingNow.NewTurn();
+            Model = PlayingNow.ToUIModel();
             RefreshField();
             if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.PlayerResources.Wood < 50)
             {
-                MessageBox.Show("WHITE PLAYER IS WINNER!");
+                MessageBox.Show($"{PlayingNow.Enemy.Name} PLAYER IS WINNER!");
             }
         }
 
@@ -223,14 +211,12 @@ namespace Invaders
         public void RefreshField()
         {
             Canvas.Children.Clear();
-            InfoA.Content = Light.InfoArmy();
-            InfoB.Content = Dark.InfoArmy();
-            InfoA_gold.Content = "Gold: " +   Light.PlayerResources.Gold;
-            InfoA_wood.Content = "Wood: " +   Light.PlayerResources.Wood;
-            InfoA_wheat.Content = "Wheat: " + Light.PlayerResources.Wheat;
-            InfoB_gold.Content = "Gold: " +   Dark.PlayerResources.Gold;
-            InfoB_wood.Content = "Wood: " +   Dark.PlayerResources.Wood;
-            InfoB_wheat.Content = "Wheat: " + Dark.PlayerResources.Wheat;
+            Model = PlayingNow.ToUIModel();
+            lbName.Content = Model.Name;
+            lbArmy.Content = "Army: " + Model.Army;
+            lbWheat.Content = "Wheat: " + Model.Wheat;
+            lbWood.Content = "Wood: " + Model.Wood;
+            lbGold.Content = "Gold: " + Model.Gold;
             foreach (Hexagon item in map)
             {
                 FieldDrawing.DrawHex(item);

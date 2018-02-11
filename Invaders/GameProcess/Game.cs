@@ -12,9 +12,6 @@ namespace Invaders.GameProcess
 
         public Game(bool playNow = true)
         {
-            Player1 = new Player(true);
-            Player2 = new Player(false);
-            PlayNow = (playNow) ? Player1 : Player2;
         }
     }
 }
