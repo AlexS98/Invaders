@@ -92,8 +92,8 @@ namespace Invaders.UIHelpers
 
             byte r, g, b;
             if ((int)hexagone.Type == 1) { r = b = 0; g = 255; }
-            else if ((int)hexagone.Type == 2) { r = 255; b = 0; g = 215; }
-            else if ((int)hexagone.Type == 3) { r = 255; b = 63; g = 133; }
+            else if ((int)hexagone.Type == 2) { r = 255; b = 63; g = 133; }
+            else if ((int)hexagone.Type == 3) { r = 255; b = 0; g = 215; }
             else r = g = b = 0;
 
             polygon.Fill = new SolidColorBrush(Color.FromRgb(r, g, b));

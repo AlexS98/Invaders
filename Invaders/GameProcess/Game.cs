@@ -14,7 +14,6 @@ namespace Invaders.GameProcess
         {
             Player1 = new Player(true);
             Player2 = new Player(false);
-            Map = MapCreator.GetMap();
             PlayNow = (playNow) ? Player1 : Player2;
         }
     }

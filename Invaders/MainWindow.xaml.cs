@@ -10,7 +10,7 @@ namespace Invaders
 {
     public partial class MainWindow : Window
     {
-        IList<Hexagon> Map { get; set; }
+        IList<Hexagon> map = new List<Hexagon>();
         Hexagon Selected { get; set; }
         Player PlayingNow { get; set; }
         Player Light { get; set; }
@@ -22,8 +22,9 @@ namespace Invaders
             InitializeComponent();
             btnEnd2.IsEnabled = false;
             FieldDrawing = new DrawingHandler(Canvas);
-            Map = MapCreator.GetMap();
-
+            MapCreator mapCreator = new MapCreator();
+            mapCreator.CreateMap(ref map, MapSize.Big, new Point());
+            int i = map.Count;
             Light = new Player(true);
             Dark = new Player(false);
 
@@ -39,7 +40,7 @@ namespace Invaders
 
         private bool NearCastle(Hexagon place)
         {
-            foreach (Hexagon item in Map)
+            foreach (Hexagon item in map)
             {
                 if (place.IsNeighbor(item) && item.Build != null && item.Build.Owner == PlayingNow)
                 {
@@ -52,7 +53,7 @@ namespace Invaders
         private void GiveRes(Building build)
         {
             build.BringResourses = new Resources();
-            foreach (Hexagon item in Map)
+            foreach (Hexagon item in map)
             {
                 if (build.Place.IsNeighbor(item))
                     build.BringResourses[(int)item.Type - 1] += 10;
@@ -156,7 +157,7 @@ namespace Invaders
             }
             else
             {
-                foreach (Hexagon item in Map)
+                foreach (Hexagon item in map)
                 {
                     if (item.MouseHit(e.GetPosition(Canvas)))
                     {
@@ -195,7 +196,7 @@ namespace Invaders
         {
             if (item.Warior != null)
             {
-                foreach (Hexagon i in Map)
+                foreach (Hexagon i in map)
                 {
                     if (i.IsNeighbor(item, item.Warior.Distance) && i.Warior == null)
                     {
@@ -209,7 +210,7 @@ namespace Invaders
         {
             if (item.Warior != null && !item.Warior.Attacking)
             {
-                foreach (Hexagon i in Map)
+                foreach (Hexagon i in map)
                 {
                     if (i.IsNeighbor(item, item.Warior.AttackDistance) && i.Warior != null && i.Warior.Owner.Side != item.Warior.Owner.Side)
                     {
@@ -230,7 +231,7 @@ namespace Invaders
             InfoB_gold.Content = "Gold: " +   Dark.PlayerResources.Gold;
             InfoB_wood.Content = "Wood: " +   Dark.PlayerResources.Wood;
             InfoB_wheat.Content = "Wheat: " + Dark.PlayerResources.Wheat;
-            foreach (Hexagon item in Map)
+            foreach (Hexagon item in map)
             {
                 FieldDrawing.DrawHex(item);
             }

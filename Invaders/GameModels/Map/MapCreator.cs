@@ -1,63 +1,55 @@
-﻿using System.Collections.Generic;
+﻿using Invaders.GameModels.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 
 namespace Invaders.GameModels.Map
 {
     enum MapSize
     {
-        Small,
-        Normal,
-        Big
+        Small = 31,
+        Normal = 38,
+        Big = 50
     }
     internal sealed class MapCreator
     {
-        public static IList<Hexagon> GetMap()
+        public void CreateMap(ref IList<Hexagon> map, MapSize mapSize, Point canvasSize)
         {
-            return new List<Hexagon>
+            int hexCount = (int)mapSize;
+            int biggerColumn = (hexCount < 35) ? 5 : 6;
+            double c = (hexCount - biggerColumn + 1) / (double)(biggerColumn * 2 - 1);
+            bool pair = (c - (int)c) == 0;
+            int num = 0;
+            c = (hexCount - (pair ? (biggerColumn - 1) : biggerColumn)) / (biggerColumn * 2 - 1);
+            int columns = 2 * (int)c + 1;
+            for (int i = 0; i < columns; i++)
             {
-                new Hexagon(new Point(420, 125), HexType.Field, 1),
-                new Hexagon(new Point(420, 245), HexType.Forest, 1),
-                new Hexagon(new Point(420, 365), HexType.Forest, 1),
-                new Hexagon(new Point(420, 485), HexType.Field, 1),
-                new Hexagon(new Point(420, 605), HexType.Field, 1),
-
-                new Hexagon(new Point(525, 185), HexType.Field, 1),
-                new Hexagon(new Point(525, 305), HexType.Field, 1),
-                new Hexagon(new Point(525, 425), HexType.Mountain, 1),
-                new Hexagon(new Point(525, 545), HexType.Field, 1),
-
-                new Hexagon(new Point(315, 185), HexType.Field, 1),
-                new Hexagon(new Point(315, 305), HexType.Field, 1),
-                new Hexagon(new Point(315, 425), HexType.Field, 1),
-                new Hexagon(new Point(315, 545), HexType.Field, 1),
-
-                new Hexagon(new Point(630, 125), HexType.Field, 1),
-                new Hexagon(new Point(630, 245), HexType.Mountain, 1),
-                new Hexagon(new Point(630, 365), HexType.Field, 1),
-                new Hexagon(new Point(630, 485), HexType.Mountain, 1),
-                new Hexagon(new Point(630, 605), HexType.Field, 1),
-
-                new Hexagon(new Point(210, 125), HexType.Field, 1),
-                new Hexagon(new Point(210, 245), HexType.Mountain, 1),
-                new Hexagon(new Point(210, 365), HexType.Field, 1),
-                new Hexagon(new Point(210, 485), HexType.Field, 1),
-                new Hexagon(new Point(210, 605), HexType.Forest, 1),
-
-                new Hexagon(new Point(105, 185), HexType.Field, 1),
-                new Hexagon(new Point(105, 305), HexType.Field, 1),
-                new Hexagon(new Point(105, 425), HexType.Forest, 1),
-                new Hexagon(new Point(105, 545), HexType.Mountain, 1),
-
-                new Hexagon(new Point(735, 185), HexType.Forest, 1),
-                new Hexagon(new Point(735, 305), HexType.Field, 1),
-                new Hexagon(new Point(735, 425), HexType.Field, 1),
-                new Hexagon(new Point(735, 545), HexType.Field, 1)
-            };
+                if (num > hexCount) throw new GameException("MapCreator error");
+                if (pair)
+                    for (int l = 0; l < biggerColumn - 1; l++)
+                    {
+                        map.Add(new Hexagon(new Point(80 + i * 105, 125 + 120 * l), HexTypeGenerator(), num));
+                        num++;
+                    }
+                else
+                    for (int l = 0; l < biggerColumn; l++)
+                    {
+                        map.Add(new Hexagon(new Point(80 + i * 105, 65 + 120 * l), HexTypeGenerator(), num));
+                        num++;
+                    }
+                pair = !pair;
+            }
         }
 
-        public static IList<Hexagon> CreateMap(MapSize mapSize, Point canvasSize)
+        private HexType HexTypeGenerator(int whFreq = 55, int wFreq = 25, int gFreq = 20)
         {
-            return new List<Hexagon>(); 
+            Random random = new Random();
+            Thread.Sleep(7);
+            int r = random.Next(0, whFreq + wFreq + gFreq);
+            if (r < whFreq) return (HexType)1;
+            else if (r < (wFreq + whFreq)) return (HexType)2;
+            else return (HexType)3;
         }
     }
 }
