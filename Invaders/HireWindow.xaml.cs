@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using Invaders.GameModels.Additional;
+using Invaders.UIHelpers;
+using System;
+using System.Threading;
+using System.Windows;
 
 namespace Invaders
 {
@@ -7,6 +11,7 @@ namespace Invaders
     /// </summary>
     public partial class HireWindow : Window
     {
+        public event EventHandler<HireEventArgs> HireWarior;
         public HireWindow()
         {
             InitializeComponent();
@@ -14,23 +19,25 @@ namespace Invaders
         int Choose = 0;
         private void HireKnight_Click(object sender, RoutedEventArgs e)
         {
-            Choose = 1;
-            Data.Hire = Choose;
-            this.Close();
+            OnHireWarior(new HireEventArgs("HireWindow", "MainWindow", "Knight"));
+            Close();
         }
 
         private void HireSwordsman_Click(object sender, RoutedEventArgs e)
         {
-            Choose = 2;
-            Data.Hire = Choose;
-            this.Close();
+            OnHireWarior(new HireEventArgs("HireWindow", "MainWindow", "Swordsman"));
+            Close();
         }
 
         private void HireBowman_Click(object sender, RoutedEventArgs e)
         {
-            Choose = 3;
-            Data.Hire = Choose;
-            this.Close();
+            OnHireWarior(new HireEventArgs("HireWindow", "MainWindow", "Bowman"));
+            Close();
+        }
+
+        protected virtual void OnHireWarior(HireEventArgs e)
+        {
+            e.Raise(this, ref HireWarior);
         }
     }
 }

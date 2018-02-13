@@ -93,6 +93,7 @@
     <Compile Include="GameModels\Wariors\Swordsman.cs" />
     <Compile Include="GameModels\Buildings\Castle.cs" />
     <Compile Include="GameModels\Wariors\Wariors.cs" />
+    <Compile Include="UIHelpers\HireEventArgs.cs" />
     <Compile Include="UIHelpers\UIModel.cs" />
     <Page Include="HireWindow.xaml">
       <SubType>Designer</SubType>

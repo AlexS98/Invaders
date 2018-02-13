@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 
 namespace Invaders.GameModels.Additional
 {
@@ -30,6 +31,11 @@ namespace Invaders.GameModels.Additional
             T t = b;
             b = a;
             a = t;
+        }
+
+        public static void Raise<TEventArgs>(this TEventArgs e, Object sender, ref EventHandler<TEventArgs> eventDelegate)
+        {
+            Volatile.Read(ref eventDelegate)?.Invoke(sender, e);
         }
     }
 }

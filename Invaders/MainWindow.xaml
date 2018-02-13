@@ -90,7 +90,7 @@
         <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wood: 0" FontFamily="Algerian" Name="lbWood" Foreground="Black" FontSize="40" Margin="0,260,0,385"/>
         <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Gold: 0" FontFamily="Algerian" Name="lbGold" Foreground="Black" FontSize="40" Margin="0,340,0,300" />
 
-        <Label Grid.Column="2" Grid.Row="0" HorizontalContentAlignment="Center" FontFamily="Algerian" Content="turn:100" Name="lbTurn" Foreground="Black" FontSize="48" Margin="0,0,0,630"/>
+        <Label Grid.Column="2" Grid.Row="0" HorizontalContentAlignment="Center" FontFamily="Algerian" Content="turn: 0" Name="lbTurn" Foreground="Black" FontSize="48" Margin="0,0,0,630"/>
         <TabControl x:Name="products" FontFamily="Algerian" Grid.Column="2" Margin="0,78,0,100" Foreground="{x:Null}" Background="Transparent" BorderBrush="Black">
             <TabItem x:Name="buildTab" Background="Transparent">
                 <TabItem.Header>

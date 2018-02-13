@@ -1,7 +1,6 @@
 ﻿using Invaders.GameModels.Additional;
 using Invaders.GameModels.Map;
 using Invaders.UIHelpers;
-using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
@@ -17,6 +16,8 @@ namespace Invaders
         Player Dark { get; set; }
         DrawingHandler FieldDrawing { get; set; }
         UIModel Model { get; set; }
+        int Turn { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -34,9 +35,6 @@ namespace Invaders
             PlayingNow = Light;
             Model = PlayingNow.ToUIModel();
 
-            System.Timers.Timer GameTimer = new System.Timers.Timer(100);
-            GameTimer.Elapsed += OnTimedEvent;
-            GameTimer.Start();
             RefreshField();
         }        
 
@@ -62,20 +60,20 @@ namespace Invaders
             }
         }
 
-        private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        private void OnHireEvent(object sender, HireEventArgs e)
         {
-            if (Data.Hire != 0 && Selected != null && NearCastle(Selected))
+            if (Selected != null && NearCastle(Selected))
             {
                 Wariors warior;
-                switch (Data.Hire)
+                switch (e.WariorType)
                 {
-                    case 1:
+                    case "Knight":
                         warior = new Knight(Selected, PlayingNow);
                         break;
-                    case 2:
+                    case "Swordsman":
                         warior = new Swordsman(Selected, PlayingNow);
                         break;
-                    case 3:
+                    case "Bowman":
                         warior = new Bowman(Selected, PlayingNow);
                         break;
                     default:
@@ -86,8 +84,8 @@ namespace Invaders
                 {
                     Selected.AddWarior(warior);
                 }
+                RefreshField();
             }
-            Data.Hire = 0;
         }
         
         private void BtnHire_Click(object sender, RoutedEventArgs e)
@@ -96,6 +94,7 @@ namespace Invaders
             {
                 Owner = this
             };
+            hireWindow.HireWarior += OnHireEvent;
             hireWindow.Show();
         }
 
@@ -124,11 +123,13 @@ namespace Invaders
 
         private void BtnEnd1_Click(object sender, RoutedEventArgs e)
         {
+            Turn++;
             PlayingNow = PlayingNow.Enemy;
             Selected = null;
             PlayingNow.NewTurn();
             Model = PlayingNow.ToUIModel();
             RefreshField();
+            lbTurn.Content = $"TURN: {Turn / 2}";
             if (PlayingNow.ArmyNow == 0 && PlayingNow.BuildNow == 0 && PlayingNow.PlayerResources.Wood < 50)
             {
                 MessageBox.Show($"{PlayingNow.Enemy.Name} PLAYER IS WINNER!");
