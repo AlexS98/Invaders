@@ -1,5 +1,7 @@
 ﻿using Invaders.GameModels.Exceptions;
 using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -92,12 +94,38 @@ namespace Invaders.UIHelpers
 
             byte r, g, b;
             if ((int)hexagone.Type == 1) { r = b = 0; g = 255; }
-            else if ((int)hexagone.Type == 2) { r = 255; b = 63; g = 133; }
+            else if ((int)hexagone.Type == 2) { r = 10; b = 40; g = 180; }
             else if ((int)hexagone.Type == 3) { r = 255; b = 0; g = 215; }
             else r = g = b = 0;
 
             polygon.Fill = new SolidColorBrush(Color.FromRgb(r, g, b));
             Canvas.Children.Add(polygon);
+
+            if (hexagone.Type == HexType.Forest)
+            {
+                foreach (var item in hexagone.Additional)
+                {
+                    Image image1 = new Image
+                    {
+                        Source = new BitmapImage(new Uri("images/tree.png", UriKind.Relative))
+                    };
+                    if (hexagone.Build != null || hexagone.Warior != null)
+                    {
+                        if(item.Y - hexagone.Center.Y <= 20)
+                        {
+                            Canvas.SetTop(image1, item.Y);
+                            Canvas.SetLeft(image1, item.X);
+                            Canvas.Children.Add(image1);
+                        }
+                    }
+                    else
+                    {                        
+                        Canvas.SetTop(image1, item.Y);
+                        Canvas.SetLeft(image1, item.X);
+                        Canvas.Children.Add(image1);
+                    }
+                }
+            }
 
             if (hexagone.Build != null)
             {

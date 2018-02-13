@@ -2,7 +2,7 @@
 
 namespace Invaders.GameModels.Additional
 {
-    internal sealed class Resources
+    internal sealed class GameResources
     {
         private int _wheat;
         private int _wood;
@@ -63,14 +63,14 @@ namespace Invaders.GameModels.Additional
             }
         }
 
-        public Resources(int wheat = 0, int wood = 0, int gold = 0)
+        public GameResources(int wheat = 0, int wood = 0, int gold = 0)
         {
             Wheat = wheat;
             Wood = wood;
             Gold = gold;
         }
 
-        public Resources(int[] price)
+        public GameResources(int[] price)
         {
             Wheat = price[0];
             Wood = price[1];
@@ -113,26 +113,26 @@ namespace Invaders.GameModels.Additional
             }
         }
 
-        public static Resources operator +(Resources p1, Resources p2) =>
-            new Resources(p1.Wheat + p2.Wheat, p1.Wood + p2.Wood, p1.Gold + p2.Gold);
+        public static GameResources operator +(GameResources p1, GameResources p2) =>
+            new GameResources(p1.Wheat + p2.Wheat, p1.Wood + p2.Wood, p1.Gold + p2.Gold);
 
-        public static Resources operator -(Resources p1, Resources p2)
+        public static GameResources operator -(GameResources p1, GameResources p2)
         {
             if (EnoughResources(p1, p2))
-                return new Resources(p1.Wheat - p2.Wheat, p1.Wood - p2.Wood, p1.Gold - p2.Gold);
+                return new GameResources(p1.Wheat - p2.Wheat, p1.Wood - p2.Wood, p1.Gold - p2.Gold);
             else
                 throw new GameException("Not enough resources");
         }
 
-        public static bool EnoughResources(Resources p1, Resources p2) =>
-            p1.Wheat > p2.Wheat & p1.Wood > p2.Wood & p1.Gold > p2.Gold;
+        public static bool EnoughResources(GameResources p1, GameResources p2) =>
+            p1.Wheat >= p2.Wheat && p1.Wood >= p2.Wood && p1.Gold >= p2.Gold;
 
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
             if (GetType() != obj.GetType()) return false;
             if (ReferenceEquals(this, obj)) return true;
-            Resources r = (Resources)obj;
+            GameResources r = (GameResources)obj;
             for (int i = 0; i < 3; i++)
             {
                 if (this[i].Equals(r[i])) return false;

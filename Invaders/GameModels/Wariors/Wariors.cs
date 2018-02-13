@@ -6,7 +6,7 @@ namespace Invaders
 
     internal abstract class Wariors
     {
-        public Resources Cost;
+        public GameResources Cost;
         public int Distance { set; get; }
         public int AttackDistance { protected set; get; }
         public bool Attacking { set; get; }
@@ -50,7 +50,7 @@ namespace Invaders
             Place = place;
             Owner = owner;
             Attacking = false;
-            Cost = new Resources();
+            Cost = new GameResources();
         }
     }
 }

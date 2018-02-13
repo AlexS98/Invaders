@@ -2,13 +2,50 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Invaders.MainWindow"
-        Title="Colonizators" Width="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" Height="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="Images\crown.ico">
+        Title="Invaders" Width="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenWidthKey}}" Height="{DynamicResource {x:Static SystemParameters.MaximizedPrimaryScreenHeightKey}}" VerticalAlignment="Center" HorizontalAlignment="Center" WindowStartupLocation="CenterOwner" Icon="Images\crown.ico" WindowState="Maximized">
 
     <Window.Resources>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid Background="Transparent">
+                            <Border 
+                            Name="Border"
+                            Margin="0,0,0,0" 
+                            Background="Transparent"
+                            BorderBrush="#000"                            
+                            BorderThickness="2,2,2,2" 
+                            CornerRadius="10,10,10,10" >
+                                <ContentPresenter ContentSource="Header"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Margin="12,2,12,2"
+                                RecognizesAccessKey="True" />
+                            </Border>
+                        </Grid>
+                        
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Panel.ZIndex" Value="100" />
+                                <Setter TargetName="Border" Property="BorderThickness" Value="4,4,4,0" />
+                                <Setter TargetName="Border" Property="CornerRadius" Value="10,10,0,0" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#FFF" />
+                                <Setter Property="Foreground" Value="#FFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                    
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
         <Style TargetType="Button">
             <Style.Setters>
                 <Setter Property="Focusable" Value="False" />
-                <Setter Property="FontFamily" Value="Blackadder ITC" />
+                <Setter Property="FontFamily" Value="Algerian" />
                 <Setter Property="Background" Value="Brown" />
                 <Setter Property="Foreground" Value="White" />
                 <Setter Property="Margin" Value="10" />
@@ -27,29 +64,56 @@
     </Window.Resources>
     <Grid ShowGridLines="False" >
         <Grid.Background>
-            <ImageBrush ImageSource="images\Background.jpg" Stretch="UniformToFill"/>
+            <ImageBrush ImageSource="images\Background.jpg"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="129*" />
+            <ColumnDefinition Width="515*"/>
+            <ColumnDefinition Width="128*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="7*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
-        <Canvas Name="Canvas" MouseDown="Canvas_MouseDown" Grid.Column="1" Grid.RowSpan="2" />
+        <Canvas Name="Canvas" MouseDown="Canvas_MouseDown" Grid.Column="1" Grid.RowSpan="2" Width="1029.6" Height="808.8" Margin="0.4,0,0.2,-0.2" />
 
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="LIGHT" Name="lbName" FontFamily="Blackadder ITC" Foreground="Gold" FontSize="48" Margin="0,0,0,630"/>
 
-        <Button Grid.Column="0" Grid.Row="1" x:Name="btnEnd1"  Click="BtnEnd1_Click" Content="End Turn!" Margin="10,10,12.8,9.8" />
-        <Button x:Name="btnMarket" Click="BtnMarket_Click" Content="Market" ToolTip="Here you can sell/buy resources" Cursor="Hand" Margin="10,445,12.8,182"/>
-        <Button x:Name="btnHire"  Click="BtnHire_Click" Content="Hire" Cursor="Hand" Margin="10,531,12.8,96" />
-        <Button x:Name="btnBuild"  Click="BtnBuild_Click" Content="Build" Cursor="Hand" Margin="10,617,12.8,10" />
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Army: 0/0" FontFamily="Blackadder ITC" Name="lbArmy" Foreground="Red" FontSize="46" Margin="0,100,0,530" />
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wheat: 0" FontFamily="Blackadder ITC" Name="lbWheat" Foreground="GreenYellow" FontSize="48" Margin="0,180,0,455" />
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wood: 0" FontFamily="Blackadder ITC" Name="lbWood" Foreground="GreenYellow" FontSize="48" Margin="0,260,0,385" />
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Gold: 0" FontFamily="Blackadder ITC" Name="lbGold" Foreground="GreenYellow" FontSize="48" Margin="0,340,0,300" />
+        <Button Grid.Column="0" Grid.Row="1" x:Name="btnEnd1" FontFamily="Algerian" Click="BtnEnd1_Click" Content="End Turn" Margin="10,10,12.6,9.8" />
+        <Button Grid.Column="2" Grid.Row="1" x:Name="btnMenu"  FontFamily="Algerian" Click="BtnMenu_Click" Content="Menu" Margin="10,10,12.6,9.8" />
+        <Button x:Name="btnMarket" Click="BtnMarket_Click" FontFamily="Algerian" Content="Market" ToolTip="Here you can sell/buy resources" Cursor="Hand" Margin="10,445,12.6,182"/>
+        <Button x:Name="btnHire"  Click="BtnHire_Click" Content="Hire" FontFamily="Algerian" Cursor="Hand" Margin="10,531,12.6,96" />
+        <Button x:Name="btnBuild"  Click="BtnBuild_Click" Content="Build" FontFamily="Algerian" Cursor="Hand" Margin="10,617,12.6,10" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="LIGHT" Name="lbName" FontFamily="Algerian" Foreground="Black" FontSize="48" Margin="0,0,0,630" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Army: 0/0" FontFamily="Algerian" Name="lbArmy" Foreground="DarkRed" FontSize="40" Margin="0,100,0,530" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wheat: 0" FontFamily="Algerian" Name="lbWheat" Foreground="Black" FontSize="40" Margin="0,180,0,455" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wood: 0" FontFamily="Algerian" Name="lbWood" Foreground="Black" FontSize="40" Margin="0,260,0,385"/>
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Gold: 0" FontFamily="Algerian" Name="lbGold" Foreground="Black" FontSize="40" Margin="0,340,0,300" />
+
+        <Label Grid.Column="2" Grid.Row="0" HorizontalContentAlignment="Center" FontFamily="Algerian" Content="turn:100" Name="lbTurn" Foreground="Black" FontSize="48" Margin="0,0,0,630"/>
+        <TabControl x:Name="products" FontFamily="Algerian" Grid.Column="2" Margin="0,78,0,100" Foreground="{x:Null}" Background="Transparent" BorderBrush="Black">
+            <TabItem x:Name="buildTab" Background="Transparent">
+                <TabItem.Header>
+                    <StackPanel>
+                        <TextBlock Margin="3" FontFamily="Algerian" FontSize="30">Building</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <StackPanel>
+                        <Label>dmrigvm</Label>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="warTab" Background="Transparent">
+                <TabItem.Header>
+                    <TextBlock Margin="3" FontSize="30">Warior</TextBlock>
+                </TabItem.Header>
+            </TabItem>
+            <TabItem x:Name="hexTab" Background="Transparent">
+                <TabItem.Header>
+                    <TextBlock Margin="3" FontSize="30">Hexagon</TextBlock>
+                </TabItem.Header>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

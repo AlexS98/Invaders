@@ -11,7 +11,7 @@ namespace Invaders
         public string Name { get; set; }
         public bool Side { private set; get; }
         public int WariorsLimit{ private set; get; }
-        public Resources PlayerResources { set; get; }
+        public GameResources PlayerResources { set; get; }
         public int ArmyNow { get { return army.Count; } }
         public int BuildNow { get { return buildings.Count; } }
         public Player Enemy { get; set; }
@@ -21,12 +21,12 @@ namespace Invaders
             Name = name;
             Side = side;
             WariorsLimit = 5;
-            PlayerResources = new Resources(100, 70, 100);
+            PlayerResources = new GameResources(100, 70, 100);
             army = new List<Wariors>();
             buildings = new List<Building>();
         }
 
-        public Player(bool side, int limit, Resources resources, string name)
+        public Player(bool side, int limit, GameResources resources, string name)
         {
             Name = name;
             Side = side;
@@ -42,13 +42,13 @@ namespace Invaders
 
         public void CaptureBuild(Building build) => buildings.Add(build);
 
-        private void Pay(Resources cost) => PlayerResources -= cost;
+        private void Pay(GameResources cost) => PlayerResources -= cost;
 
         public string InfoArmy() => $"Army size: {(army.Count).ToString()}/{WariorsLimit}";
 
         public bool HireWarior(Wariors warior)
         {
-            if ((WariorsLimit - (army.Count)) > 0 && Resources.EnoughResources(PlayerResources, warior.Cost))
+            if ((WariorsLimit - (army.Count)) > 0 && GameResources.EnoughResources(PlayerResources, warior.Cost))
             {
                 PlayerResources -= warior.Cost;
                 army.Add(warior);
@@ -66,7 +66,7 @@ namespace Invaders
         }
         public bool CreateBuilding(Building build)
         {
-            if (Resources.EnoughResources(PlayerResources, build.Price))
+            if (GameResources.EnoughResources(PlayerResources, build.Price))
             {
                 Pay(build.Price);
                 buildings.Add(build);

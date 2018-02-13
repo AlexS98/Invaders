@@ -6,15 +6,15 @@ namespace Invaders
     {
         public Castle(Hexagon hex, Player owner) : base(hex, owner)
         {
-            Price = new Resources(wood: 50, gold: 20);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+            Price = new GameResources(wood: 50, gold: 20);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
         }
 
         public void SetCollection(int wheat, int wood, int gold)
         {
-            BringResourses = new Resources(wheat, wood, gold);
+            BringResourses = new GameResources(wheat, wood, gold);
         }
 
-        public void SetCollection(Resources cost)
+        public void SetCollection(GameResources cost)
         {
             BringResourses = cost;
         }

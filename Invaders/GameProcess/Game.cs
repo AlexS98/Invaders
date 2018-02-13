@@ -1,5 +1,4 @@
-﻿using Invaders.GameModels.Map;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Invaders.GameProcess
 {

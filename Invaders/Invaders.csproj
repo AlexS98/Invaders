@@ -75,7 +75,7 @@
     <Compile Include="GameModels\Additional\BasicTypesExtensions.cs" />
     <Compile Include="GameProcess\Events\EventStack.cs" />
     <Compile Include="GameProcess\Events\GameEvent.cs" />
-    <Compile Include="GameModels\Additional\Resources.cs" />
+    <Compile Include="GameModels\Additional\GameResources.cs" />
     <Compile Include="GameModels\Exceptions\GameException.cs" />
     <Compile Include="GameModels\Map\MapCreator.cs" />
     <Compile Include="GameModels\Wariors\Bowman.cs" />
@@ -181,6 +181,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="audio\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\tree.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

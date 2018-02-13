@@ -22,10 +22,11 @@ namespace Invaders
             InitializeComponent();
             FieldDrawing = new DrawingHandler(Canvas);
             MapCreator mapCreator = new MapCreator();
-            mapCreator.CreateMap(ref map, MapSize.Big, new Point());
+            MapSize difficulty = MapSize.Big; 
+            mapCreator.CreateMap(ref map, difficulty, new Point(Canvas.Width, Canvas.Height));
             int i = map.Count;
-            Light = new Player(true, "Light");
-            Dark = new Player(false, "Dark");
+            Light = new Player(true, (int)(difficulty - 15) / 2, new GameResources(wood: 50, gold: 20), "Light");
+            Dark = new Player(false, (int)(difficulty - 15) / 2, new GameResources(wood: 50, gold: 20), "Dark");
 
             Light.Enemy = Dark;
             Dark.Enemy = Light;
@@ -37,9 +38,7 @@ namespace Invaders
             GameTimer.Elapsed += OnTimedEvent;
             GameTimer.Start();
             RefreshField();
-        }
-
-        private Point GetCanvasSize => new Point(Canvas.ActualHeight, Canvas.ActualWidth);
+        }        
 
         private bool NearCastle(Hexagon place)
         {
@@ -55,7 +54,7 @@ namespace Invaders
 
         private void GiveRes(Building build)
         {
-            build.BringResourses = new Resources();
+            build.BringResourses = new GameResources();
             foreach (Hexagon item in map)
             {
                 if (build.Place.IsNeighbor(item))
@@ -222,6 +221,11 @@ namespace Invaders
                 FieldDrawing.DrawHex(item);
             }
             if(Selected != null) FieldDrawing.DrawBorder(Selected, red: 255);
-        }        
+        }
+
+        private void BtnMenu_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

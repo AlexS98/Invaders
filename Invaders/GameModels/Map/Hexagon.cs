@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
@@ -18,6 +19,7 @@ namespace Invaders
         public int Number { get; set; }
         public Wariors Warior { get; set; }
         public Building Build { get; set; }
+        public List<Point> Additional { get; set; }
 
         public Hexagon(Point center, HexType type, int number)
         {
@@ -26,6 +28,7 @@ namespace Invaders
             Type = type;
             Warior = null;
             Build = null;
+            Additional = new List<Point>();
         }
 
         public PointCollection PointCollection()

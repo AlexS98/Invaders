@@ -5,8 +5,8 @@ namespace Invaders
 {
     internal abstract class Building
     {
-        public Resources BringResourses { get; set; }
-        public Resources Price { get; set; }
+        public GameResources BringResourses { get; set; }
+        public GameResources Price { get; set; }
         public Hexagon Place { set; get; }
         public Player Owner { set; get; }
 
@@ -19,7 +19,7 @@ namespace Invaders
         }
         protected Building(Hexagon pl, Player ow )
         {
-            Price = new Resources(wood: 50, gold: 20);
+            Price = new GameResources(wood: 50, gold: 20);
             Place = pl;
             Owner = ow;
         }

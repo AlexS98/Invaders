@@ -10,6 +10,14 @@
 
         ///////
 
+        public string Type { get; set; }
+        
+        ///////
+
+        public string Building { get; set; }
+        public string BWheat { get; set; }
+        public string BWood { get; set; }
+        public string BGold { get; set; }
 
     }
 }
