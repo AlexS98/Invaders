@@ -9,7 +9,6 @@ namespace Invaders
 {
     public partial class MainWindow : Window
     {
-        StartGameModel GameModel { get; set; }
         Game CurrentGame { get; set; } 
         DrawingHandler FieldDrawing { get; set; }
         UIModel Model { get; set; }
@@ -18,7 +17,7 @@ namespace Invaders
         {
             InitializeComponent();
             FieldDrawing = new DrawingHandler(Canvas);
-            GameModel = new StartGameModel
+            StartGameModel GameModel = new StartGameModel
             {
                 FirstName = "Light",
                 SecondName = "Dark",
@@ -39,10 +38,8 @@ namespace Invaders
         {
             build.BringResourses = new GameResources();
             foreach (Hexagon item in CurrentGame.Map)
-            {
                 if (build.Place.IsNeighbor(item))
                     build.BringResourses[(int)item.Type - 1] += 10;
-            }
         }
 
         private void OnHireEvent(object sender, HireEventArgs e)
