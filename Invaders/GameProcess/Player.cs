@@ -1,6 +1,7 @@
 ﻿using Invaders.GameModels.Additional;
 using Invaders.UIHelpers;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace Invaders
 {
@@ -26,7 +27,7 @@ namespace Invaders
             buildings = new List<Building>();
         }
 
-        public Player(bool side, int limit, GameResources resources, string name)
+        public Player(bool side, string name, int limit, GameResources resources)
         {
             Name = name;
             Side = side;
@@ -54,7 +55,10 @@ namespace Invaders
                 army.Add(warior);
                 return true;
             }
-            else { return false; }
+            else
+            {
+                return false;
+            }
         }
 
         public void CollectResources()

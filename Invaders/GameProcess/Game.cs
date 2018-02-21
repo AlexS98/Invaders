@@ -1,16 +1,47 @@
-﻿using System.Collections.Generic;
+﻿using Invaders.GameModels.Map;
+using Invaders.UIHelpers;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace Invaders.GameProcess
 {
     internal sealed class Game
     {
-        public Player Player1 { private set; get; }
-        public Player Player2 { private set; get; }
-        public IList<Hexagon> Map { private set; get; }
-        private Player PlayNow { get; set; }
-
-        public Game(bool playNow = true)
+        private IList<Hexagon> _map = new List<Hexagon>();
+        public Player Player1 { set; get; }
+        public Player Player2 { set; get; }
+        public IList<Hexagon> Map
         {
+            get { return _map; }
+            private set { _map = value; }
+        }
+        public int Turn { get; set; }
+        public Player PlayingNow { get; set; }
+        public ActionHandlers Handlers { get; set; }
+
+        public Game(StartGameModel model, Point canvasSize)
+        {
+            int difficulty = (int)model.MapSize;
+            Player1 = new Player(true, model.FirstName, (difficulty - 15) / 2, model.StartResources.Copy);
+            Player2 = new Player(false, model.SecondName, (difficulty - 15) / 2, model.StartResources.Copy);
+            Player1.Enemy = Player2;
+            Player2.Enemy = Player1;
+            MapCreator creator = new MapCreator();
+            creator.CreateMap(ref _map, model.MapSize, canvasSize);
+            PlayingNow = Player1;
+            Handlers = new ActionHandlers();
+        }
+
+        public void EndTurn()
+        {
+            Turn++;
+            PlayingNow = PlayingNow.Enemy;
+            PlayingNow.NewTurn();
+        }
+
+        public UIModel ToUIModel()
+        {
+            return PlayingNow.ToUIModel();
         }
     }
 }

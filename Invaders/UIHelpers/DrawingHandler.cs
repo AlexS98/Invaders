@@ -1,7 +1,5 @@
 ﻿using Invaders.GameModels.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -94,7 +92,8 @@ namespace Invaders.UIHelpers
 
             byte r, g, b;
             if ((int)hexagone.Type == 1) { r = b = 0; g = 255; }
-            else if ((int)hexagone.Type == 2) { r = 10; b = 40; g = 180; }
+            else if ((int)hexagone.Type == 2) { r = b = 0; g = 200; }
+            //else if ((int)hexagone.Type == 2) { r = 143; b = 71; g = 188; }
             else if ((int)hexagone.Type == 3) { r = 255; b = 0; g = 215; }
             else r = g = b = 0;
 

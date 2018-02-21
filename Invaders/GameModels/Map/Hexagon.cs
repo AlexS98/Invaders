@@ -53,5 +53,17 @@ namespace Invaders
 
         public bool IsNeighbor(Hexagon neighbor, int distan = 1) =>
             Math.Sqrt(Math.Pow(Center.X - neighbor.Center.X, 2) + Math.Pow(Center.Y - neighbor.Center.Y, 2)) < distan * 150;
+
+        public bool NearBuilding(IList<Hexagon> map, int distance = 1)
+        {
+            foreach (Hexagon item in map)
+            {
+                if (IsNeighbor(item, distance) && item.Build != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

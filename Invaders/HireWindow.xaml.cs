@@ -16,7 +16,6 @@ namespace Invaders
         {
             InitializeComponent();
         }
-        int Choose = 0;
         private void HireKnight_Click(object sender, RoutedEventArgs e)
         {
             OnHireWarior(new HireEventArgs("HireWindow", "MainWindow", "Knight"));

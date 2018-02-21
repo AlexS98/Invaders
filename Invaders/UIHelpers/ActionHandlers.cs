@@ -1,6 +1,12 @@
 ﻿namespace Invaders.UIHelpers
 {
-    class ActionHandlers
+    internal class ActionHandlers
     {
+        public Hexagon Selected { get; set; }
+
+        public void Reset()
+        {
+            Selected = null;
+        }
     }
 }

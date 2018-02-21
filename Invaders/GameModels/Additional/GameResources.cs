@@ -153,5 +153,7 @@ namespace Invaders.GameModels.Additional
         {
             return $"wh:{this[0]};w:{this[1]};g:{this[2]}";
         }
+
+        public GameResources Copy => new GameResources(Wheat, Wood, Gold);
     }
 }
