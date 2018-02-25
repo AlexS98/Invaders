@@ -1,5 +1,6 @@
 ﻿using Invaders;
 using Invaders.GameModels.Additional;
+using Invaders.GameProcess;
 using Xunit;
 
 namespace Tests

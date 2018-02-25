@@ -1,7 +1,6 @@
 ﻿using Invaders.GameModels.Additional;
 using Invaders.UIHelpers;
 using System;
-using System.Threading;
 using System.Windows;
 
 namespace Invaders

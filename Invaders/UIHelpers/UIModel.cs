@@ -1,6 +1,6 @@
 ﻿namespace Invaders.UIHelpers
 {
-    internal sealed class UIModel
+    internal sealed class UiModel
     {
         public string Name { get; set; }
         public string Army { get; set; }

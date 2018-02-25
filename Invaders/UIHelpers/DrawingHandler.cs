@@ -1,5 +1,9 @@
-﻿using Invaders.GameModels.Exceptions;
+﻿using Invaders.GameModels.Buildings;
+using Invaders.GameModels.Exceptions;
+using Invaders.GameModels.Map;
+using Invaders.GameModels.Wariors;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -17,85 +21,90 @@ namespace Invaders.UIHelpers
             Canvas = canvas;
         }
 
-        public void DrawWarior(Wariors warior, Point point = new Point(), bool description = true)
+        private void DrawWarior(Warior warior, Point point = new Point(), bool description = true)
         {
-            Point position = (point.X == 0 && point.Y == 0) ? warior.Place.Center : point;
-            Image image = WariorPicture(warior);
+            var position = (Math.Abs(point.X) < 0.01 && Math.Abs(point.Y) < 0.01) ? warior.Place.Center : point;
+            var image = WariorPicture(warior);
             Canvas.SetTop(image, position.Y - 40);
             Canvas.SetLeft(image, position.X - 40);
             Canvas.Children.Add(image);
 
-            if (description)
+            if (!description) return;
+            var textBlock = new TextBlock
             {
-                TextBlock textBlock = new TextBlock
-                {
-                    Text = $" HP:{warior.HP}; D:{warior.Distance}; A?:" + ((warior.Attacking) ? "+" : "-"),
-                    Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0))
-                };
-                Canvas.SetLeft(textBlock, position.X - 40);
-                Canvas.SetTop(textBlock, position.Y + 37);
-                Canvas.Children.Add(textBlock);
-            }
+                Text = $" HealthPoints:{warior.HealthPoints}; D:{warior.Distance}; A?:" + ((warior.Attacking) ? "+" : "-"),
+                Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0))
+            };
+            Canvas.SetLeft(textBlock, position.X - 40);
+            Canvas.SetTop(textBlock, position.Y + 37);
+            Canvas.Children.Add(textBlock);
         }
 
-        private Image WariorPicture(Wariors warior)
+        private Image WariorPicture(Warior warior)
         {
-            Image image = new Image();
-            if (warior is Knight)
+            var image = new Image();
+            switch(warior.GetType().Name)
             {
-                image.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_horse.png" : "images/black_horse.png"), UriKind.Relative));
-            }
-            else if (warior is Swordsman)
-            {
-                image.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_swords.png" : "images/black_swords.png"), UriKind.Relative));
-            }
-            else if (warior is Bowman)
-            {
-                image.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_bow.png" : "images/black_bow.png"), UriKind.Relative));
-            }
-            else
-            {
-                throw new GameException("Unknown warior type");
+                case "Knight":
+                    image.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_horse.png" : "images/black_horse.png"), UriKind.Relative));
+                    break;
+                case "Swordsman":
+                    image.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_swords.png" : "images/black_swords.png"), UriKind.Relative));
+                    break;
+                case "Bowman":
+                    image.Source = new BitmapImage(new Uri(((warior.Owner.Side) ? "images/white_bow.png" : "images/black_bow.png"), UriKind.Relative));
+                    break;
+                default:
+                    throw new GameException("Unknown warior type");
+
             }
             return image;
         }
 
-        public void DrawCastle(Building build, bool description = true)
+        private void DrawCastle(Building build, bool description = true)
         {
-            Point position = build.Place.Center;
-            Image image1 = new Image
+            var position = build.Place.Center;
+            var image1 = new Image
             {
-                Source = new BitmapImage(new Uri(((build.Owner.Side) ? "images/white_castle.png" : "images/black_castle.png"), UriKind.Relative))
+                Source = new BitmapImage(new Uri(build.Owner.Side ? "images/white_castle.png" : "images/black_castle.png", UriKind.Relative))
             };
             Canvas.SetTop(image1, position.Y - 45);
             Canvas.SetLeft(image1, position.X - 40);
             Canvas.Children.Add(image1);
 
-            if (build.Place.Warior == null && description)
+            if (build.Place.Warior != null || !description) return;
+            var textBlock = new TextBlock
             {
-                TextBlock textBlock = new TextBlock
-                {
-                    Text = build.BringResourses.ToString(),
-                    Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0))
-                };
-                Canvas.SetLeft(textBlock, position.X - 40);
-                Canvas.SetTop(textBlock, position.Y + 37);
-                Canvas.Children.Add(textBlock);
-            }
+                Text = build.BringResourses.ToString(),
+                Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0))
+            };
+            Canvas.SetLeft(textBlock, position.X - 40);
+            Canvas.SetTop(textBlock, position.Y + 37);
+            Canvas.Children.Add(textBlock);
         }
 
         public void DrawHex(Hexagon hexagone)
         {
-            Polygon polygon = new Polygon();
-            PointCollection hex = hexagone.PointCollection();
+            var polygon = new Polygon();
+            var hex = hexagone.PointCollection();
             polygon.Points = hex;
 
             byte r, g, b;
-            if ((int)hexagone.Type == 1) { r = b = 0; g = 255; }
-            else if ((int)hexagone.Type == 2) { r = b = 0; g = 200; }
-            //else if ((int)hexagone.Type == 2) { r = 143; b = 71; g = 188; }
-            else if ((int)hexagone.Type == 3) { r = 255; b = 0; g = 215; }
-            else r = g = b = 0;
+            switch ((int)hexagone.Type)
+            {
+                case 1:
+                    r = b = 0; g = 255;
+                    break;
+                case 2:
+                    r = b = 0; g = 200;
+                    break;
+                case 3:
+                    r = 255; b = 0; g = 215;
+                    break;
+                default:
+                    r = g = b = 0;
+                    break;
+            }
 
             polygon.Fill = new SolidColorBrush(Color.FromRgb(r, g, b));
             Canvas.Children.Add(polygon);
@@ -104,18 +113,16 @@ namespace Invaders.UIHelpers
             {
                 foreach (var item in hexagone.Additional)
                 {
-                    Image image1 = new Image
+                    var image1 = new Image
                     {
                         Source = new BitmapImage(new Uri("images/tree.png", UriKind.Relative))
                     };
                     if (hexagone.Build != null || hexagone.Warior != null)
                     {
-                        if(item.Y - hexagone.Center.Y <= 20)
-                        {
-                            Canvas.SetTop(image1, item.Y);
-                            Canvas.SetLeft(image1, item.X);
-                            Canvas.Children.Add(image1);
-                        }
+                        if (!(item.Y - hexagone.Center.Y <= 20)) continue;
+                        Canvas.SetTop(image1, item.Y);
+                        Canvas.SetLeft(image1, item.X);
+                        Canvas.Children.Add(image1);
                     }
                     else
                     {                        
@@ -139,31 +146,22 @@ namespace Invaders.UIHelpers
             DrawBorder(hexagone, 0);
         }
 
-        public void DrawBorder(Hexagon hexagone, byte red = 0, byte green = 0, byte blue = 0)
+        public void DrawBorder(Hexagon hexagone, byte red = 105, byte green = 105, byte blue = 105)
         {
-            PointCollection hex = hexagone.PointCollection();
+            var hex = hexagone.PointCollection();
             byte r = red;
             byte g = green;
             byte b = blue;
             for (int i = 0; i < 6; i++)
             {
-                if (i != 5)
-                {
-                    DrawLine(hex[i], hex[i + 1], Color.FromRgb(r, g, b));
-                }
-                else
-                {
-                    DrawLine(hex[i], hex[0], Color.FromRgb(r, g, b));
-                }
+                DrawLine(hex[i], i != 5 ? hex[i + 1] : hex[0], Color.FromRgb(r, g, b));
             }
         }
 
         public void DrawEllipse(Hexagon hexagon, byte red = 0, byte green = 0, byte blue = 0, byte strokeThickness = 2, bool aim = false)
         {
-            byte r = red;
-            byte g = green;
-            byte b = blue;
-            Ellipse ellipse = new Ellipse
+            byte r = red, g = green, b = blue;
+            var ellipse = new Ellipse
             {
                 Width = 110,
                 Height = 110,
@@ -174,45 +172,92 @@ namespace Invaders.UIHelpers
             Canvas.SetTop(ellipse, hexagon.Center.Y - 55);
             Canvas.Children.Add(ellipse);
 
-            if (aim)
+            if (!aim) return;
+            double Kx, Ky, k, c, Tx, Ty, D, x, l = 31, cy = hexagon.Center.Y, cx = hexagon.Center.X;
+            foreach (var item in hexagon.PointCollection())
             {
-                double Kx, Ky, k, c, Tx, Ty, D, X, L = 31;
-                double Cy = hexagon.Center.Y;
-                double Cx = hexagon.Center.X;
-                foreach (Point item in hexagon.PointCollection())
-                {
-                    Ky = item.Y;
-                    Kx = item.X;
-                    k = (Cy - Ky) / (Cx - Kx);
-                    c = Cy - k * Cx;
-                    X = Ky - c;
-                    D = 4 * Math.Pow(X * k + Kx, 2) - 4 * (k * k + 1) * (Kx * Kx + X * X - L * L);
-                    if (D < 0) throw new GameException("Error in aim!");
-                    Tx = (Kx > Cx) ? (2 * (k * X + Kx) - Math.Sqrt(D)) : (2 * (k * X + Kx) + Math.Sqrt(D));
-                    Tx /= (2 * (k * k + 1));
-                    Ty = k * Tx + c;
-                    DrawLine(item, new Point(Tx, Ty), Color.FromRgb(r, g, b));
-                }
+                Ky = item.Y;
+                Kx = item.X;
+                k = (cy - Ky) / (cx - Kx);
+                c = cy - k * cx;
+                x = Ky - c;
+                D = 4 * Math.Pow(x * k + Kx, 2) - 4 * (k * k + 1) * (Kx * Kx + x * x - l * l);
+                if (D < 0) throw new GameException("Error in aim!");
+                Tx = (Kx > cx) ? (2 * (k * x + Kx) - Math.Sqrt(D)) : (2 * (k * x + Kx) + Math.Sqrt(D));
+                Tx /= (2 * (k * k + 1));
+                Ty = k * Tx + c;
+                DrawLine(item, new Point(Tx, Ty), Color.FromRgb(r, g, b));
             }
         }
 
-        public void DrawLine(Point Start, Point End, Color Color, byte strokeThickness = 3)
+        private void DrawLine(Point start, Point end, Color color, byte strokeThickness = 3, bool dash = false)
         {
             Line line = new Line
             {
-                X1 = Start.X,
-                X2 = End.X,
-                Y1 = Start.Y,
-                Y2 = End.Y,
-                Stroke = new SolidColorBrush(Color),
-                StrokeThickness = strokeThickness
+                X1 = start.X,
+                X2 = end.X,
+                Y1 = start.Y,
+                Y2 = end.Y,
+                Stroke = new SolidColorBrush(color),
+                StrokeThickness = strokeThickness,
+                StrokeDashArray = dash ? new DoubleCollection { 0.625, 0.625 } : new DoubleCollection()             
             };
             Canvas.Children.Add(line);
         }
 
-        public void MoveAnimation(Hexagon start, Hexagon end)
+        public void DrawBoundaries(IList<Hexagon> map)
         {
-
+            foreach (var selected in map)
+            {
+                foreach(var item in map)
+                {
+                    if (selected.Owner == null || selected == item || !selected.IsNeighbor(item) ||
+                        selected.Owner == item.Owner) continue;
+                    var color = (bool) selected.Owner ? Color.FromRgb(255, 255, 255) : Color.FromRgb(0, 0, 0);
+                    Point p1 = new Point(), p2 = new Point();
+                    var pointCollection = selected.PointCollection();
+                    if(Math.Abs(selected.Center.X - item.Center.X) < 0.01)
+                    {
+                        if (selected.Center.Y < item.Center.Y)
+                        {
+                            p1 = pointCollection[1];
+                            p2 = pointCollection[2];
+                        }
+                        else
+                        {
+                            p1 = pointCollection[4];
+                            p2 = pointCollection[5];
+                        }
+                    }
+                    else if (selected.Center.X > item.Center.X)
+                    {
+                        if (selected.Center.Y < item.Center.Y)
+                        {
+                            p1 = pointCollection[0];
+                            p2 = pointCollection[1];
+                        }
+                        else
+                        {
+                            p1 = pointCollection[5];
+                            p2 = pointCollection[0];
+                        }
+                    }
+                    else if (selected.Center.X < item.Center.X)
+                    {
+                        if (selected.Center.Y < item.Center.Y)
+                        {
+                            p1 = pointCollection[2];
+                            p2 = pointCollection[3];
+                        }
+                        else
+                        {
+                            p1 = pointCollection[3];
+                            p2 = pointCollection[4];
+                        }
+                    }
+                    DrawLine(p1, p2, color, 8, true);
+                }
+            }
         }
     }
 }

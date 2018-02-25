@@ -1,6 +1,8 @@
 ﻿using Invaders.GameModels.Additional;
+using Invaders.GameModels.Map;
+using Invaders.GameProcess;
 
-namespace Invaders
+namespace Invaders.GameModels.Buildings
 {
     internal sealed class Castle : Building
     {

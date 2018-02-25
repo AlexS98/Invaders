@@ -6,12 +6,6 @@ using System.Windows;
 
 namespace Invaders.GameModels.Map
 {
-    enum MapSize
-    {
-        Small = 31,
-        Normal = 38,
-        Big = 49
-    }
     internal sealed class MapCreator
     {
         public void CreateMap(ref IList<Hexagon> map, MapSize mapSize, Point canvasSize)
@@ -46,9 +40,24 @@ namespace Invaders.GameModels.Map
             {
                 if (map[i].Type == HexType.Forest)
                 {
-                    GenerateAdditional(map[i], i, 8);
+                    double x = map[i].Center.X;
+                    double y = map[i].Center.Y;
+                    map[i].Additional = new List<Point>
+                    {
+                        new Point(x-35, y -60),
+                        new Point(x+20,y-50),
+                        new Point(x-5, y -55),
+                        new Point(x-45,y-35),
+                        new Point(x-15, y -25),
+                        new Point(x+15,y-20),
+                        new Point(x-60, y -10),
+                        new Point(x+40,y-10),
+                        new Point(x+25, y +20),
+                        new Point(x-45,y+15),
+                        new Point(x-15, y+5),
+                        new Point(x+5, y+5),
+                    };
                 }
-                Thread.Sleep(5);
             }
         }
 
@@ -62,32 +71,33 @@ namespace Invaders.GameModels.Map
             else return (HexType)3;
         }
 
-        private void GenerateAdditional(Hexagon item, int i, int count)
-        {
-            double x, y;
-            for (int k = 0; k < count; k++)
-            {
-                Random random = new Random(i + k + DateTime.Now.Millisecond);
-                do {
-                    Thread.Sleep(5);
-                    x = item.Center.X - 55 + 20 * random.Next(0, 4) + random.Next(0, 8);
-                    y = item.Center.Y - 55 + 20 * random.Next(0, 4) + random.Next(0, 8);
-                }
-                while (!CheckAdditional(item, new Point(x, y)));
-                item.Additional.Add(new Point(x, y));
-            }
-        }
 
-        private bool CheckAdditional(Hexagon item, Point point)
-        {
-            foreach (var i in item.Additional)
-            {
-                if (point.X >= i.X && point.X <= i.X + 20 && point.Y >= i.Y && point.Y <= i.Y + 20) return false;
-                if (point.X + 20 >= i.X && point.X + 20 <= i.X + 20 && point.Y >= i.Y && point.Y <= i.Y + 20) return false;
-                if (point.X >= i.X && point.X <= i.X + 20 && point.Y + 20 >= i.Y && point.Y + 20 <= i.Y + 20) return false;
-                if (point.X + 20 >= i.X && point.X + 20 <= i.X + 20 && point.Y + 20 >= i.Y && point.Y + 20 <= i.Y + 20) return false;
-            }
-            return true;
-        } 
+        //private void GenerateAdditional(Hexagon item, int i, int count)
+        //{
+        //    double x, y;
+        //    for (int k = 0; k < count; k++)
+        //    {
+        //        Random random = new Random(i + k + DateTime.Now.Millisecond);
+        //        do {
+        //            Thread.Sleep(1);
+        //            x = item.Center.X - 55 + 20 * random.Next(0, 4) + random.Next(0, 8);
+        //            y = item.Center.Y - 55 + 20 * random.Next(0, 4) + random.Next(0, 8);
+        //        }
+        //        while (!CheckAdditional(item, new Point(x, y)));
+        //        item.Additional.Add(new Point(x, y));
+        //    }
+        //}
+
+        //private bool CheckAdditional(Hexagon item, Point point)
+        //{
+        //    foreach (var i in item.Additional)
+        //    {
+        //        if (point.X >= i.X && point.X <= i.X + 20 && point.Y >= i.Y && point.Y <= i.Y + 20) return false;
+        //        if (point.X + 20 >= i.X && point.X + 20 <= i.X + 20 && point.Y >= i.Y && point.Y <= i.Y + 20) return false;
+        //        if (point.X >= i.X && point.X <= i.X + 20 && point.Y + 20 >= i.Y && point.Y + 20 <= i.Y + 20) return false;
+        //        if (point.X + 20 >= i.X && point.X + 20 <= i.X + 20 && point.Y + 20 >= i.Y && point.Y + 20 <= i.Y + 20) return false;
+        //    }
+        //    return true;
+        //} 
     }
 }

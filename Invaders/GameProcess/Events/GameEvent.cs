@@ -1,4 +1,6 @@
-﻿namespace Invaders.GameModels.Additional
+﻿using Invaders.GameModels.Map;
+
+namespace Invaders.GameModels.Additional
 {
     class GameEvent
     {

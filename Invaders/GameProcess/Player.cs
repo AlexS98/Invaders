@@ -1,18 +1,19 @@
-﻿using Invaders.GameModels.Additional;
+﻿using System.Collections.Generic;
+using Invaders.GameModels.Additional;
+using Invaders.GameModels.Buildings;
+using Invaders.GameModels.Wariors;
 using Invaders.UIHelpers;
-using System.Collections.Generic;
-using System.Windows;
 
-namespace Invaders
+namespace Invaders.GameProcess
 {
     internal sealed class Player
     {
-        List<Wariors> army;
-        List<Building> buildings;
-        public string Name { get; set; }
-        public bool Side { private set; get; }
-        public int WariorsLimit{ private set; get; }
-        public GameResources PlayerResources { set; get; }
+        private List<Warior> army;
+        private List<Building> buildings;
+        public string Name { get; }
+        public bool Side { get; }
+        public int WariorsLimit{ get; }
+        public GameResources PlayerResources { private set; get; }
         public int ArmyNow { get { return army.Count; } }
         public int BuildNow { get { return buildings.Count; } }
         public Player Enemy { get; set; }
@@ -23,7 +24,7 @@ namespace Invaders
             Side = side;
             WariorsLimit = 5;
             PlayerResources = new GameResources(100, 70, 100);
-            army = new List<Wariors>();
+            army = new List<Warior>();
             buildings = new List<Building>();
         }
 
@@ -33,11 +34,11 @@ namespace Invaders
             Side = side;
             WariorsLimit = limit;
             PlayerResources = resources;
-            army = new List<Wariors>();
+            army = new List<Warior>();
             buildings = new List<Building>();
         }
 
-        public void KillWarior(Wariors warior) => army.Remove(warior);
+        public void KillWarior(Warior warior) => army.Remove(warior);
 
         public void LostBuild(Building build) => buildings.Remove(build);
 
@@ -45,11 +46,11 @@ namespace Invaders
 
         private void Pay(GameResources cost) => PlayerResources -= cost;
 
-        public string InfoArmy() => $"Army size: {(army.Count).ToString()}/{WariorsLimit}";
+        public string InfoArmy() => $"Army size: {army.Count}/{WariorsLimit}";
 
-        public bool HireWarior(Wariors warior)
+        public bool HireWarior(Warior warior)
         {
-            if ((WariorsLimit - (army.Count)) > 0 && GameResources.EnoughResources(PlayerResources, warior.Cost))
+            if (WariorsLimit - army.Count > 0 && GameResources.EnoughResources(PlayerResources, warior.Cost))
             {
                 PlayerResources -= warior.Cost;
                 army.Add(warior);
@@ -61,9 +62,9 @@ namespace Invaders
             }
         }
 
-        public void CollectResources()
+        private void CollectResources()
         {
-            foreach (Building item in buildings)
+            foreach (var item in buildings)
             {
                 PlayerResources += item.BringResourses;
             }
@@ -84,16 +85,16 @@ namespace Invaders
 
         public void NewTurn()
         {
-            foreach (Wariors item in army)
+            foreach (var item in army)
             {
                 item.NewTurn();
             }
             CollectResources();
         }
 
-        public UIModel ToUIModel()
+        public UiModel ToUiModel()
         {
-            return new UIModel()
+            return new UiModel()
             {
                 Name = Name,
                 Wheat = PlayerResources[0].ToString(),

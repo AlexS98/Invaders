@@ -33,7 +33,7 @@ namespace Invaders.GameModels.Additional
             a = t;
         }
 
-        public static void Raise<TEventArgs>(this TEventArgs e, Object sender, ref EventHandler<TEventArgs> eventDelegate)
+        public static void Raise<TEventArgs>(this TEventArgs e, object sender, ref EventHandler<TEventArgs> eventDelegate)
         {
             Volatile.Read(ref eventDelegate)?.Invoke(sender, e);
         }

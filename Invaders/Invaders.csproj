@@ -73,6 +73,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="GameModels\Additional\BasicTypesExtensions.cs" />
+    <Compile Include="GameModels\Map\HexType.cs" />
+    <Compile Include="GameModels\Map\MapSize.cs" />
     <Compile Include="GameProcess\Events\EventStack.cs" />
     <Compile Include="GameProcess\Events\GameEvent.cs" />
     <Compile Include="GameModels\Additional\GameResources.cs" />
@@ -92,7 +94,7 @@
     <Compile Include="GameModels\Buildings\Road.cs" />
     <Compile Include="GameModels\Wariors\Swordsman.cs" />
     <Compile Include="GameModels\Buildings\Castle.cs" />
-    <Compile Include="GameModels\Wariors\Wariors.cs" />
+    <Compile Include="GameModels\Wariors\Warior.cs" />
     <Compile Include="UIHelpers\HireEventArgs.cs" />
     <Compile Include="UIHelpers\StartGameModel.cs" />
     <Compile Include="UIHelpers\UIModel.cs" />

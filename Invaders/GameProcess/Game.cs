@@ -8,16 +8,16 @@ namespace Invaders.GameProcess
     internal sealed class Game
     {
         private IList<Hexagon> _map = new List<Hexagon>();
-        public Player Player1 { set; get; }
-        public Player Player2 { set; get; }
+        private Player Player1 { get; }
+        private Player Player2 { get; }
         public IList<Hexagon> Map
         {
             get { return _map; }
             private set { _map = value; }
         }
-        public int Turn { get; set; }
-        public Player PlayingNow { get; set; }
-        public ActionHandlers Handlers { get; set; }
+        public int Turn { get; private set; }
+        public Player PlayingNow { get; private set; }
+        public ActionHandlers Handlers { get; }
 
         public Game(StartGameModel model, Point canvasSize)
         {
@@ -26,7 +26,7 @@ namespace Invaders.GameProcess
             Player2 = new Player(false, model.SecondName, (difficulty - 15) / 2, model.StartResources.Copy);
             Player1.Enemy = Player2;
             Player2.Enemy = Player1;
-            MapCreator creator = new MapCreator();
+            var creator = new MapCreator();
             creator.CreateMap(ref _map, model.MapSize, canvasSize);
             PlayingNow = Player1;
             Handlers = new ActionHandlers();
@@ -39,9 +39,9 @@ namespace Invaders.GameProcess
             PlayingNow.NewTurn();
         }
 
-        public UIModel ToUIModel()
+        public UiModel ToUiModel()
         {
-            return PlayingNow.ToUIModel();
+            return PlayingNow.ToUiModel();
         }
     }
 }

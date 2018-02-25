@@ -1,4 +1,6 @@
-﻿namespace Invaders.UIHelpers
+﻿using Invaders.GameModels.Map;
+
+namespace Invaders.UIHelpers
 {
     internal class ActionHandlers
     {

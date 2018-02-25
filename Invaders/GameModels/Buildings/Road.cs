@@ -1,4 +1,7 @@
-﻿namespace Invaders
+﻿using Invaders.GameModels.Map;
+using Invaders.GameProcess;
+
+namespace Invaders.GameModels.Buildings
 {
     class Road : Building
     {
