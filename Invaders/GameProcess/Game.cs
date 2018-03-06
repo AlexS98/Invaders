@@ -17,7 +17,6 @@ namespace Invaders.GameProcess
         }
         public int Turn { get; private set; }
         public Player PlayingNow { get; private set; }
-        public ActionHandlers Handlers { get; }
 
         public Game(StartGameModel model, Point canvasSize)
         {
@@ -29,7 +28,6 @@ namespace Invaders.GameProcess
             var creator = new MapCreator();
             creator.CreateMap(ref _map, model.MapSize, canvasSize);
             PlayingNow = Player1;
-            Handlers = new ActionHandlers();
         }
 
         public void EndTurn()

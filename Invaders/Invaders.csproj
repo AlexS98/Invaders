@@ -83,7 +83,6 @@
     <Compile Include="GameModels\Wariors\Bowman.cs" />
     <Compile Include="GameModels\Buildings\Building.cs" />
     <Compile Include="GameModels\Buildings\City.cs" />
-    <Compile Include="GameProcess\Data.cs" />
     <Compile Include="GameModels\Map\Hexagon.cs" />
     <Compile Include="GameProcess\Game.cs" />
     <Compile Include="HireWindow.xaml.cs">

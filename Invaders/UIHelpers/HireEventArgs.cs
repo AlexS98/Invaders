@@ -4,17 +4,17 @@ namespace Invaders.UIHelpers
 {
     public class HireEventArgs : EventArgs
     {
-        private readonly String m_from, m_to, m_type;
+        private readonly String _mFrom, _mTo, _mType;
 
-        public String From { get { return m_from; } }
-        public String To { get { return m_to; } }
-        public String WariorType { get { return m_type; } }
+        public String From { get { return _mFrom; } }
+        public String To { get { return _mTo; } }
+        public String WariorType { get { return _mType; } }
 
-        public HireEventArgs(string m_from, string m_to, string m_type)
+        public HireEventArgs(string mFrom, string mTo, string mType)
         {
-            this.m_from = m_from;
-            this.m_to = m_to;
-            this.m_type = m_type;
+            this._mFrom = mFrom;
+            this._mTo = mTo;
+            this._mType = mType;
         }
     }
 }

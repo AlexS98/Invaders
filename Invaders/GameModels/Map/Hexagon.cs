@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Media;
 using Invaders.GameModels.Buildings;
 using Invaders.GameModels.Wariors;
+using Invaders.GameProcess;
 
 namespace Invaders.GameModels.Map
 {
@@ -12,10 +13,10 @@ namespace Invaders.GameModels.Map
     {
         public Point Center { get; }
         public HexType Type { get; }
-        public Wariors.Warior Warior { get; set; }
+        public Warior Warior { get; set; }
         public Building Build { get; private set; }
         public List<Point> Additional { get; set; }
-        public bool? Owner { get; set; }
+        public Player Owner { get; set; }
 
         public Hexagon(Point center, HexType type, int number)
         {

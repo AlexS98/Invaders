@@ -24,7 +24,7 @@
                                 RecognizesAccessKey="True" />
                             </Border>
                         </Grid>
-                        
+
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Panel.ZIndex" Value="100" />
@@ -37,11 +37,11 @@
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
-                    
+
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style TargetType="Button">
             <Style.Setters>
                 <Setter Property="Focusable" Value="False" />
@@ -79,41 +79,65 @@
         <Canvas Name="Canvas" MouseDown="Canvas_MouseDown" Grid.Column="1" Grid.RowSpan="2" Width="1029.6" Height="808.8" Margin="0.4,0,0.2,-0.2" />
 
 
-        <Button Grid.Column="0" Grid.Row="1" x:Name="btnEnd1" FontFamily="Algerian" Click="BtnEnd1_Click" Content="End Turn" Margin="10,10,12.6,9.8" />
-        <Button Grid.Column="2" Grid.Row="1" x:Name="btnMenu"  FontFamily="Algerian" Click="BtnMenu_Click" Content="Menu" Margin="10,10,12.6,9.8" />
-        <Button x:Name="btnMarket" Click="BtnMarket_Click" FontFamily="Algerian" Content="Market" ToolTip="Here you can sell/buy resources" Cursor="Hand" Margin="10,445,12.6,182"/>
-        <Button x:Name="btnHire"  Click="BtnHire_Click" Content="Hire" FontFamily="Algerian" Cursor="Hand" Margin="10,531,12.6,96" />
-        <Button x:Name="btnBuild"  Click="BtnBuild_Click" Content="Build" FontFamily="Algerian" Cursor="Hand" Margin="10,617,12.6,10" />
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="LIGHT" Name="lbName" FontFamily="Algerian" Foreground="Black" FontSize="48" Margin="0,0,0,630" />
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Army: 0/0" FontFamily="Algerian" Name="lbArmy" Foreground="DarkRed" FontSize="40" Margin="0,100,0,530" />
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wheat: 0" FontFamily="Algerian" Name="lbWheat" Foreground="Black" FontSize="40" Margin="0,180,0,455" />
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wood: 0" FontFamily="Algerian" Name="lbWood" Foreground="Black" FontSize="40" Margin="0,260,0,385"/>
-        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Gold: 0" FontFamily="Algerian" Name="lbGold" Foreground="Black" FontSize="40" Margin="0,340,0,300" />
+        <Button Grid.Column="0" Grid.Row="1" x:Name="BtnEnd1" FontFamily="Algerian" Click="BtnEnd1_Click" Content="End Turn" Margin="10,10,12.6,9.8" />
+        <Button Grid.Column="2" Grid.Row="1" x:Name="BtnMenu"  FontFamily="Algerian" Click="BtnMenu_Click" Content="Menu" Margin="10,10,12.6,9.8" />
+        <Button x:Name="BtnMarket" Click="BtnMarket_Click" FontFamily="Algerian" Content="Market" ToolTip="Here you can sell/buy resources" Cursor="Hand" Margin="10,445,12.6,182"/>
+        <Button x:Name="BtnHire"  Click="BtnHire_Click" Content="Hire" FontFamily="Algerian" Cursor="Hand" Margin="10,531,12.6,96" />
+        <Button x:Name="BtnBuild"  Click="BtnBuild_Click" Content="Build" FontFamily="Algerian" Cursor="Hand" Margin="10,617,12.6,10" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="LIGHT" Name="LbName" FontFamily="Algerian" Foreground="Black" FontSize="48" Margin="0,0,0,630" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Army: 0/0" FontFamily="Algerian" Name="LbArmy" Foreground="DarkRed" FontSize="40" Margin="0,100,0,530" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wheat: 0" FontFamily="Algerian" Name="LbWheat" Foreground="Black" FontSize="40" Margin="0,180,0,455" />
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Wood: 0" FontFamily="Algerian" Name="LbWood" Foreground="Black" FontSize="40" Margin="0,260,0,385"/>
+        <Label Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Content="Gold: 0" FontFamily="Algerian" Name="LbGold" Foreground="Black" FontSize="40" Margin="0,340,0,300" />
 
-        <Label Grid.Column="2" Grid.Row="0" HorizontalContentAlignment="Center" FontFamily="Algerian" Content="turn: 0" Name="lbTurn" Foreground="Black" FontSize="48" Margin="0,0,0,630"/>
-        <TabControl x:Name="products" FontFamily="Algerian" Grid.Column="2" Margin="0,78,0,100" Foreground="{x:Null}" Background="Transparent" BorderBrush="Black">
-            <TabItem x:Name="buildTab" Background="Transparent">
+        <Label Grid.Column="2" Grid.Row="0" HorizontalContentAlignment="Center" FontFamily="Algerian" Content="turn: 0" Name="LbTurn" Foreground="Black" FontSize="48" Margin="0,0,0,630"/>
+        <TabControl FontFamily="Algerian" Grid.Column="2" Margin="0,78,0,100" Foreground="{x:Null}" Background="Transparent" BorderBrush="Black">
+            <TabItem Name="HexTab" Background="Transparent">
+                <TabItem.Header>
+                    <TextBlock Margin="3" FontSize="30">Hexagon</TextBlock>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Grid Margin="0,10,0,0">
+                        <Label HorizontalContentAlignment="Center" Content="Type: Forest" x:Name="LbHexType" FontFamily="Algerian" Foreground="Black" FontSize="26" Margin="0,0,0,305" />
+                        <Label HorizontalContentAlignment="Center" Content="Owner: Light" x:Name="LbHexOwner" FontFamily="Algerian" Foreground="Black" FontSize="26" Margin="0,45,0,260" />
+                        <Label HorizontalContentAlignment="Center" Content="Warior: None" x:Name="LbHexWarior" FontFamily="Algerian" Foreground="Black" FontSize="26" Margin="0,90,0,215" />
+                        <Label HorizontalContentAlignment="Center" Content="Build: None" x:Name="LbHexBuild" FontFamily="Algerian" Foreground="Black" FontSize="26" Margin="0,135,0,170" />
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem Name="BuildTab" Background="Transparent">
                 <TabItem.Header>
                     <StackPanel>
                         <TextBlock Margin="3" FontFamily="Algerian" FontSize="30">Building</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
-                    <StackPanel>
-                        <Label>dmrigvm</Label>
-                    </StackPanel>
+                    <Grid Margin="0,10,0,0">
+                        <Label HorizontalContentAlignment="Center" Content="Type: Castle" x:Name="LbBuildingType" FontFamily="Algerian" Foreground="Black" FontSize="26" Margin="0,0,0,305" />
+                        <Label HorizontalContentAlignment="Center" Content="total hex: 0" x:Name="LbBuildingNum" FontFamily="Algerian" Foreground="Black" FontSize="26" Margin="0,45,0,260" />
+                        <Label HorizontalContentAlignment="Center" Content="-- Resources --" FontFamily="Algerian" Foreground="Black" FontSize="30" Margin="0,90,0,215" />
+                        <Label HorizontalContentAlignment="Center" Content="Wheat: 30" x:Name="LbBuildingResWheat" FontFamily="Algerian" Foreground="Black" FontSize="24" Margin="0,135,0,170" />
+                        <Label HorizontalContentAlignment="Center" Content="Wood: 50" x:Name="LbBuildingResWood" FontFamily="Algerian" Foreground="Black" FontSize="24" Margin="0,180,0,125" />
+                        <Label HorizontalContentAlignment="Center" Content="Gold: 0" x:Name="LbBuildingResGold" FontFamily="Algerian" Foreground="Black" FontSize="24" Margin="0,225,0,80" />
+                    </Grid>
                 </TabItem.Content>
             </TabItem>
-            <TabItem x:Name="warTab" Background="Transparent">
+            <TabItem Name="WarTab" Background="Transparent">
                 <TabItem.Header>
                     <TextBlock Margin="3" FontSize="30">Warior</TextBlock>
                 </TabItem.Header>
-            </TabItem>
-            <TabItem x:Name="hexTab" Background="Transparent">
-                <TabItem.Header>
-                    <TextBlock Margin="3" FontSize="30">Hexagon</TextBlock>
-                </TabItem.Header>
+                <TabItem.Content>
+                    <Grid Margin="0,10,0,0">
+                        <Label HorizontalContentAlignment="Center" Content="Type: Swordsman" x:Name="LbWariorType" FontFamily="Algerian" Foreground="Black" FontSize="26" Margin="0,0,0,305" />
+                        <Label HorizontalContentAlignment="Center" Content="Distance: 0" x:Name="LbWariorDistance" FontFamily="Algerian" Foreground="Black" FontSize="26" Margin="0,45,0,260" />
+                        <Label HorizontalContentAlignment="Center" Content="Owner: Light" x:Name="LbWariorOwner" FontFamily="Algerian" Foreground="Black" FontSize="26" Margin="0,90,0,215" />
+                        <Label HorizontalContentAlignment="Center" Content="Attack distance: 3" x:Name="LbWariorAttackDistance" FontFamily="Algerian" Foreground="Black" FontSize="24" Margin="0,135,0,170" />
+                        <Label HorizontalContentAlignment="Center" Content="Attacking: yes" x:Name="LbWariorAttacking" FontFamily="Algerian" Foreground="Black" FontSize="26" Margin="0,180,0,125" />
+                        <Label HorizontalContentAlignment="Center" Content="Attack rate: 2" x:Name="LbWariorAttackRate" FontFamily="Algerian" Foreground="Black" FontSize="26" Margin="0,225,0,80" />
+                    </Grid>
+                </TabItem.Content>
             </TabItem>
         </TabControl>
     </Grid>
 </Window>
+

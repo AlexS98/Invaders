@@ -8,14 +8,14 @@ namespace Invaders.GameProcess
 {
     internal sealed class Player
     {
-        private List<Warior> army;
-        private List<Building> buildings;
+        private List<Warior> _army;
+        private List<Building> _buildings;
         public string Name { get; }
         public bool Side { get; }
         public int WariorsLimit{ get; }
         public GameResources PlayerResources { private set; get; }
-        public int ArmyNow { get { return army.Count; } }
-        public int BuildNow { get { return buildings.Count; } }
+        public int ArmyNow { get { return _army.Count; } }
+        public int BuildNow { get { return _buildings.Count; } }
         public Player Enemy { get; set; }
 
         public Player(bool side, string name)
@@ -24,8 +24,8 @@ namespace Invaders.GameProcess
             Side = side;
             WariorsLimit = 5;
             PlayerResources = new GameResources(100, 70, 100);
-            army = new List<Warior>();
-            buildings = new List<Building>();
+            _army = new List<Warior>();
+            _buildings = new List<Building>();
         }
 
         public Player(bool side, string name, int limit, GameResources resources)
@@ -34,26 +34,26 @@ namespace Invaders.GameProcess
             Side = side;
             WariorsLimit = limit;
             PlayerResources = resources;
-            army = new List<Warior>();
-            buildings = new List<Building>();
+            _army = new List<Warior>();
+            _buildings = new List<Building>();
         }
 
-        public void KillWarior(Warior warior) => army.Remove(warior);
+        public void KillWarior(Warior warior) => _army.Remove(warior);
 
-        public void LostBuild(Building build) => buildings.Remove(build);
+        public void LostBuild(Building build) => _buildings.Remove(build);
 
-        public void CaptureBuild(Building build) => buildings.Add(build);
+        public void CaptureBuild(Building build) => _buildings.Add(build);
 
         private void Pay(GameResources cost) => PlayerResources -= cost;
 
-        public string InfoArmy() => $"Army size: {army.Count}/{WariorsLimit}";
+        public string InfoArmy() => $"Army size: {_army.Count}/{WariorsLimit}";
 
         public bool HireWarior(Warior warior)
         {
-            if (WariorsLimit - army.Count > 0 && GameResources.EnoughResources(PlayerResources, warior.Cost))
+            if (WariorsLimit - _army.Count > 0 && GameResources.EnoughResources(PlayerResources, warior.Cost))
             {
                 PlayerResources -= warior.Cost;
-                army.Add(warior);
+                _army.Add(warior);
                 return true;
             }
             else
@@ -64,7 +64,7 @@ namespace Invaders.GameProcess
 
         private void CollectResources()
         {
-            foreach (var item in buildings)
+            foreach (Building item in _buildings)
             {
                 PlayerResources += item.BringResourses;
             }
@@ -74,7 +74,7 @@ namespace Invaders.GameProcess
             if (GameResources.EnoughResources(PlayerResources, build.Price))
             {
                 Pay(build.Price);
-                buildings.Add(build);
+                _buildings.Add(build);
                 return true;
             }
             else
@@ -85,7 +85,7 @@ namespace Invaders.GameProcess
 
         public void NewTurn()
         {
-            foreach (var item in army)
+            foreach (Warior item in _army)
             {
                 item.NewTurn();
             }

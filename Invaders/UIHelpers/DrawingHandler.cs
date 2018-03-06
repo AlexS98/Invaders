@@ -23,8 +23,8 @@ namespace Invaders.UIHelpers
 
         private void DrawWarior(Warior warior, Point point = new Point(), bool description = true)
         {
-            var position = (Math.Abs(point.X) < 0.01 && Math.Abs(point.Y) < 0.01) ? warior.Place.Center : point;
-            var image = WariorPicture(warior);
+            Point position = (Math.Abs(point.X) < 0.01 && Math.Abs(point.Y) < 0.01) ? warior.Place.Center : point;
+            Image image = WariorPicture(warior);
             Canvas.SetTop(image, position.Y - 40);
             Canvas.SetLeft(image, position.X - 40);
             Canvas.Children.Add(image);
@@ -32,7 +32,7 @@ namespace Invaders.UIHelpers
             if (!description) return;
             var textBlock = new TextBlock
             {
-                Text = $" HealthPoints:{warior.HealthPoints}; D:{warior.Distance}; A?:" + ((warior.Attacking) ? "+" : "-"),
+                Text = $" HP:{warior.HealthPoints}; D:{warior.Distance}; A?:" + ((warior.Attacking) ? "+" : "-"),
                 Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0))
             };
             Canvas.SetLeft(textBlock, position.X - 40);
@@ -63,7 +63,7 @@ namespace Invaders.UIHelpers
 
         private void DrawCastle(Building build, bool description = true)
         {
-            var position = build.Place.Center;
+            Point position = build.Place.Center;
             var image1 = new Image
             {
                 Source = new BitmapImage(new Uri(build.Owner.Side ? "images/white_castle.png" : "images/black_castle.png", UriKind.Relative))
@@ -86,7 +86,7 @@ namespace Invaders.UIHelpers
         public void DrawHex(Hexagon hexagone)
         {
             var polygon = new Polygon();
-            var hex = hexagone.PointCollection();
+            PointCollection hex = hexagone.PointCollection();
             polygon.Points = hex;
 
             byte r, g, b;
@@ -111,7 +111,7 @@ namespace Invaders.UIHelpers
 
             if (hexagone.Type == HexType.Forest)
             {
-                foreach (var item in hexagone.Additional)
+                foreach (Point item in hexagone.Additional)
                 {
                     var image1 = new Image
                     {
@@ -148,7 +148,7 @@ namespace Invaders.UIHelpers
 
         public void DrawBorder(Hexagon hexagone, byte red = 105, byte green = 105, byte blue = 105)
         {
-            var hex = hexagone.PointCollection();
+            PointCollection hex = hexagone.PointCollection();
             byte r = red;
             byte g = green;
             byte b = blue;
@@ -173,20 +173,20 @@ namespace Invaders.UIHelpers
             Canvas.Children.Add(ellipse);
 
             if (!aim) return;
-            double Kx, Ky, k, c, Tx, Ty, D, x, l = 31, cy = hexagon.Center.Y, cx = hexagon.Center.X;
-            foreach (var item in hexagon.PointCollection())
+            double kx, ky, k, c, tx, ty, d, x, l = 31, cy = hexagon.Center.Y, cx = hexagon.Center.X;
+            foreach (Point item in hexagon.PointCollection())
             {
-                Ky = item.Y;
-                Kx = item.X;
-                k = (cy - Ky) / (cx - Kx);
+                ky = item.Y;
+                kx = item.X;
+                k = (cy - ky) / (cx - kx);
                 c = cy - k * cx;
-                x = Ky - c;
-                D = 4 * Math.Pow(x * k + Kx, 2) - 4 * (k * k + 1) * (Kx * Kx + x * x - l * l);
-                if (D < 0) throw new GameException("Error in aim!");
-                Tx = (Kx > cx) ? (2 * (k * x + Kx) - Math.Sqrt(D)) : (2 * (k * x + Kx) + Math.Sqrt(D));
-                Tx /= (2 * (k * k + 1));
-                Ty = k * Tx + c;
-                DrawLine(item, new Point(Tx, Ty), Color.FromRgb(r, g, b));
+                x = ky - c;
+                d = 4 * Math.Pow(x * k + kx, 2) - 4 * (k * k + 1) * (kx * kx + x * x - l * l);
+                if (d < 0) throw new GameException("Error in aim!");
+                tx = (kx > cx) ? (2 * (k * x + kx) - Math.Sqrt(d)) : (2 * (k * x + kx) + Math.Sqrt(d));
+                tx /= (2 * (k * k + 1));
+                ty = k * tx + c;
+                DrawLine(item, new Point(tx, ty), Color.FromRgb(r, g, b));
             }
         }
 
@@ -207,15 +207,15 @@ namespace Invaders.UIHelpers
 
         public void DrawBoundaries(IList<Hexagon> map)
         {
-            foreach (var selected in map)
+            foreach (Hexagon selected in map)
             {
-                foreach(var item in map)
+                foreach(Hexagon item in map)
                 {
                     if (selected.Owner == null || selected == item || !selected.IsNeighbor(item) ||
                         selected.Owner == item.Owner) continue;
-                    var color = (bool) selected.Owner ? Color.FromRgb(255, 255, 255) : Color.FromRgb(0, 0, 0);
+                    Color color = (bool) selected.Owner.Side ? Color.FromRgb(255, 255, 255) : Color.FromRgb(0, 0, 0);
                     Point p1 = new Point(), p2 = new Point();
-                    var pointCollection = selected.PointCollection();
+                    PointCollection pointCollection = selected.PointCollection();
                     if(Math.Abs(selected.Center.X - item.Center.X) < 0.01)
                     {
                         if (selected.Center.Y < item.Center.Y)

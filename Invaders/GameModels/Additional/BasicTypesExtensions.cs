@@ -13,12 +13,12 @@ namespace Invaders.GameModels.Additional
             return -1;
         }
 
-        public static void InvokeAndCatch<TException>(this Action<Object> _del, Object arg, Action catchAction = null) 
+        public static void InvokeAndCatch<TException>(this Action<Object> del, Object arg, Action catchAction = null) 
                                     where TException : Exception
         {
             try
             {
-                _del(arg);
+                del(arg);
             }
             catch (TException)
             {

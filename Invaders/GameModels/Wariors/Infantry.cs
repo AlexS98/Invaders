@@ -7,7 +7,7 @@ namespace Invaders.GameModels.Wariors
     {
         protected Infantry(Hexagon place, Player owner) : base(place, owner)
         {
-            Protector = delegate (int a) {
+            Protector = a => {
                 if (Place.Build != null && HealthPoints < a) HealthPoints += 1;
             };
         }

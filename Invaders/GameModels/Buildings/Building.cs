@@ -33,9 +33,9 @@ namespace Invaders.GameModels.Buildings
         {
             if (map == null) throw new ArgumentNullException(nameof(map));
             BringResourses = new GameResources();
-            foreach (var item in map)
+            foreach (Hexagon item in map)
             {
-                if (Place.IsNeighbor(item) && item.Owner == Owner.Side)
+                if (Place.IsNeighbor(item) && item.Owner.Side == Owner.Side)
                     BringResourses[(int)item.Type - 1] += 10;
             }
         }

@@ -1,4 +1,5 @@
-﻿using Invaders.GameModels.Additional;
+﻿using System;
+using Invaders.GameModels.Additional;
 using Invaders.GameModels.Buildings;
 using Invaders.GameModels.Map;
 using Invaders.GameModels.Wariors;
@@ -12,6 +13,7 @@ namespace Invaders
     public partial class MainWindow : Window
     {
         private Game CurrentGame { get; set; }
+        private ActionHandlers GameHandler { get; set; }
         private DrawingHandler FieldDrawing { get; }
         private UiModel Model { get; set; }
 
@@ -33,6 +35,11 @@ namespace Invaders
         {
             CurrentGame = new Game(gameModel, new Point(Canvas.Width, Canvas.Height));
             Model = CurrentGame.ToUiModel();
+            GameHandler = new ActionHandlers
+            {
+                Selected = null,
+                CurrentGame = CurrentGame
+            };
             RefreshField();
         }
 
@@ -40,19 +47,19 @@ namespace Invaders
 
         private void OnHireEvent(object sender, HireEventArgs e)
         {
-            if (CurrentGame.Handlers.Selected == null || !CurrentGame.Handlers.Selected.NearBuilding(CurrentGame.Map) ||
-                CurrentGame.Handlers.Selected.Owner != CurrentGame.PlayingNow.Side) return;
+            if (GameHandler.Selected == null || !GameHandler.Selected.NearBuilding(CurrentGame.Map) ||
+                GameHandler.Selected.Owner.Side != CurrentGame.PlayingNow.Side) return;
             Warior warior;
             switch (e.WariorType)
             {
                 case "Knight":
-                    warior = new Knight(CurrentGame.Handlers.Selected, CurrentGame.PlayingNow);
+                    warior = new Knight(GameHandler.Selected, CurrentGame.PlayingNow);
                     break;
                 case "Swordsman":
-                    warior = new Swordsman(CurrentGame.Handlers.Selected, CurrentGame.PlayingNow);
+                    warior = new Swordsman(GameHandler.Selected, CurrentGame.PlayingNow);
                     break;
                 case "Bowman":
-                    warior = new Bowman(CurrentGame.Handlers.Selected, CurrentGame.PlayingNow);
+                    warior = new Bowman(GameHandler.Selected, CurrentGame.PlayingNow);
                     break;
                 default:
                     warior = null;
@@ -60,10 +67,10 @@ namespace Invaders
             }
             if (warior != null && CurrentGame.PlayingNow.HireWarior(warior))
             {
-                CurrentGame.Handlers.Selected.AddWarior(warior);
+                GameHandler.Selected.AddWarior(warior);
                 RefreshField();
-                TransitionAbilities(CurrentGame.Handlers.Selected);
-                AttackAbilities(CurrentGame.Handlers.Selected);
+                TransitionAbilities(GameHandler.Selected);
+                AttackAbilities(GameHandler.Selected);
             }
             else
             {
@@ -88,15 +95,15 @@ namespace Invaders
 
         private void BtnBuild_Click(object sender, RoutedEventArgs e)
         {
-            if (CurrentGame.Handlers.Selected == null) return;
-            if (!CurrentGame.Handlers.Selected.NearBuilding(CurrentGame.Map))
+            if (GameHandler.Selected == null) return;
+            if (!GameHandler.Selected.NearBuilding(CurrentGame.Map))
             {
-                Building b = new Castle(CurrentGame.Handlers.Selected, CurrentGame.PlayingNow);
+                Building b = new Castle(GameHandler.Selected, CurrentGame.PlayingNow);
                 if (!CurrentGame.PlayingNow.CreateBuilding(b)) return;
-                CurrentGame.Handlers.Selected.AddBuilding(b);
-                foreach (var item in CurrentGame.Map)
-                    if (item.IsNeighbor(CurrentGame.Handlers.Selected) && item.Owner == null)
-                        item.Owner = CurrentGame.PlayingNow.Side;
+                GameHandler.Selected.AddBuilding(b);
+                foreach (Hexagon item in CurrentGame.Map)
+                    if (item.IsNeighbor(GameHandler.Selected) && item.Owner == null)
+                        item.Owner = CurrentGame.PlayingNow;
                 b.CalculateResources(CurrentGame.Map);
                 RefreshField();
             }
@@ -108,11 +115,12 @@ namespace Invaders
 
         private void BtnEnd1_Click(object sender, RoutedEventArgs e)
         {
-            CurrentGame.Handlers.Selected = null;
+            GameHandler.Selected = null;
             CurrentGame.EndTurn();
             RefreshField();
-            lbTurn.Content = $"TURN: {CurrentGame.Turn / 2}";
-            if (CurrentGame.PlayingNow.ArmyNow == 0 && CurrentGame.PlayingNow.BuildNow == 0 && CurrentGame.PlayingNow.PlayerResources.Wood < 50)
+            LbTurn.Content = $"TURN: {CurrentGame.Turn / 2}";
+            if (CurrentGame.PlayingNow.ArmyNow == 0 && CurrentGame.PlayingNow.BuildNow == 0
+                                                    && CurrentGame.PlayingNow.PlayerResources.Wood < 50)
             {
                 MessageBox.Show($"{CurrentGame.PlayingNow.Enemy.Name} PLAYER IS WINNER!");
             }
@@ -122,39 +130,44 @@ namespace Invaders
         {
             if (e.RightButton == MouseButtonState.Pressed)
             {
-                CurrentGame.Handlers.Selected = null;
+                GameHandler.Selected = null;
                 RefreshField();
             }
             else
             {
-                foreach (var item in CurrentGame.Map)
+                foreach (Hexagon item in CurrentGame.Map)
                 {
                     if (!item.MouseHit(e.GetPosition(Canvas))) continue;
-                    if (CurrentGame.Handlers.Selected != null && CurrentGame.Handlers.Selected != item && CurrentGame.Handlers.Selected.Warior != null && item.Warior == null && CurrentGame.Handlers.Selected.IsNeighbor(item) && CurrentGame.Handlers.Selected.Warior.Owner == CurrentGame.PlayingNow)
+                    if (GameHandler.Selected != null && GameHandler.Selected != item && GameHandler.Selected.Warior != null
+                        && item.Warior == null && GameHandler.Selected.IsNeighbor(item) && 
+                        GameHandler.Selected.Warior.Owner == CurrentGame.PlayingNow)
                     {
-                        CurrentGame.Handlers.Selected.Warior.Move(item);
+                        GameHandler.Selected.Warior.Move(item);
                         if (item.Build != null && item.Build.Owner != CurrentGame.PlayingNow)
                         {
                             item.Build.Capture(CurrentGame.PlayingNow);
-                            foreach (var i in CurrentGame.Map)
+                            foreach (Hexagon i in CurrentGame.Map)
                                 if (i.IsNeighbor(item))
-                                    i.Owner = CurrentGame.PlayingNow.Side;
+                                    i.Owner = CurrentGame.PlayingNow;
                             item.Build.CalculateResources(CurrentGame.Map);
                         }
-                        CurrentGame.Handlers.Selected = item;
+                        GameHandler.Selected = item;
                         RefreshField();
                         TransitionAbilities(item);
                         AttackAbilities(item);
                     }
-                    else if (CurrentGame.Handlers.Selected != null && CurrentGame.Handlers.Selected != item && CurrentGame.Handlers.Selected.Warior != null && item.Warior != null && item.Warior.Owner != CurrentGame.Handlers.Selected.Warior.Owner && CurrentGame.Handlers.Selected.IsNeighbor(item, CurrentGame.Handlers.Selected.Warior.AttackDistance) && CurrentGame.Handlers.Selected.Warior.Owner == CurrentGame.PlayingNow)
+                    else if (GameHandler.Selected != null && GameHandler.Selected != item && GameHandler.Selected.Warior != null
+                             && item.Warior != null && item.Warior.Owner != GameHandler.Selected.Warior.Owner &&
+                             GameHandler.Selected.IsNeighbor(item, GameHandler.Selected.Warior.AttackDistance) && 
+                             GameHandler.Selected.Warior.Owner == CurrentGame.PlayingNow)
                     {
-                        CurrentGame.Handlers.Selected.Warior.Damaging(item.Warior);
-                        CurrentGame.Handlers.Selected = null;
+                        GameHandler.Selected.Warior.Damaging(item.Warior);
+                        GameHandler.Selected = null;
                         RefreshField();
                     }
                     else
                     {
-                        CurrentGame.Handlers.Selected = item;
+                        GameHandler.Selected = item;
                         RefreshField();
                         TransitionAbilities(item);
                         AttackAbilities(item);
@@ -167,7 +180,7 @@ namespace Invaders
         private void TransitionAbilities(Hexagon item)
         {
             if (item.Warior == null) return;
-            foreach (var i in CurrentGame.Map)
+            foreach (Hexagon i in CurrentGame.Map)
             {
                 if (i.IsNeighbor(item, item.Warior.Distance) && i.Warior == null)
                 {
@@ -179,11 +192,11 @@ namespace Invaders
         private void AttackAbilities(Hexagon item)
         {
             if (item.Warior == null || item.Warior.Attacking) return;
-            foreach (var i in CurrentGame.Map)
+            foreach (Hexagon i in CurrentGame.Map)
             {
                 if (i.IsNeighbor(item, item.Warior.AttackDistance) && i.Warior != null && i.Warior.Owner.Side != item.Warior.Owner.Side)
                 {
-                    FieldDrawing.DrawEllipse(i, red: 255, strokeThickness: 3, aim: true);
+                    FieldDrawing.DrawEllipse(i, 255, strokeThickness: 3, aim: true);
                 }
             }
         }
@@ -191,23 +204,41 @@ namespace Invaders
         private void RefreshField()
         {
             Canvas.Children.Clear();
-            Model = CurrentGame.PlayingNow.ToUiModel();
-            lbName.Content = Model.Name;
-            lbArmy.Content = "Army: " + Model.Army;
-            lbWheat.Content = "Wheat: " + Model.Wheat;
-            lbWood.Content = "Wood: " + Model.Wood;
-            lbGold.Content = "Gold: " + Model.Gold;
-            foreach (var item in CurrentGame.Map)
+            Model = GameHandler.ToUiModel();
+            LbName.Content = Model.Name;
+            LbArmy.Content = "Army: " + Model.Army;
+            LbWheat.Content = "Wheat: " + Model.Wheat;
+            LbWood.Content = "Wood: " + Model.Wood;
+            LbGold.Content = "Gold: " + Model.Gold;
+
+            LbBuildingResGold.Content = Model.BuildingResGold;
+            LbBuildingResWheat.Content = Model.BuildingResWheat;
+            LbBuildingResWood.Content = Model.BuildingResWood;
+            LbBuildingType.Content = Model.BuildingType;
+
+            LbWariorAttackDistance.Content = Model.WariorAttackDistance;
+            LbWariorAttackRate.Content = Model.WariorAttackRate;
+            LbWariorAttacking.Content = Model.WariorAttacking;
+            LbWariorDistance.Content = Model.WariorDistance;
+            LbWariorOwner.Content = Model.WariorOwner;
+            LbWariorType.Content = Model.WariorType;
+
+            LbHexBuild.Content = Model.HexBuild;
+            LbHexOwner.Content = Model.HexOwner;
+            LbHexType.Content = Model.HexType;
+            LbHexWarior.Content = Model.HexWarior;
+
+            foreach (Hexagon item in CurrentGame.Map)
             {
                 FieldDrawing.DrawHex(item);
             }
             FieldDrawing.DrawBoundaries(CurrentGame.Map);
-            if(CurrentGame.Handlers.Selected != null) FieldDrawing.DrawBorder(CurrentGame.Handlers.Selected, 255, 0, 0);
+            if(GameHandler.Selected != null) FieldDrawing.DrawBorder(GameHandler.Selected, 255, 0, 0);
         }
 
         private void BtnMenu_Click(object sender, RoutedEventArgs e)
         {
-
+            throw new NotImplementedException();
         }
     }
 }

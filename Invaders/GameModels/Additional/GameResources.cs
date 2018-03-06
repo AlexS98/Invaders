@@ -142,7 +142,7 @@ namespace Invaders.GameModels.Additional
 
         public override int GetHashCode()
         {
-            var hashCode = -1947974804;
+            int hashCode = -1947974804;
             hashCode = hashCode * -1521134295 + Wheat.GetHashCode();
             hashCode = hashCode * -1521134295 + Wood.GetHashCode();
             hashCode = hashCode * -1521134295 + Gold.GetHashCode();

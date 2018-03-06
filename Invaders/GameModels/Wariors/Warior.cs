@@ -13,7 +13,7 @@ namespace Invaders.GameModels.Wariors
         public int AttackDistance { protected set; get; }
         public bool Attacking { protected set; get; }
         public int HealthPoints { protected set; get; }
-        protected int AttackRate { set; private get; }
+        public int AttackRate { set; get; }
         public Hexagon Place { private set; get; }
         public Player Owner { get; }
         protected Protection Protector;
